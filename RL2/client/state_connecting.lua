@@ -1,5 +1,7 @@
 local _={}
 
+_.client=nil
+
 _.draw=function()
 	LG.print("connecting...")
 end

@@ -5,7 +5,6 @@ _.responseHandlers={}
 _.state=nil	
 _.singleResponseHandlers={}
 
-
 local switchState=function(state)
 	
 	if _.state~=nil and _.state.deactivate~=nil then
@@ -30,21 +29,28 @@ local recv=function(data)
 	
 	local response=TSerial.unpack(data)
 	
-	local hander=_.responseHandlers[response.response]
-	hander(command,id)
+	local singleHandler=_.singleResponseHandlers[response.requestId]
+	if singleHandler~=nil then
+		singleHandler(response)
+		_.singleResponseHandlers[response.requestId]=nil
+		return
+	end
+	
+	
+	local handler=_.responseHandlers[response.response]
+	handler(command,id)
 end
 
 local _netClient
 
+-- onResponse=function(response)
 _.send=function(data, onResponse)
 	data.requestId=_.requestId
 	_.requestId=_.requestId+1
 	
 	if onResponse~=nil then
-		
+		_.singleResponseHandlers[data.requestId]=onResponse
 	end
-	
-	`
 	
 	local packed=TSerial.pack(data)
 	log("send:"..packed)
@@ -77,11 +83,14 @@ local connect=function()
 end
 
 
-_.init=function()
+_.activate=function()
 	_.state=require "client/state_connecting"
 	connect()
 end
 
+_.deactivate=function()
+	tryCall(_.state.deactivate)
+end
 
 _.draw=function()
 	-- LG.print("client")

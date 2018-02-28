@@ -17,16 +17,12 @@ Async=require "lib/async/async"
 S={}
 S.rootState=nil
 S.frame=0
-
+S.isServer=Lume.find(arg, "server")~=nil or Lume.find(arg, "s")~=nil
+S.isEditor=(not S.isServer) and (Lume.find(arg, "editor")~=nil or Lume.find(arg, "e")~=nil)
+S.keyPressedListeners={}
 
 -- Config
-C={}
-C.handshake="RL"
-C.port=4242
-
-C.clientLogin="MW"
-C.ViewRadiusTilesX=5
-C.ViewRadiusTilesY=4
+C=require "gameconfig"
 
 Debug = require "lib/debug"
 require "util"
@@ -40,25 +36,31 @@ log=Debug.log
 -- World
 W={}
 
--- end of globals area --
+-- in turns
+W.time=1
 
+if S.isServer then 
+	-- by login
+	W.players={}
+end
+
+
+
+Player=require "world/player"
 
 -- configuration
-
-S.isServer=Lume.find(arg, "server")~=nil
-
-if isDebug then S.isServer=false end
 
 if S.isServer then
 	log("server mode")
 end
 
--- todo: check if port busy then we are client
-
 require "bootstrap"
 
 -- configuration end
 
+Ui=require "ui"
+
+-- end of globals area --
 
 
 
@@ -70,7 +72,7 @@ love.load=function()
 		Img=require "res/img"
 	end
 	
-	S.rootState.init()
+	tryCall(S.rootState.activate)
 end
 
 love.draw=function()
@@ -81,3 +83,14 @@ love.update=function(dt)
 	S.rootState.update(dt)
 	S.frame=S.frame+1
 end
+
+love.keypressed=function(key, unicode)
+    for k,listener in ipairs(S.keyPressedListeners) do
+			listener(key, unicode)
+		end
+end
+
+love.quit=function()
+	tryCall(S.rootState.deactivate)
+end
+
