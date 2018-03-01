@@ -73,9 +73,11 @@ local onKeyPressed=function(key, unicode)
 				rand=love.math.random(1000),
 			}
 	
-			_.dispatchCommand(command)
-			_.dispatchCommand(command)
-			_.dispatchCommand(command)
+			_.dispatchCommand(command,false)
+			command.rand=love.math.random(1000)
+			_.dispatchCommand(command,false)
+			command.rand=love.math.random(1000)
+			_.dispatchCommand(command,false)
 	end
 	
 	

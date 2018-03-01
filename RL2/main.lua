@@ -31,8 +31,11 @@ Debug = require "lib/debug"
 -- lowercase Globals - frequently used
 log=Debug.log
 
+require "const"
+
 -- bootstrapping config, it loaded later
 C=require "gameconfig"
+
 
 if S.isServer then
 	saveDir=C.ServerSaveDir 

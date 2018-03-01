@@ -23,6 +23,11 @@ _.responseHandlers.login_ok=function()
 	
 end
 
+_.responseHandlers.message=function(data)
+	log("message:"..data.text)
+end
+
+
 
 
 
@@ -30,22 +35,27 @@ end
 local recv=function(data)
 	log("recv:"+data)
 	
-	local response=TSerial.unpack(data)
+	local dataParts=string.split(data,NET_MSG_SEPARATOR)
 	
-	local singleHandler=_.singleResponseHandlers[response.requestId]
-	if singleHandler~=nil then
-		singleHandler(response)
-		_.singleResponseHandlers[response.requestId]=nil
-		return
+	for k,dataCommand in pairs(dataParts) do
+		local response=TSerial.unpack(dataCommand)
+		
+		local singleHandler=_.singleResponseHandlers[response.requestId]
+		if singleHandler~=nil then
+			singleHandler(response)
+			_.singleResponseHandlers[response.requestId]=nil
+			return
+		end
+		
+		
+		local handler=_.responseHandlers[response.responseType]
+		handler(response)
 	end
-	
-	
-	local handler=_.responseHandlers[response.responseType]
-	handler(response)
 end
 
 local _netClient
 
+-- единственная точка через которую клиент отправляет сообщения
 -- onResponse=function(response)
 _.send=function(data, onResponse)
 	data.requestId=_.requestId
@@ -57,7 +67,7 @@ _.send=function(data, onResponse)
 	
 	local packed=TSerial.pack(data)
 	log("send:"..packed)
-	_netClient:send(packed)
+	_netClient:send(packed..NET_MSG_SEPARATOR)
 end
 
 

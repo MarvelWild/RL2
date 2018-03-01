@@ -1,0 +1,1 @@
+NET_MSG_SEPARATOR="#^#"

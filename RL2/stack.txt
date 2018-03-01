@@ -1,5 +1,6 @@
-	test command t
-handling multiple commands per frame	
+	test command t+
+handling multiple commands per frame+
+more assets+
 	client:draw cell+
 	server+
 	editor+

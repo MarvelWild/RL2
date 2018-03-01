@@ -69,11 +69,11 @@ local sendTurn=function(client,clientId)
 end
 
 
-
+-- единственная точка через которую сервер отправляет сообщения
 _.send=function(data, clientId)
 	local packed=TSerial.pack(data)
 	log("sending:"..packed)
-	_server:send(packed, clientId)
+	_server:send(packed..NET_MSG_SEPARATOR, clientId)
 	
 end
 
@@ -144,6 +144,11 @@ _.commandHandlers.logoff=function(data,clientId)
 	_.clientCount=_.clientCount-1	
 end
 
+_.commandHandlers.test=function(data,clientId)
+	_.send({responseType="message",text="test ok",data=data},clientId)
+end
+
+
 _.commandHandlers.move=function(data, clientId)
 	local client=_.clients[clientId]
 	local player=client.player
@@ -172,12 +177,16 @@ end
 
 local recv=function(data, id)
 	log("recv:"..data)
-	local command=TSerial.unpack(data)
-	local handler=_.commandHandlers[command.cmd]
-	if handler==nil then 
-		log("error: no handler for cmd:"..command.cmd) 
-	else
-		handler(command,id)
+	local dataParts=string.split(data,NET_MSG_SEPARATOR)
+	
+	for k,dataCommand in pairs(dataParts) do
+		local command=TSerial.unpack(dataCommand)
+		local handler=_.commandHandlers[command.cmd]
+		if handler==nil then 
+			log("error: no handler for cmd:"..command.cmd) 
+		else
+			handler(command,id)
+		end
 	end
 end
 
