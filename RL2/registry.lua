@@ -11,8 +11,28 @@ _.editorItems=
 		["ground_type"]="sand",
 	},
 	{
+		["type"]="ground",
+		["ground_type"]="stone",
+	},
+	{
+		["type"]="ground",
+		["ground_type"]="acid",
+	},
+	{
+		["type"]="ground",
+		["ground_type"]="magic",
+	},
+	{
+		["type"]="ground",
+		["ground_type"]="water",
+	},
+	{
 		["type"]="character",
 		["character_type"]="frog",
+	},
+	{
+		["type"]="character",
+		["character_type"]="skeleton",
 	},
 }
 

@@ -17,6 +17,7 @@ C.moveUp="kp8"
 C.moveDown="kp2"
 
 C.editorActivate="e"
+C.testCommand="t"
 C.editorPlaceItem="space"
 
 C.editorRows=6

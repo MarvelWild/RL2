@@ -67,6 +67,15 @@ local onKeyPressed=function(key, unicode)
 		commandMove(W.player.x,W.player.y+1)
 	elseif key==C.moveDown then
 		commandMove(W.player.x,W.player.y-1)		
+	elseif key==C.testCommand then
+			local command={
+				cmd="test",
+				rand=love.math.random(1000),
+			}
+	
+			_.dispatchCommand(command)
+			_.dispatchCommand(command)
+			_.dispatchCommand(command)
 	end
 	
 	
