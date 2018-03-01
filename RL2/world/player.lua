@@ -17,6 +17,7 @@ Player.new=function()
 	r.hp=42
 	r.level="start"
 	r.fov=5
+	r.spriteName="ogre_dcss_32"
 	return r
 end
 

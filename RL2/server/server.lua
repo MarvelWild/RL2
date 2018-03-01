@@ -9,12 +9,20 @@ _.clientCount=0
 _.commandHandlers={}
 
 
-local getActivePlayersAt=function(x,y)
+-- current excluded
+local getActivePlayersAt=function(currentPlayer,x,y)
 	-- opt:could be index by xy
-	for k,v in pairs(_.clients) do
+	local result=nil
+	for k,client in pairs(_.clients) do
+		local player=client.player
+		if player.x==x and player.y==y and player~=currentPlayer then
+			if result==nil then result={} end
+			table.insert(result, player)
+		end
 		
 	end
 	
+	return result
 end
 
 local getVisibleCells=function(player)
@@ -33,10 +41,11 @@ local getVisibleCells=function(player)
 		for y=startY,endY do
 			local cell=Level.getCell(level.cells,x,y)
 			column[y]=cell
+			cell.players=getActivePlayersAt(player,x,y)
 			
-			if x==-1 and y==1 then
-				local a=1
-			end
+--			if x==-1 and y==1 then
+--				local a=1
+--			end
 			
 		end
 	end
@@ -217,8 +226,12 @@ end
 
 
 _.draw=function()
-	local servInfo="LRL server. Players:".._.clientCount.."\n"
-	servInfo=servInfo..Inspect.inspect(W.players)
+--	local servInfo="LRL server. Players:".._.clientCount.."\n"
+--	servInfo=servInfo..Inspect.inspect(W.players)
+--	LG.print(servInfo)
+
+	local servInfo="LRL server. Clients:".._.clientCount.."\n"
+	servInfo=servInfo..Inspect.inspect(_.clients)
 	LG.print(servInfo)
 end
 

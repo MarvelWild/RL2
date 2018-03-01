@@ -1,11 +1,24 @@
 
+frog
+	тречить или нет плееров в ячейках на сервере?
+		требования: возможность получить игроков в ячейке
+			возможность цикла по всем плеерам (для)
+		плюсы: ячейка содержит инфу без лукапов
+		минусы: появляется две сущности плеер в сейве
+			можно избавиться от отдельного, пусть так и будет,
+				если что -добавляется таблица плеер-левел и всё.
+		альтернативы: 
+		решение: не тречить, динамически добавлять, пока что это проще
+			минус тут что таблицы на каждый запрос создаются, но по 
+			производительности есть запас
+	
 		server save load config+
 	give id to players+
 		extended - separate event?
 	simple version with turn
 	vision limit stub
 	put players into cells? maybe. but simpler just put it at response
-show other players
+show other players+
 	sendTurn clientId nil+
 	server show clients+
 	login parameter+

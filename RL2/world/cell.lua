@@ -15,6 +15,9 @@ _.new=function(x,y)
 	
 	result.wall=nil
 	
+	-- заполняется при передаче клиенту
+	result.players=nil
+	
 	
 	
 	-- удобнее отлаживать, но первичные данные это level.cells

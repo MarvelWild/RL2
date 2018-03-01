@@ -114,6 +114,14 @@ local drawCells=function()
 				LG.draw(groundSprite, drawX, drawY)
 			end
 			
+			-- others
+			if cell.players~=nil then
+				for k,player in pairs(cell.players) do
+					LG.draw(Img[player.spriteName],drawX,drawY)
+				end
+			end
+			
+			
 --			if cell.feature~=nil then
 --				LG.draw(cell.feature.sprite, drawX, drawY)
 --			end
@@ -134,6 +142,7 @@ local drawCells=function()
 		end
 	end
 	
+	--self
 	LG.draw(Img.ogre_dcss_32, Ui.gamebox.playerX, Ui.gamebox.playerY)
 	
 	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
