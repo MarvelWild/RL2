@@ -8,8 +8,8 @@ C.ServerSaveDir="server_save/"
 C.WorldSaveName="world"
 
 
-C.ViewRadiusTilesX=5
-C.ViewRadiusTilesY=4
+--C.ViewRadiusTilesX=5 -- -> player.fov 
+-- C.ViewRadiusTilesY=4
 
 C.moveLeft="kp4"
 C.moveRight="kp6"
@@ -26,6 +26,9 @@ C.editorCurrentRow=1
 C.editorCurrentCol=1
 
 C.tileSize=32
+
+C.lastId={}
+C.lastId.player=1
 
 
 return C

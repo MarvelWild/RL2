@@ -9,11 +9,11 @@ _.new=function()
 end
 
 
-_.getCell=function(level,x,y)
-	local row = level.cells[x]
+_.getCell=function(cells,x,y)
+	local row = cells[x]
 	if row == nil then
 		row={}
-		level.cells[x]=row
+		cells[x]=row
 	end
 	
 	local cell = row[y]

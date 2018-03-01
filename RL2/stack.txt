@@ -1,4 +1,17 @@
-display cells
+
+		server save load config+
+	give id to players+
+		extended - separate event?
+	simple version with turn
+	vision limit stub
+	put players into cells? maybe. but simpler just put it at response
+show other players
+	sendTurn clientId nil+
+	server show clients+
+	login parameter+
+multi client+
+display cells+
+receive cells in fov+
 multilevel+
 	server apply item+
 	send real item+

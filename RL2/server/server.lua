@@ -2,20 +2,60 @@ local _={}
 
 local _server
 
+
 -- client info(login) by clientId
 _.clients={}
 _.clientCount=0
 _.commandHandlers={}
 
-local sendTurn=function(client)
+
+local getActivePlayersAt=function(x,y)
+	-- opt:could be index by xy
+	for k,v in pairs(_.clients) do
+		
+	end
+	
+end
+
+local getVisibleCells=function(player)
+	local startX=player.x-player.fov
+	local endX=player.x+player.fov
+	local startY=player.y-player.fov
+	local endY=player.y+player.fov
+	
+	local level=W.levels[player.level]
+	
+	local result={}
+	
+	for x=startX,endX do
+		local column={}
+		result[x]=column
+		for y=startY,endY do
+			local cell=Level.getCell(level.cells,x,y)
+			column[y]=cell
+			
+			if x==-1 and y==1 then
+				local a=1
+			end
+			
+		end
+	end
+	
+	
+	local test=TSerial.pack(result)
+	return result
+end
+
+
+local sendTurn=function(client,clientId)
 	local response={}
 	response.responseType="turn"
 	-- clientWorld.requestId=data.requestId
 	response.time=W.time
 	
 	response.player=client.player
-	response.cells={"wip"}
-	
+	response.cells=getVisibleCells(client.player)
+
 	_.send(response, clientId)
 end
 
@@ -35,7 +75,7 @@ _.commandHandlers.editor_place=function(data,clientId)
 	
 	local player=client.player
 	local level=W.levels[player.level]
-	local cell = Level.getCell(level,data.x,data.y)
+	local cell = Level.getCell(level.cells,data.x,data.y)
 	if editorItem.type=="ground" then
 		cell.ground_type=editorItem.ground_type
 --	elseif editorItem.type=="character" then
@@ -50,6 +90,8 @@ _.commandHandlers.editor_place=function(data,clientId)
 	else
 		log("error:unk editor item type")
 	end
+	
+	sendTurn(client, clientId)
 end
 
 _.commandHandlers.login=function(data,clientId)
@@ -83,7 +125,7 @@ _.commandHandlers.get_full_state=function(data, clientId)
 	local client = _.clients[clientId]
 	
 	clientWorld.player=client.player
-	clientWorld.cells={"wip"}
+	clientWorld.cells=getVisibleCells(client.player)
 	
 	_.send(clientWorld, clientId)
 end
@@ -102,7 +144,7 @@ _.commandHandlers.move=function(data, clientId)
 	player.x=data.x
 	player.y=data.y
 	
-	sendTurn(client)
+	sendTurn(client, clientId)
 end
 
 
@@ -175,7 +217,8 @@ end
 
 
 _.draw=function()
-	local servInfo="LRL server. Players:".._.clientCount
+	local servInfo="LRL server. Players:".._.clientCount.."\n"
+	servInfo=servInfo..Inspect.inspect(W.players)
 	LG.print(servInfo)
 end
 

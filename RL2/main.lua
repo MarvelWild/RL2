@@ -10,6 +10,7 @@ Allen=require "lib/Allen/allen"
 Grease=require "lib/grease/grease.init"
 TSerial=require "lib/TSerial"
 Async=require "lib/async/async"
+Inspect=require "lib/inspect/inspect"
 
 
 
@@ -23,14 +24,51 @@ S.keyPressedListeners={}
 S.keysDown={}
 
 -- Config
-C=require "gameconfig"
+local configFile="config"
+local saveDir
 
 Debug = require "lib/debug"
+-- lowercase Globals - frequently used
+log=Debug.log
+
+-- bootstrapping config, it loaded later
+C=require "gameconfig"
+
+if S.isServer then
+	saveDir=C.ServerSaveDir 
+else 
+	saveDir=C.QuickSaveDir 
+end
+
+if love.filesystem.exists(saveDir..configFile) then
+	local configPacked=love.filesystem.read(saveDir..configFile)
+	C=TSerial.unpack(configPacked)
+	log("Config loaded")
+else
+	
+	log("New config")
+end
+
+-- config cmd override
+
+local loginParam=Lume.match(arg, function(arg) 
+		return Allen.startsWith(arg,"l=")
+	end
+)
+
+if loginParam~=nil then
+	local login=string.sub(loginParam,3)
+	C.clientLogin=login
+	
+end
+
+
+
+
 require "util"
 
 
--- lowercase Globals - frequently used
-log=Debug.log
+
 
 --log(TSerial.pack(arg))
 
@@ -109,7 +147,14 @@ love.keyreleased=function(key, scancode)
 end
 
 
+local saveConfig=function()
+	local configPacked=TSerial.pack(C)
+	love.filesystem.write(saveDir..configFile, configPacked)
+end
+
+
 love.quit=function()
 	tryCall(S.rootState.deactivate)
+	saveConfig()
 end
 

@@ -7,6 +7,7 @@ _.client=nil
 --_.commands={}
 -- _.commandsThisTurn={}
 _.locked=false
+_.lockCommand=nil
 
 _.substate=nil
 
@@ -28,6 +29,7 @@ _.dispatchCommand=function(command, isLocking)
 	--true by default
 	if isLocking==nil or isLocking then
 		_.locked=true
+		_.lockCommand=command
 	end
 end
 
@@ -52,7 +54,7 @@ local onKeyPressed=function(key, unicode)
 	end
 	
 	if _.locked then 
-		log("input locked") 
+		log("input locked by:"..TSerial.pack(_.lockCommand)) 
 		return
 	end
 	
@@ -80,11 +82,13 @@ end
 
 local drawCells=function()
 	-- в тайлах
-	local startX = -C.ViewRadiusTilesX
-	local endX = C.ViewRadiusTilesX
+	local fov=W.player.fov
 	
-	local startY = -C.ViewRadiusTilesY
-	local endY = C.ViewRadiusTilesY
+	local startX = -fov
+	local endX = fov
+	
+	local startY = -fov
+	local endY = fov
 	
 	local startPixelX=Ui.gamebox.playerX
 	local startPixelY=Ui.gamebox.playerY
@@ -94,27 +98,21 @@ local drawCells=function()
 	for screenY=startY,endY do
 		for screenX=startX,endX do
 			
---			local cellX = W.player.x+screenX
---			local cellY = W.player.y+screenY
+			local cellX = W.player.x+screenX
+			local cellY = W.player.y+screenY
 			
---			-- log("draw cell "..cellX..","..cellY)
---			local cell = LevelLogic.get_cell(cellX,cellY)
+			--log("draw cell "..cellX..","..cellY)
+			local cell = Level.getCell(W.cells,cellX,cellY)
 			
 --			-- todo прямо в cell спрайты
---			local groundSprite = Registry.spriteByGroundType[cell.ground_type]
+			local groundSprite = Registry.spriteByGroundType[cell.ground_type]
 			
---			local drawX=startPixelX+(screenX*Config.TileSize)
---			local drawY=startPixelY+(-screenY*Config.TileSize)
+			local drawX=startPixelX+(screenX*C.tileSize)
+			local drawY=startPixelY+(-screenY*C.tileSize)
 			
-----			if cellX==0 and cellY==0 then
-----				-- debug cell
-----				local c=cell
-----			end
-			
-			
---			if groundSprite~=nil then
---				LG.draw(groundSprite, drawX, drawY)
---			end
+			if groundSprite~=nil then
+				LG.draw(groundSprite, drawX, drawY)
+			end
 			
 --			if cell.feature~=nil then
 --				LG.draw(cell.feature.sprite, drawX, drawY)
@@ -137,11 +135,15 @@ local drawCells=function()
 	end
 	
 	LG.draw(Img.ogre_dcss_32, Ui.gamebox.playerX, Ui.gamebox.playerY)
+	
+	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
+	LG.print(TSerial.pack(playerCell),0,100)
 end -- drawTiles()
 
 
 local startGame=function(response)
-	-- log("get_full_state result:"..TSerial.pack(response))
+	log("startGame")
+	--log("get_full_state result:"..TSerial.pack(response))
 	W=response
 	table.insert(S.keyPressedListeners, onKeyPressed)
 end
