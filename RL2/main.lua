@@ -90,6 +90,7 @@ end
 
 
 Player=require "world/player"
+Character=require "world/character"
 
 Cell=require "world/cell"
 

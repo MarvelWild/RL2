@@ -131,13 +131,12 @@ local drawCells=function()
 --			end
 			
 			
---			if cell.entity~=nil then
---				if cell.entity.sprite==nil then 
---					log("no sprite:"..cellX..","..cellY)
---				else
---					LG.draw(cell.entity.sprite, drawX, drawY)
---				end
---			end
+			if cell.entity~=nil then
+				if cell.entity.spriteName~=nil then 
+					local sprite=Img[cell.entity.spriteName]
+					LG.draw(sprite, drawX, drawY)
+				end
+			end
 			
 		end
 	end

@@ -1,5 +1,9 @@
-
-frog
+	test command t
+handling multiple commands per frame	
+	client:draw cell+
+	server+
+	editor+
+frog+
 	тречить или нет плееров в ячейках на сервере?
 		требования: возможность получить игроков в ячейке
 			возможность цикла по всем плеерам (для)

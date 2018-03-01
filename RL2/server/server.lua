@@ -87,10 +87,10 @@ _.commandHandlers.editor_place=function(data,clientId)
 	local cell = Level.getCell(level.cells,data.x,data.y)
 	if editorItem.type=="ground" then
 		cell.ground_type=editorItem.ground_type
---	elseif editorItem.type=="character" then
---		local characterType=editorItem.character_type
---		-- if cell.entity~=nil then ok gc this
---		cell.entity=CharacterModel.newByCharacterType(characterType)
+	elseif editorItem.type=="character" then
+		local characterType=editorItem.character_type
+		-- if cell.entity~=nil then ok gc this current
+		cell.entity=Character.newByCharacterType(characterType)
 --	elseif editorItem.type=="feature" then
 --		cell.feature=FeatureModel.new(editorItem.feature_type)
 --		--editorItem.feature_type
