@@ -20,12 +20,14 @@ S.frame=0
 S.isServer=Lume.find(arg, "server")~=nil or Lume.find(arg, "s")~=nil
 S.isEditor=(not S.isServer) and (Lume.find(arg, "editor")~=nil or Lume.find(arg, "e")~=nil)
 S.keyPressedListeners={}
+S.keysDown={}
 
 -- Config
 C=require "gameconfig"
 
 Debug = require "lib/debug"
 require "util"
+
 
 -- lowercase Globals - frequently used
 log=Debug.log
@@ -39,14 +41,19 @@ W={}
 -- in turns
 W.time=1
 
+Level=require "world/level"
 if S.isServer then 
 	-- by login
 	W.players={}
+	W.levels={}
+	W.levels.start=Level.new()
 end
 
 
 
 Player=require "world/player"
+
+Cell=require "world/cell"
 
 -- configuration
 
@@ -72,11 +79,15 @@ love.load=function()
 		Img=require "res/img"
 	end
 	
+	Registry=require "registry"
 	tryCall(S.rootState.activate)
 end
 
 love.draw=function()
 	S.rootState.draw()
+	
+--	local info=TSerial.pack(S.keysDown)
+--	LG.print(info,0,20)
 end
 
 love.update=function(dt)
@@ -85,10 +96,18 @@ love.update=function(dt)
 end
 
 love.keypressed=function(key, unicode)
-    for k,listener in ipairs(S.keyPressedListeners) do
-			listener(key, unicode)
-		end
+	-- log("keypressed "..key)
+	for k,listener in ipairs(S.keyPressedListeners) do
+		listener(key, unicode)
+	end
+	-- S.keysDown[key]=true
 end
+
+love.keyreleased=function(key, scancode)
+	--log("keyreleased "..key)
+	--S.keysDown[key]=nil
+end
+
 
 love.quit=function()
 	tryCall(S.rootState.deactivate)

@@ -24,6 +24,9 @@ _.responseHandlers.login_ok=function()
 end
 
 
+
+
+
 local recv=function(data)
 	log("recv:"+data)
 	
@@ -37,8 +40,8 @@ local recv=function(data)
 	end
 	
 	
-	local handler=_.responseHandlers[response.response]
-	handler(command,id)
+	local handler=_.responseHandlers[response.responseType]
+	handler(response)
 end
 
 local _netClient

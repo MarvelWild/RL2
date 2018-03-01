@@ -11,5 +11,21 @@ C.WorldSaveName="world"
 C.ViewRadiusTilesX=5
 C.ViewRadiusTilesY=4
 
+C.moveLeft="kp4"
+C.moveRight="kp6"
+C.moveUp="kp8"
+C.moveDown="kp2"
+
+C.editorActivate="e"
+C.editorPlaceItem="space"
+
+C.editorRows=6
+C.editorCols=4
+
+C.editorCurrentRow=1
+C.editorCurrentCol=1
+
+C.tileSize=32
+
 
 return C

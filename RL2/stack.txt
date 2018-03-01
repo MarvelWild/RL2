@@ -1,6 +1,26 @@
-		принять ввод
-	отправить команду
-ходить
+display cells
+multilevel+
+	server apply item+
+	send real item+
+	send to server+
+	react to key+
+space - place item in editor+
+
+e+arrows move focus in editor+
+chain keyPressed, so we can prevent parent from reacting to child input? +
+	problem: e+dir moves character too
+	alternative? control parent from child
+		read input+
+	send command to server ('e' in editor mode)
+editor:place item	
+	draw items+
+		register editor items on server+
+	request available items from server-skip, use synced+
+editor mode+
+	process on server+
+		accept input+
+	send command+
+walk+
 ui редактора+
 клиент отправляет дисконнект+
 сервер показывает кол-во игроков+

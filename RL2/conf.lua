@@ -4,5 +4,5 @@ function love.conf(t)
 		t.window.resizable = true
     t.window.title = "LoveRL 2" 
     t.version = "0.10.2"
-		t.console = false
+		t.console = true
 end

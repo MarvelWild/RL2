@@ -7,6 +7,20 @@ _.clients={}
 _.clientCount=0
 _.commandHandlers={}
 
+local sendTurn=function(client)
+	local response={}
+	response.responseType="turn"
+	-- clientWorld.requestId=data.requestId
+	response.time=W.time
+	
+	response.player=client.player
+	response.cells={"wip"}
+	
+	_.send(response, clientId)
+end
+
+
+
 _.send=function(data, clientId)
 	local packed=TSerial.pack(data)
 	log("sending:"..packed)
@@ -14,6 +28,29 @@ _.send=function(data, clientId)
 	
 end
 
+_.commandHandlers.editor_place=function(data,clientId)
+	local editorItem=data.item
+	
+	local client = _.clients[clientId]
+	
+	local player=client.player
+	local level=W.levels[player.level]
+	local cell = Level.getCell(level,data.x,data.y)
+	if editorItem.type=="ground" then
+		cell.ground_type=editorItem.ground_type
+--	elseif editorItem.type=="character" then
+--		local characterType=editorItem.character_type
+--		-- if cell.entity~=nil then ok gc this
+--		cell.entity=CharacterModel.newByCharacterType(characterType)
+--	elseif editorItem.type=="feature" then
+--		cell.feature=FeatureModel.new(editorItem.feature_type)
+--		--editorItem.feature_type
+--	elseif editorItem.type=="wall" then
+--		cell.wall=WallModel.new(editorItem.wall_type)
+	else
+		log("error:unk editor item type")
+	end
+end
 
 _.commandHandlers.login=function(data,clientId)
 	local existingClient=_.clients[login]
@@ -35,7 +72,7 @@ _.commandHandlers.login=function(data,clientId)
 	
 	client.player=player
 	
-	_.send({response="login_ok", requestId=data.requestId}, clientId)
+	_.send({responseType="login_ok", requestId=data.requestId}, clientId)
 end
 
 _.commandHandlers.get_full_state=function(data, clientId)
@@ -55,6 +92,21 @@ _.commandHandlers.logoff=function(data,clientId)
 	_.clients[clientId]=nil
 	_.clientCount=_.clientCount-1	
 end
+
+_.commandHandlers.move=function(data, clientId)
+	local client=_.clients[clientId]
+	local player=client.player
+	--player.
+	
+	-- todo: prevent cheating
+	player.x=data.x
+	player.y=data.y
+	
+	sendTurn(client)
+end
+
+
+
 
 
 

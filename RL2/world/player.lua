@@ -7,7 +7,8 @@ Player.new=function()
 	r.y=0
 	r.name="Anonymous"
 	r.hp=42
-	
+	r.level="start"
+	r.fov=5
 	return r
 end
 
