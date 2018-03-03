@@ -27,7 +27,7 @@ _.dispatchCommand=function(command, isLocking)
 	_.client.send(command, startGame)
 	
 	--true by default
-	if isLocking==nil or isLocking then
+	if isLocking then
 		_.locked=true
 		_.lockCommand=command
 	end
@@ -41,12 +41,17 @@ local commandMove=function(x,y)
 		y=y
 	}
 	
-	_.dispatchCommand(command)
+	_.dispatchCommand(command,true)
 end
 
 
 local onKeyPressed=function(key, unicode)
 	log("game receive kp:"..key..","..unicode)
+	
+	if love.keyboard.isDown("space") and love.keyboard.isDown("kp4") then
+		local a=1
+	end
+	
 	
 	if _.substate~=nil then
 		local isProcessed=_.substate.onKeyPressed(key,unicode)
@@ -58,33 +63,44 @@ local onKeyPressed=function(key, unicode)
 		return
 	end
 	
-		
+	local nextX=W.player.x
+	local nextY=W.player.y
+	local isMoving=false
 	if key==C.moveRight then
-		commandMove(W.player.x+1,W.player.y)
+		nextX=W.player.x+1
+		isMoving=true
 	elseif key==C.moveLeft then
-		commandMove(W.player.x-1,W.player.y)
+		nextX=W.player.x-1
+		isMoving=true
 	elseif key==C.moveUp then
-		commandMove(W.player.x,W.player.y+1)
+		nextY=W.player.y+1
+		isMoving=true
 	elseif key==C.moveDown then
-		commandMove(W.player.x,W.player.y-1)		
+		nextY=W.player.y-1
+		isMoving=true
 	elseif key==C.testCommand then
-			local command={
-				cmd="test",
-				rand=love.math.random(1000),
-			}
-	
-			_.dispatchCommand(command,false)
-			command.rand=love.math.random(1000)
-			_.dispatchCommand(command,false)
-			command.rand=love.math.random(1000)
-			_.dispatchCommand(command,false)
+		local command={
+			cmd="test",
+			rand=love.math.random(1000),
+		}
+
+		_.dispatchCommand(command,false)
+		command.rand=love.math.random(1000)
+		_.dispatchCommand(command,false)
+		command.rand=love.math.random(1000)
+		_.dispatchCommand(command,false)
 	end
 	
-	
+	if isMoving then
+		commandMove(nextX,nextY)
+--		if _.substate.onKeyPressedAfterMove~=nil then
+--			_.substate.onKeyPressedAfterMove(key,unicode,nextX,nextY)
+--		end
+	end
 end
 
 local onTurnReceived=function(response)
-	log("received turn from server:"..TSerial.pack(response))
+	log("received turn from server") -- ..TSerial.pack(response)) -- logged on recv
 	W=response
 	_.locked=false
 end
@@ -133,9 +149,10 @@ local drawCells=function()
 			end
 			
 			
---			if cell.feature~=nil then
---				LG.draw(cell.feature.sprite, drawX, drawY)
---			end
+			if cell.feature~=nil then
+				local featureSprite=Registry.spriteByFeatureType[cell.feature.spriteName]
+				LG.draw(featureSprite, drawX, drawY)
+			end
 			
 --			if cell.wall~=nil then
 --				LG.draw(cell.wall.sprite, drawX, drawY)
@@ -175,7 +192,14 @@ _.activate=function()
 	_.client.send(data, startGame)
 	
 	_.client.responseHandlers.turn=onTurnReceived
+	
+	CScreen.init(960, 540, true)
 end
+
+_.resize=function(width, height)
+	CScreen.update(width, height)
+end
+
 
 
 _.deactivate=function()
@@ -195,11 +219,13 @@ end
 
 
 _.draw=function()
-	LG.print("GAME")
+	--LG.print("GAME")
+	CScreen.apply()
 	if W.player==nil then return end
 	
 	drawCells()
 	_.ui.draw()
+	CScreen.cease()
 end
 
 _.update=function()
@@ -208,8 +234,5 @@ _.update=function()
 	tryCall(_.ui.update)
 	
 end
-
-
-
 
 return _

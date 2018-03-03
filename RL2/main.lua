@@ -11,6 +11,7 @@ Grease=require "lib/grease/grease.init"
 TSerial=require "lib/TSerial"
 Async=require "lib/async/async"
 Inspect=require "lib/inspect/inspect"
+CScreen = require "lib/CScreen/cscreen"
 
 
 
@@ -94,6 +95,7 @@ end
 
 Player=require "world/player"
 Character=require "world/character"
+Feature=require "world/feature"
 
 Cell=require "world/cell"
 
@@ -154,6 +156,10 @@ end
 local saveConfig=function()
 	local configPacked=TSerial.pack(C)
 	love.filesystem.write(saveDir..configFile, configPacked)
+end
+
+function love.resize(...)
+	tryCall(S.rootState.resize(...))
 end
 
 

@@ -34,7 +34,28 @@ _.editorItems=
 		["type"]="character",
 		["character_type"]="skeleton",
 	},
+	{
+		["type"]="feature",
+		["feature_type"]="portal",
+	},
+	{
+		["type"]="feature",
+		["feature_type"]="tree",
+	},
 }
+
+_.spriteNameByCharacterType=
+{
+	["frog"]="frog",
+	["skeleton"]="skeleton",
+}
+
+_.spriteNameByFeatureType=
+{
+	["portal"]="portal",
+	["tree"]="tree",
+}
+
 
 
 if not S.isServer then
@@ -53,13 +74,14 @@ if not S.isServer then
 		["frog"]=Img.frog,
 		["skeleton"]=Img.skeleton,
 	}
+	
+	_.spriteByFeatureType=
+	{
+		["portal"]=Img.portal,
+		["tree"]=Img.tree,
+	}
 end
 
-	_.spriteNameByCharacterType=
-	{
-		["frog"]="frog",
-		["skeleton"]="skeleton",
-	}
 
 return _
 	

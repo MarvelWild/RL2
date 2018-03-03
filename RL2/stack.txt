@@ -1,3 +1,8 @@
+new player : random look	
+	display current item: check refresh+
+hold space in editor - walking places current item+
+cheap zoom+	
+portal+
 	test command t+
 handling multiple commands per frame+
 more assets+

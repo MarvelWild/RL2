@@ -91,8 +91,8 @@ _.commandHandlers.editor_place=function(data,clientId)
 		local characterType=editorItem.character_type
 		-- if cell.entity~=nil then ok gc this current
 		cell.entity=Character.newByCharacterType(characterType)
---	elseif editorItem.type=="feature" then
---		cell.feature=FeatureModel.new(editorItem.feature_type)
+	elseif editorItem.type=="feature" then
+		cell.feature=Feature.new(editorItem.feature_type)
 --		--editorItem.feature_type
 --	elseif editorItem.type=="wall" then
 --		cell.wall=WallModel.new(editorItem.wall_type)

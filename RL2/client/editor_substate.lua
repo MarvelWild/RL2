@@ -1,6 +1,10 @@
 local _={}
 
 _.parentstate=nil
+_.lastPlace={}
+_.lastPlace.x=nil
+_.lastPlace.y=nil
+_.lastPlace.item=nil
 
 
 local getCurrentItem=function()
@@ -9,19 +13,29 @@ local getCurrentItem=function()
 end
 
 
-local placeItem=function()
-	log("editor:place item")
+local placeItem=function(isLocking,x,y)
 	
 	local item=getCurrentItem()
+	if _.lastPlace.x==x and _.lastPlace.y==y and _.lastPlace.item==item then
+		return
+	end
+	
+	log("editor:place item")
+	
+	
 	
 	local command={
 		cmd="editor_place",
 		item=item,
-		x=W.player.x,
-		y=W.player.y
+		x=x,
+		y=y
 	}
 	
-	_.parentstate.dispatchCommand(command)
+	_.lastPlace.x=command.x
+	_.lastPlace.y=command.y
+	_.lastPlace.item=command.item
+	
+	_.parentstate.dispatchCommand(command,isLocking)
 end
 
 
@@ -36,7 +50,7 @@ local moveFocus=function(dx,dy)
 	end
 	
 	if dy~=0 then
-		nextY=math.overflow(1,C.editorCurrentRow+dy,C.editorRows)
+		nextY=math.overflow(1,C.editorCurrentRow-dy,C.editorRows)
 	end
 	
 	local registryPos = (nextY-1)*C.editorCols+nextX
@@ -71,23 +85,40 @@ _.onKeyPressed=function(key, unicode)
 			moveFocus(0,-1)
 			isProcessed=true			
 		end
+	else 
+--		if (key==C.moveRight or key==C.moveLeft or key==C.moveUp or key==C.moveDown) 
+--			and love.keyboard.isDown(C.editorPlaceItem) 
+--		then
+--			placeItem(false)
+--		end
+		
 	end -- kb.isDown C.editorActivate
 	
-	if key==C.editorPlaceItem then
-		placeItem()
-	end
+--	if key==C.editorPlaceItem then
+--		placeItem(true)
+--	end
 	
 	
 	return isProcessed
 end
 
 
+
+
 _.activate=function()
+	
 	--table.insert(S.keyPressedListeners, onKeyPressed)
 end
 
 
 _.update=function()
+	if love.keyboard.isDown(C.editorPlaceItem) then
+		if W.player.x~=_.lastPlace.x or W.player.y~=_.lastPlace.y then
+			placeItem(false,W.player.x,W.player.y)
+		end
+		
+	end
+	
 end
 
 

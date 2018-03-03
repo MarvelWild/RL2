@@ -116,5 +116,12 @@ _.update=function(dt)
 	_.state.update()
 end
 
+_.resize=function(...)
+	if _.state.resize~=nil then
+		_.state.resize(...)
+	end
+end
+
+
 
 return _
