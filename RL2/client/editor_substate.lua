@@ -113,9 +113,10 @@ end
 
 _.update=function()
 	if love.keyboard.isDown(C.editorPlaceItem) then
-		if W.player.x~=_.lastPlace.x or W.player.y~=_.lastPlace.y then
-			placeItem(false,W.player.x,W.player.y)
-		end
+		placeItem(false,W.player.x,W.player.y)
+--		if W.player.x~=_.lastPlace.x or W.player.y~=_.lastPlace.y then
+			
+--		end
 		
 	end
 	

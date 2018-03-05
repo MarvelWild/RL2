@@ -17,7 +17,7 @@ Player.new=function()
 	r.hp=42
 	r.level="start"
 	r.fov=5
-	r.spriteName="ogre_dcss_32"
+	r.spriteName=Lume.randomchoice({"ogre_dcss_32", "troll_green", "sorceress", "skeleimp"})
 	return r
 end
 

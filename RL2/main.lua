@@ -44,6 +44,12 @@ else
 	saveDir=C.QuickSaveDir 
 end
 
+-- delete data (clear start)
+if Lume.find(arg, "d")~=nil then
+	log("d param not implemented")
+end
+
+
 if love.filesystem.exists(saveDir..configFile) then
 	local configPacked=love.filesystem.read(saveDir..configFile)
 	C=TSerial.unpack(configPacked)

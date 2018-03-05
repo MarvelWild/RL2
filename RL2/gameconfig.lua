@@ -11,10 +11,14 @@ C.WorldSaveName="world"
 --C.ViewRadiusTilesX=5 -- -> player.fov 
 -- C.ViewRadiusTilesY=4
 
+C.moveUpRight="kp9"
 C.moveLeft="kp4"
+C.moveUpLeft="kp7"
 C.moveRight="kp6"
 C.moveUp="kp8"
+C.moveDownRight="kp3"
 C.moveDown="kp2"
+C.moveDownLeft="kp1"
 
 C.editorActivate="e"
 C.testCommand="t"

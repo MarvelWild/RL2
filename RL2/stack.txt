@@ -1,3 +1,8 @@
+diagonal walk+
+хп монстрам дать+
+==хочу играть==
+	draw+
+	res+model+
 new player : random look	
 	display current item: check refresh+
 hold space in editor - walking places current item+

@@ -78,6 +78,22 @@ local onKeyPressed=function(key, unicode)
 	elseif key==C.moveDown then
 		nextY=W.player.y-1
 		isMoving=true
+	elseif key==C.moveUpLeft then
+		nextY=W.player.y+1
+		nextX=W.player.x-1
+		isMoving=true
+	elseif key==C.moveUpRight then
+		nextY=W.player.y+1
+		nextX=W.player.x+1
+		isMoving=true
+elseif key==C.moveDownLeft then
+		nextY=W.player.y-1
+		nextX=W.player.x-1
+		isMoving=true
+	elseif key==C.moveDownRight then
+		nextY=W.player.y-1
+		nextX=W.player.x+1
+		isMoving=true		
 	elseif key==C.testCommand then
 		local command={
 			cmd="test",
@@ -170,7 +186,8 @@ local drawCells=function()
 	end
 	
 	--self
-	LG.draw(Img.ogre_dcss_32, Ui.gamebox.playerX, Ui.gamebox.playerY)
+	local playerSprite=Img[W.player.spriteName]
+	LG.draw(playerSprite, Ui.gamebox.playerX, Ui.gamebox.playerY)
 	
 	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
 	LG.print(TSerial.pack(playerCell),0,100)
