@@ -16,11 +16,23 @@ local switchState=function(state)
 	tryCall(_.state.activate)
 end
 
+_.switchToPickNewState=function()
+	local state=require "client/state_create_player"
+	switchState(state)
+end
 
-_.responseHandlers.login_ok=function()
+_.switchToGameState=function()
 	local gameState=require "client/state_game"
 	switchState(gameState)
-	
+end
+
+
+
+local afterLogin=function(response)
+	local players=response.players
+	local state=require "client/state_pick_player"
+	state.init(players)
+	switchState(state)
 end
 
 _.responseHandlers.message=function(data)
@@ -74,9 +86,10 @@ end
 local login=function()
 	local data={
 		cmd="login",
-		login=C.clientLogin
+		login=C.clientLogin,
+		-- isEditor=S.isEditor -- later, after character pick
 	}
-	_.send(data)
+	_.send(data,afterLogin)
 end
 
 

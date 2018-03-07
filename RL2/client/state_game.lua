@@ -48,11 +48,6 @@ end
 local onKeyPressed=function(key, unicode)
 	log("game receive kp:"..key..","..unicode)
 	
-	if love.keyboard.isDown("space") and love.keyboard.isDown("kp4") then
-		local a=1
-	end
-	
-	
 	if _.substate~=nil then
 		local isProcessed=_.substate.onKeyPressed(key,unicode)
 		if isProcessed then return end
@@ -109,9 +104,6 @@ elseif key==C.moveDownLeft then
 	
 	if isMoving then
 		commandMove(nextX,nextY)
---		if _.substate.onKeyPressedAfterMove~=nil then
---			_.substate.onKeyPressedAfterMove(key,unicode,nextX,nextY)
---		end
 	end
 end
 
@@ -137,12 +129,14 @@ local drawCells=function()
 	local startPixelY=Ui.gamebox.playerY
 	
 	
+	local player=W.player
+	
 	-- в тайлах
 	for screenY=startY,endY do
 		for screenX=startX,endX do
 			
-			local cellX = W.player.x+screenX
-			local cellY = W.player.y+screenY
+			local cellX = player.x+screenX
+			local cellY = player.y+screenY
 			
 			--log("draw cell "..cellX..","..cellY)
 			local cell = Level.getCell(W.cells,cellX,cellY)
@@ -164,16 +158,20 @@ local drawCells=function()
 				end
 			end
 			
-			
-			if cell.feature~=nil then
-				local featureSprite=Registry.spriteByFeatureType[cell.feature.spriteName]
-				LG.draw(featureSprite, drawX, drawY)
+			if cell.wall~=nil then
+				local wallSprite=Img[cell.wall.spriteName]
+				LG.draw(wallSprite, drawX, drawY)
 			end
 			
---			if cell.wall~=nil then
---				LG.draw(cell.wall.sprite, drawX, drawY)
---			end
-			
+			if cell.feature~=nil then
+				local featureSprite=Img[cell.feature.spriteName]
+				if featureSprite==nil then
+					log("error: no sprite for feat:"..cell.feature.spriteName)
+					featureSprite=Img.error
+				end
+				
+				LG.draw(featureSprite, drawX, drawY)
+			end
 			
 			if cell.entity~=nil then
 				if cell.entity.spriteName~=nil then 
@@ -186,11 +184,19 @@ local drawCells=function()
 	end
 	
 	--self
-	local playerSprite=Img[W.player.spriteName]
+	local playerSprite
+	if player.isDead then
+		playerSprite=Img.ghost
+	else
+		playerSprite=Img[player.spriteName]
+	end
+
+	
 	LG.draw(playerSprite, Ui.gamebox.playerX, Ui.gamebox.playerY)
+	--LG.print(W.player.name, Ui.gamebox.playerX, Ui.gamebox.playerY-12)
 	
 	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
-	LG.print(TSerial.pack(playerCell),0,100)
+	LG.print("Cell:"..TSerial.pack(playerCell),0,400)
 end -- drawTiles()
 
 

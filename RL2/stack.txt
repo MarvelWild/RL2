@@ -1,3 +1,15 @@
+
+server command chain (private response handlers) - skip
+	pick new+
+	pick existing+
+	restore editor mode+
+character pick+
+death+
+xp gain+
+	player editor mode server flag and request+
+not fight in editor mode+
+attack, fight+
+player name display+
 diagonal walk+
 хп монстрам дать+
 ==хочу играть==

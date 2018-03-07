@@ -70,11 +70,11 @@ end
 
 
 -- единственная точка через которую сервер отправляет сообщения
-_.send=function(data, clientId)
+_.send=function(data, clientId,requestId)
+	data.requestId=requestId
 	local packed=TSerial.pack(data)
 	log("sending:"..packed)
 	_server:send(packed..NET_MSG_SEPARATOR, clientId)
-	
 end
 
 _.commandHandlers.editor_place=function(data,clientId)
@@ -90,18 +90,54 @@ _.commandHandlers.editor_place=function(data,clientId)
 	elseif editorItem.type=="character" then
 		local characterType=editorItem.character_type
 		-- if cell.entity~=nil then ok gc this current
-		cell.entity=Character.newByCharacterType(characterType)
+		cell.entity=Character.newByCharacterType(characterType,cell)
 	elseif editorItem.type=="feature" then
 		cell.feature=Feature.new(editorItem.feature_type)
---		--editorItem.feature_type
---	elseif editorItem.type=="wall" then
---		cell.wall=WallModel.new(editorItem.wall_type)
+	elseif editorItem.type=="wall" then
+		cell.wall=Wall.new(editorItem.wall_type)
 	else
 		log("error:unk editor item type")
 	end
 	
 	sendTurn(client, clientId)
 end
+
+_.commandHandlers.pick_player=function(data,clientId)
+	local response={}
+	local playerId=data.playerId
+	local isEditor=data.isEditor
+	
+	local player=nil
+	for k,v in pairs(W.players) do
+		if v.id==playerId then 
+			player=v
+			break
+		end
+	end
+	
+	assert(player~=nil)
+	
+	local client=_.clients[clientId]
+	client.player=player
+	
+	response.responseType="pick_player_ok"
+	_.send(response, clientId, data.requestId)
+end
+
+
+_.commandHandlers.preset_picked=function(data,clientId)
+	log("new player")
+	local pickNumber=data.pick
+	local preset=Registry.playerPresets[pickNumber]
+	local player=Player.new(preset)
+	local client=_.clients[clientId]
+	W.players[client.login]=player
+	client.player=player
+	
+	local test=W.players[client.login]
+	_.send({"ok"}, clientId, data.requestId)
+end
+
 
 _.commandHandlers.login=function(data,clientId)
 	local existingClient=_.clients[login]
@@ -115,20 +151,18 @@ _.commandHandlers.login=function(data,clientId)
 	_.clientCount=_.clientCount+1
 	
 	local player=W.players[data.login]
-	if player==nil then
-		log("new player")
-		player=Player.new()
-		W.players[data.login]=player
-	end
 	
+	--можно играть и мёртвыми ))
+	--if player~=nil and player.isDead then player=nil end
+	
+	-- todo : multiple players for client
 	client.player=player
 	
-	_.send({responseType="login_ok", requestId=data.requestId}, clientId)
+	_.send({players={player}}, clientId, data.requestId)
 end
 
 _.commandHandlers.get_full_state=function(data, clientId)
 	local clientWorld={}
-	clientWorld.requestId=data.requestId
 	clientWorld.time=W.time
 	
 	local client = _.clients[clientId]
@@ -136,7 +170,7 @@ _.commandHandlers.get_full_state=function(data, clientId)
 	clientWorld.player=client.player
 	clientWorld.cells=getVisibleCells(client.player)
 	
-	_.send(clientWorld, clientId)
+	_.send(clientWorld, clientId, data.requestId)
 end
 
 _.commandHandlers.logoff=function(data,clientId)
@@ -145,7 +179,7 @@ _.commandHandlers.logoff=function(data,clientId)
 end
 
 _.commandHandlers.test=function(data,clientId)
-	_.send({responseType="message",text="test ok",data=data},clientId)
+	_.send({responseType="message",text="test ok",data=data},clientId,data.requestId)
 end
 
 
@@ -155,8 +189,36 @@ _.commandHandlers.move=function(data, clientId)
 	--player.
 	
 	-- todo: prevent cheating
-	player.x=data.x
-	player.y=data.y
+	
+	local canMove=true -- ok let ghost fly not player.isDead
+	
+	local level=W.levels[player.level]
+	local desiredCell=Level.getCell(level.cells,data.x,data.y)
+	
+	if not player.isEditor and not player.isDead then
+		local entityAtDest=desiredCell.entity
+		if entityAtDest~=nil then
+			if entityAtDest.faction=="enemy" then
+				canMove=false
+				
+				local damage = math.random(player.attackMin, player.attackMax)
+				local isDead=Character.hit(entityAtDest,damage,desiredCell)
+				if isDead then
+					Player.receiveXp(player, entityAtDest.xpReward)
+				end
+				
+				
+				local damageFromMonster=math.random(entityAtDest.attackMin, entityAtDest.attackMax)
+				Player.hit(player,damageFromMonster)
+			end
+		end
+	end
+	
+	
+	if canMove then
+		player.x=data.x
+		player.y=data.y
+	end
 	
 	sendTurn(client, clientId)
 end

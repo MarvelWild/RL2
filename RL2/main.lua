@@ -1,6 +1,9 @@
 local isDebug=arg[#arg] == "-debug"
 if isDebug then require("mobdebug").start() end
 
+local time=love.timer.getTime()
+love.math.setRandomSeed(time)
+
 -- the only Globals area --
 LG=love.graphics
 
@@ -59,6 +62,7 @@ else
 	log("New config")
 end
 
+
 -- config cmd override
 
 local loginParam=Lume.match(arg, function(arg) 
@@ -104,6 +108,7 @@ Character=require "world/character"
 Feature=require "world/feature"
 
 Cell=require "world/cell"
+Wall=require "world/Wall"
 
 -- configuration
 
@@ -122,6 +127,7 @@ Ui=require "ui"
 
 
 love.load=function()
+	
 	if S.isServer then 
 		S.rootState=require "server/server" 
 	else

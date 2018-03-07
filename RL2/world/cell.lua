@@ -10,7 +10,7 @@ _.new=function(x,y)
 	-- лестница, портал -рисуется под врагом, но над полом
 	result.feature=nil
 	
-	-- игрок или противник
+	-- противник или npc (-игрок)
 	result.entity=nil
 	
 	result.wall=nil

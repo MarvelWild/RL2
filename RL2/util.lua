@@ -47,3 +47,16 @@ function string.split(str, div)
     end
     return result
 end
+
+subscribe=function(listeners, listener)
+	table.insert(listeners, listener)
+end
+
+unsubscribe=function(listeners, listener)
+	local listenerIndex=Lume.find(listeners, listener)
+	if listenerIndex~=nil then
+		listeners[listenerIndex]=nil
+	else
+		log("error: no listener")
+	end
+end

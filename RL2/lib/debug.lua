@@ -7,6 +7,8 @@ debug.messages={}
 debug.log=function(message)
 	-- TODO: console
 	-- local time = love.timer.getTime() -- "\t"..time
+	
+	-- TODO: write stack if error message
 	local preparedMessage = S.frame.."\t"..message
 	
 	if debug.useFile then table.insert(debug.messages, preparedMessage) end
