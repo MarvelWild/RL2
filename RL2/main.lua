@@ -8,6 +8,7 @@ love.math.setRandomSeed(time)
 LG=love.graphics
 
 -- third party
+Utf8 = require("utf8")
 Lume=require "lib/lume/lume"
 Allen=require "lib/Allen/allen"
 Grease=require "lib/grease/grease.init"
@@ -24,7 +25,7 @@ S.rootState=nil
 S.frame=0
 S.isServer=Lume.find(arg, "server")~=nil or Lume.find(arg, "s")~=nil
 S.isEditor=(not S.isServer) and (Lume.find(arg, "editor")~=nil or Lume.find(arg, "e")~=nil)
-S.keyPressedListeners={}
+S.keyPressedListeners={} -- это уйдёт, инпут пустить по цепочке стейтов, начиная с нижнего
 S.keysDown={}
 
 -- Config
@@ -34,6 +35,7 @@ local saveDir
 Debug = require "lib/debug"
 -- lowercase Globals - frequently used
 log=Debug.log
+pack=TSerial.pack
 
 require "const"
 
@@ -43,8 +45,12 @@ C=require "gameconfig"
 
 if S.isServer then
 	saveDir=C.ServerSaveDir 
+	
+	love.window.setTitle("Server: "..love.window.getTitle( ))
+	love.window.setPosition(0,300)
 else 
 	saveDir=C.QuickSaveDir 
+	love.window.setTitle("Client: "..love.window.getTitle( ))
 end
 
 -- delete data (clear start)
@@ -99,6 +105,7 @@ if S.isServer then
 	W.players={}
 	W.levels={}
 	W.levels.start=Level.new()
+	W.levels.level2=Level.new()
 end
 
 
@@ -143,7 +150,7 @@ love.draw=function()
 	S.rootState.draw()
 	
 --	local info=TSerial.pack(S.keysDown)
---	LG.print(info,0,20)
+	-- LG.print(tostring(love.timer.getFPS( )),0,0)
 end
 
 love.update=function(dt)
@@ -157,6 +164,16 @@ love.keypressed=function(key, unicode)
 		listener(key, unicode)
 	end
 	-- S.keysDown[key]=true
+	
+	if key=="f12" and not S.isEditor then
+		
+		tryCall(S.rootState.state.enterEditorMode)
+	end
+	
+end
+
+love.textinput=function(t)
+    S.rootState.textinput(t)
 end
 
 love.keyreleased=function(key, scancode)

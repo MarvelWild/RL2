@@ -1,4 +1,0 @@
-local RlServer={}
-
-
-return RlServer

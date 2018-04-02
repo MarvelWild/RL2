@@ -6,30 +6,95 @@ _.client=nil
 
 --_.commands={}
 -- _.commandsThisTurn={}
-_.locked=false
-_.lockCommand=nil
 
-_.substate=nil
+
+-- locks input for this state only
+_.locked=false
+_.lockInfo=nil
+
+-- 
+_.isDrawSelf=true
+_.isDrawUi=true
+
+-- behaviour: update, draw, onKeyPressed
+-- examples: client/editor_substate
+-- multi state support
+_.substates={}
+
+local ui=require("client/game_ui")
+
+
+_.addSubstate=function(substate)
+	
+-- wip: manual deact	
+--	local prevState=_.substate
+--	if prevState~=nil then
+--		tryCall(prevState.deactivate)
+--	end
+	table.insert(_.substates, substate)
+	substate.parentstate=_
+	tryCall(substate.activate)
+end
+
+_.delSubstate=function(substate)
+	tryCall(substate.deactivate)
+	
+	for k,v in pairs(_.substates)do
+		if v == substate then
+			table.remove(_.substates, k)
+			break
+		end
+	end
+end
+
+
+-- возможность дочерних закрыться
+
+local lockInput=function(info)
+	log("input lock")
+	_.locked=true
+	_.lockInfo=info
+end
+
+local unlock=function(response)
+	log("input unlock")
+	_.locked=false
+	_.lockInfo=nil
+end
+
+
+_.enterEditorMode=function()
+	-- if S.isEditor then return end
+	
+	S.isEditor=true
+	
+	-- логичней это сделать в сабстейте редактора - на будущее
+	local editorSubstate=require "client/editor_substate"
+	
+	-- todo: после разрешения от сервера
+	_.addSubstate(editorSubstate)
+	
+	_.dispatchCommand({cmd="enter_editor_mode"}, true, unlock)
+end
+
 
 if S.isEditor then
-	_.ui=require "client/editor_ui"
-	local editorSubstate=require "client/editor_substate"
-	editorSubstate.parentstate=_
-	editorSubstate.activate()
-	_.substate=editorSubstate
-else	
-	_.ui=require "client/game_ui"
+	_.enterEditorMode()
 end	
 
-_.dispatchCommand=function(command, isLocking)
+
+
+
+
+-- 
+_.dispatchCommand=function(command, isLocking, callback)
 	--table.insert(_.commandsThisTurn,command)
 	
-	_.client.send(command, startGame)
+	-- криво. лучше лок отдельно сделать.
+	_.client.send(command, callback)
 	
-	--true by default
 	if isLocking then
-		_.locked=true
-		_.lockCommand=command
+		lockInput(command)
 	end
 end
 
@@ -44,17 +109,58 @@ local commandMove=function(x,y)
 	_.dispatchCommand(command,true)
 end
 
+--local onFeatureActivated=function(response)
+--	log("Feature activated:"..TSerial.pack(response))
+--end
+
+local refresh=function()
+end
+
+local activateFeature=function()
+	local command={
+		cmd="activate_feature",
+	}
+	
+	-- generic turn as callback
+	-- or generic ok
+	_.dispatchCommand(command,true)--,onFeatureActivated)
+	
+	
+end
+
+local startCastSpell=function()
+	log("Cast spell start")
+	
+	local spellSubstate=require "client/substate/spell_cast"
+	_.addSubstate(spellSubstate)
+end
+
+-- активирует поле для чата, которое принимает инпут
+-- отображение в общем логе
+local enterChat=function()
+	log("enter chat")
+	
+	local substate=require "client/substate/chat"
+	_.addSubstate(substate)
+end
+
+
+
+local openInventory=function()
+	log("inventory wip")
+end
+
 
 local onKeyPressed=function(key, unicode)
-	log("game receive kp:"..key..","..unicode)
+	log("game receive kp:"..key..","..unicode.." abcPos:"+string.abcPos(key))
 	
-	if _.substate~=nil then
-		local isProcessed=_.substate.onKeyPressed(key,unicode)
+	for k,substate in pairs(_.substates) do
+		local isProcessed=substate.onKeyPressed(key,unicode)
 		if isProcessed then return end
 	end
 	
 	if _.locked then 
-		log("input locked by:"..TSerial.pack(_.lockCommand)) 
+		log("input locked by:"..TSerial.pack(_.lockInfo)) 
 		return
 	end
 	
@@ -81,7 +187,7 @@ local onKeyPressed=function(key, unicode)
 		nextY=W.player.y+1
 		nextX=W.player.x+1
 		isMoving=true
-elseif key==C.moveDownLeft then
+	elseif key==C.moveDownLeft then
 		nextY=W.player.y-1
 		nextX=W.player.x-1
 		isMoving=true
@@ -89,6 +195,15 @@ elseif key==C.moveDownLeft then
 		nextY=W.player.y-1
 		nextX=W.player.x+1
 		isMoving=true		
+	elseif key==C.climbDown then
+		-- simple, no shifts while we have free keys
+		--if love.keyboard.isDown("lshift") then
+		log("climb down")
+		activateFeature()
+--		else
+--			log("no shift")
+		--end
+		
 	elseif key==C.testCommand then
 		local command={
 			cmd="test",
@@ -100,17 +215,30 @@ elseif key==C.moveDownLeft then
 		_.dispatchCommand(command,false)
 		command.rand=love.math.random(1000)
 		_.dispatchCommand(command,false)
+	elseif key==C.keyCastSpell then
+		startCastSpell()
+	elseif key==C.keyInventory then
+		openInventory()
 	end
 	
 	if isMoving then
 		commandMove(nextX,nextY)
+	end
+	
+	if key=="return" then
+		enterChat()
 	end
 end
 
 local onTurnReceived=function(response)
 	log("received turn from server") -- ..TSerial.pack(response)) -- logged on recv
 	W=response
-	_.locked=false
+	unlock()
+end
+
+local onOkReceived=function(response)
+	log("received ok from server")
+	unlock()
 end
 
 
@@ -193,7 +321,7 @@ local drawCells=function()
 
 	
 	LG.draw(playerSprite, Ui.gamebox.playerX, Ui.gamebox.playerY)
-	--LG.print(W.player.name, Ui.gamebox.playerX, Ui.gamebox.playerY-12)
+	LG.print(W.player.name, Ui.gamebox.playerX, Ui.gamebox.playerY-12)
 	
 	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
 	LG.print("Cell:"..TSerial.pack(playerCell),0,400)
@@ -208,6 +336,7 @@ local startGame=function(response)
 end
 
 
+
 _.activate=function()
 	local data={
 		cmd="get_full_state"
@@ -215,6 +344,7 @@ _.activate=function()
 	_.client.send(data, startGame)
 	
 	_.client.responseHandlers.turn=onTurnReceived
+	_.client.responseHandlers.ok=onOkReceived
 	
 	CScreen.init(960, 540, true)
 end
@@ -243,19 +373,39 @@ end
 
 _.draw=function()
 	--LG.print("GAME")
+	-- всё что выше это дебаг, без скейла
 	CScreen.apply()
 	if W.player==nil then return end
 	
-	drawCells()
-	_.ui.draw()
+	if _.isDrawSelf then
+		ui.draw()
+		drawCells()
+	end
+	
+	for k,substate in pairs(_.substates) do
+		tryCall(substate.draw)
+	end
+	
 	CScreen.cease()
 end
 
 _.update=function()
-	if _.substate~=nil then tryCall(_.substate.update) end
+	for k,substate in pairs(_.substates) do
+		tryCall(substate.update)
+	end
 	
-	tryCall(_.ui.update)
+	tryCall(ui.update)
 	
 end
+
+_.textinput=function(t)
+	-- log("game text:"..t)
+	for k,substate in pairs(_.substates) do
+		if substate.textinput~=nil then
+			substate.textinput(t)
+		end
+	end
+end
+
 
 return _

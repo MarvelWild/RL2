@@ -2,6 +2,9 @@ local _={}
 
 _.requestId=0
 _.responseHandlers={}
+
+
+-- state_game | 
 _.state=nil	
 _.singleResponseHandlers={}
 
@@ -26,6 +29,12 @@ _.switchToGameState=function()
 	switchState(gameState)
 end
 
+_.switchToEnterNameState=function()
+	local state=require "client/state_enter_name"
+	switchState(state)
+end
+
+
 
 
 local afterLogin=function(response)
@@ -47,6 +56,7 @@ end
 local recv=function(data)
 	log("recv:"+data)
 	
+	local isProcessed=false
 	local dataParts=string.split(data,NET_MSG_SEPARATOR)
 	
 	for k,dataCommand in pairs(dataParts) do
@@ -56,12 +66,20 @@ local recv=function(data)
 		if singleHandler~=nil then
 			singleHandler(response)
 			_.singleResponseHandlers[response.requestId]=nil
-			return
+			isProcessed=true
 		end
 		
 		
 		local handler=_.responseHandlers[response.responseType]
-		handler(response)
+		if handler~=nil then 
+			handler(response)
+			isProcessed=true
+		end
+	
+		if not isProcessed then
+			log("error:data from server not processed:"..data)
+		end
+		
 	end
 end
 
@@ -135,6 +153,16 @@ _.resize=function(...)
 	end
 end
 
+
+
+
+_.textinput=function(t)
+	-- log("client text input:"..t)
+	
+	if _.state.textinput~=nil then
+		_.state.textinput(t)
+	end
+end
 
 
 return _

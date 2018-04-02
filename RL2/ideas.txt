@@ -32,3 +32,24 @@ autobattle
 autoexplore
 bot mode
 external bot api
+named portals
+
+
+blink levels
+	
+	
+drop coins to distract enmy
+
+наглые просветляющие квесты, например отрицательная награда, в идеале динамик
+
+
+боссы с фазами
+
+мультигрид монстры (змей, жир)
+
+
+
+draw order - 
+
+
+

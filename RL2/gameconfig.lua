@@ -19,9 +19,12 @@ C.moveUp="kp8"
 C.moveDownRight="kp3"
 C.moveDown="kp2"
 C.moveDownLeft="kp1"
+C.climbDown="."
 
 C.editorActivate="e"
 C.testCommand="t"
+C.keyCastSpell="c"
+C.keyInventory="i"
 C.editorPlaceItem="space"
 
 C.editorRows=6

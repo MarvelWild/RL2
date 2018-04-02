@@ -1,4 +1,35 @@
+чат в минимализме
+инвентарь
+хочу игры, но и кодинг моя игра
 
+	концепт есть лог, и есть поле чата
+	
+	multi substate support
+	client log
+		activate chat substate
+		react to key+
+	start chat (enter in game state)
+talk
+
+
+metagame-scoreboard
+metagame-achievments
+вернуть requestId с turn+
+если сервер отправляет sendTurn, то клиент игнорит кастом респонс, сделать чтобы обработались оба+
+	send picked spell to server+
+	show child area or entire substate+
+	react '(c)ast' key -> func+
+spell blink+
+
+
+start screen
+name enter+
+check text editor (internet baby)-later+
+walls block way+	
+F12 enters editor mode+
+	activation key > .,.+
+	portal dest prop+
+multi level+
 server command chain (private response handlers) - skip
 	pick new+
 	pick existing+

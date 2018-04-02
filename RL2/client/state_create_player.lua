@@ -2,8 +2,8 @@ local _={}
 
 _.client=nil
 
-local onPlayerCreated=function()
-	_.client.switchToGameState()
+local onPresetPicked=function()
+	_.client.switchToEnterNameState()
 end
 
 
@@ -18,7 +18,7 @@ local onKeyPressed=function(key)
 	
 	-- log("Picked option:"..TSerial.pack(option))
 	
-	_.client.send({cmd="preset_picked", pick=pick}, onPlayerCreated)
+	_.client.send({cmd="preset_picked", pick=pick}, onPresetPicked)
 	
 end
 

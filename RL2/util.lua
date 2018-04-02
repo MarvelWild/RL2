@@ -48,6 +48,22 @@ function string.split(str, div)
     return result
 end
 
+
+
+local lettersLow = 'abcdefghijklmnopqrstuvwxyz'
+
+string.abcPos=function(charLower)
+	local b=string.byte(charLower)
+	local result=b-96
+	return result
+end
+
+string.abcChar=function(num)
+	return string.char(num+96)
+end
+
+
+
 subscribe=function(listeners, listener)
 	table.insert(listeners, listener)
 end

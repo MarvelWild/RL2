@@ -54,8 +54,7 @@ _.draw=function()
 	
 end
 
-_.update=function()
-end
+-- _.update=function() end
 
 
 

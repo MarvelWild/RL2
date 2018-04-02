@@ -2,6 +2,8 @@ local _={}
 
 local _server
 
+local _spells=require("server/spells")
+
 
 -- client info(login) by clientId
 _.clients={}
@@ -15,11 +17,12 @@ local getActivePlayersAt=function(currentPlayer,x,y)
 	local result=nil
 	for k,client in pairs(_.clients) do
 		local player=client.player
-		if player.x==x and player.y==y and player~=currentPlayer then
-			if result==nil then result={} end
-			table.insert(result, player)
+		if player~=nil then
+			if player.x==x and player.y==y and player~=currentPlayer then
+				if result==nil then result={} end
+				table.insert(result, player)
+			end
 		end
-		
 	end
 	
 	return result
@@ -56,7 +59,7 @@ local getVisibleCells=function(player)
 end
 
 
-local sendTurn=function(client,clientId)
+local sendTurn=function(client,clientId,requestId)
 	local response={}
 	response.responseType="turn"
 	-- clientWorld.requestId=data.requestId
@@ -65,16 +68,35 @@ local sendTurn=function(client,clientId)
 	response.player=client.player
 	response.cells=getVisibleCells(client.player)
 
-	_.send(response, clientId)
+	_.send(response, clientId,requestId)
+end
+
+-- unlocks input on client - generic response
+local sendOk=function(client,clientId,requestId)
+	local response={}
+	response.responseType="ok"
+	-- clientWorld.requestId=data.requestId
+	_.send(response, clientId,requestId)
 end
 
 
 -- единственная точка через которую сервер отправляет сообщения
 _.send=function(data, clientId,requestId)
+	assert(requestId~=nil)
 	data.requestId=requestId
 	local packed=TSerial.pack(data)
 	log("sending:"..packed)
 	_server:send(packed..NET_MSG_SEPARATOR, clientId)
+end
+
+
+
+_.commandHandlers.enter_editor_mode=function(data,clientId)
+	local client = _.clients[clientId]
+	local player=client.player
+	player.isEditor=true
+	
+	_.send({"ok"}, clientId, data.requestId)
 end
 
 _.commandHandlers.editor_place=function(data,clientId)
@@ -99,7 +121,7 @@ _.commandHandlers.editor_place=function(data,clientId)
 		log("error:unk editor item type")
 	end
 	
-	sendTurn(client, clientId)
+	sendTurn(client, clientId, data.requestId)
 end
 
 _.commandHandlers.pick_player=function(data,clientId)
@@ -119,6 +141,7 @@ _.commandHandlers.pick_player=function(data,clientId)
 	
 	local client=_.clients[clientId]
 	client.player=player
+	player.isEditor=isEditor
 	
 	response.responseType="pick_player_ok"
 	_.send(response, clientId, data.requestId)
@@ -212,6 +235,10 @@ _.commandHandlers.move=function(data, clientId)
 				Player.hit(player,damageFromMonster)
 			end
 		end
+		
+		if desiredCell.wall~=nil then
+			canMove=false
+		end
 	end
 	
 	
@@ -220,11 +247,79 @@ _.commandHandlers.move=function(data, clientId)
 		player.y=data.y
 	end
 	
-	sendTurn(client, clientId)
+	sendTurn(client, clientId, data.requestId)
 end
 
 
 
+_.commandHandlers.spell_cast=function(data, clientId)
+	log("spell_cast")
+	
+	local client=_.clients[clientId]
+	local player=client.player
+	local spell=data.spell
+	_spells[spell.code](spell,player)
+	
+	
+	sendTurn(client, clientId, data.requestId)
+end
+
+
+_.commandHandlers.activate_feature=function(data, clientId)
+	local client=_.clients[clientId]
+	local player=client.player
+	local level=W.levels[player.level]
+	local cell=Level.getCell(level.cells,player.x,player.y)
+	
+	local feature=cell.feature
+	
+	if feature==nil then 
+		sendOk(client, clientId, data.requestId)
+		return 
+	end
+	
+	if feature.featureType=="portal" then
+		player.level=feature.dest
+	else
+		log("error: not implemented")
+	end
+	
+	-- local response={"ok"}
+	sendTurn(client, clientId, data.requestId)
+	-- _.send(response, clientId, data.requestId)
+end
+
+
+_.commandHandlers.name_picked=function(data, clientId)
+	local client = _.clients[clientId]
+	local player=client.player
+	player.name=data.name
+	_.send({"ok"}, clientId, data.requestId)
+end
+
+
+_.commandHandlers.spells_get=function(data, clientId)
+	local spells=
+	{
+		spells=
+		{
+			{
+				name="Blink",
+				code="blink",
+				manaCost=2,
+				radius=4,
+			},
+			{
+				name="Heal",
+				code="heal",
+				manaCost=3,
+				amount=4
+			}
+		}
+	}
+	
+	_.send(spells, clientId, data.requestId)
+end
 
 
 
@@ -309,6 +404,9 @@ end
 
 _.update=function(dt)
 	_server:update(dt)
+end
+
+_.textinput=function(t)
 end
 
 

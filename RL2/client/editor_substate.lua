@@ -6,6 +6,8 @@ _.lastPlace.x=nil
 _.lastPlace.y=nil
 _.lastPlace.item=nil
 
+local ui=require "client/editor_ui"
+
 
 local getCurrentItem=function()
 	local registryPos = (C.editorCurrentRow-1)*C.editorCols+C.editorCurrentCol
@@ -106,8 +108,13 @@ end
 
 
 _.activate=function()
-	
+	--инпут идёт по цепочке стейтов, начиная с дочерних
 	--table.insert(S.keyPressedListeners, onKeyPressed)
+	_.parentstate.isDrawUi=false
+end
+
+_.deactivate=function()
+	_.parentstate.isDrawUi=true
 end
 
 
@@ -121,6 +128,11 @@ _.update=function()
 	end
 	
 end
+
+_.draw=function()
+	ui.draw()
+end
+
 
 
 return _

@@ -1,3 +1,4 @@
+-- global module Player
 local Player={}
 
 local newId=function()
@@ -16,6 +17,7 @@ Player.new=function(preset)
 	r.isDead=false
 	r.name="Anonymous"
 	r.hp=42
+	r.maxHp=42
 	r.xp=0
 	r.lvl=1
 	r.level="start"
@@ -47,5 +49,13 @@ Player.hit=function(player,damage)
 	
 end
 
+Player.heal=function(player,amt)
+	player.hp=player.hp+amt
+	
+	if player.hp>player.maxHp then
+		player.hp=player.maxHp
+	end
+	
+end
 
 return Player
