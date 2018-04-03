@@ -3,6 +3,7 @@ local activate_feature=function(data, clientId)
 	local player=client.player
 	local level=W.levels[player.level]
 	local cell=Level.getCell(level.cells,player.x,player.y)
+	local isStatusChanged=false
 	
 	local feature=cell.feature
 	
@@ -13,6 +14,7 @@ local activate_feature=function(data, clientId)
 	
 	if feature.featureType=="portal" then
 		player.level=feature.dest
+		isStatusChanged=true
 	else
 		log("error: not implemented")
 	end
@@ -20,6 +22,9 @@ local activate_feature=function(data, clientId)
 	-- local response={"ok"}
 	Server.sendTurn(client, clientId, data.requestId)
 	-- _.send(response, clientId, data.requestId)
+	if isStatusChanged then
+		Server.sendPlayerStatus(client,true)
+	end
 end
 
 return activate_feature

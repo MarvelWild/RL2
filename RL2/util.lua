@@ -76,3 +76,15 @@ unsubscribe=function(listeners, listener)
 		log("error: no listener")
 	end
 end
+
+
+-- example: loadScripts("server/handlers/", destTable)
+loadScripts=function(dir, container)
+	local files=love.filesystem.getDirectoryItems(dir)
+	for k,item in ipairs(files) do
+		if Allen.endsWith(item, ".lua") then
+			local name=Allen.strLeftBack(item, ".lua")
+			container[name]=require(dir..name)
+		end
+	end
+end

@@ -17,7 +17,7 @@ local getActivePlayersAt=function(currentPlayer,x,y)
 	local result=nil
 	for k,client in pairs(_.clients) do
 		local player=client.player
-		if player~=nil then
+		if player~=nil and player.level==currentPlayer.level then
 			if player.x==x and player.y==y and player~=currentPlayer then
 				if result==nil then result={} end
 				table.insert(result, player)
@@ -83,7 +83,6 @@ end
 
 -- единственная точка через которую сервер отправляет сообщения
 _.send=function(data, clientId,requestId)
-	assert(requestId~=nil)
 	data.requestId=requestId
 	local packed=TSerial.pack(data)
 	log("sending:"..packed)
@@ -130,35 +129,13 @@ _.commandHandlers.preset_picked=function(data,clientId)
 	local pickNumber=data.pick
 	local preset=Registry.playerPresets[pickNumber]
 	local player=Player.new(preset)
+	player.isLoggedIn=true
 	local client=_.clients[clientId]
 	W.players[client.login]=player
 	client.player=player
 	
 	local test=W.players[client.login]
 	_.send({"ok"}, clientId, data.requestId)
-end
-
-
-_.commandHandlers.login=function(data,clientId)
-	local existingClient=_.clients[login]
-	
-	if existingClient~=nil then
-		log("error:client already logged in")
-	end
-	
-	local client={login=data.login}
-	_.clients[clientId]=client
-	_.clientCount=_.clientCount+1
-	
-	local player=W.players[data.login]
-	
-	--можно играть и мёртвыми ))
-	--if player~=nil and player.isDead then player=nil end
-	
-	-- todo : multiple players for client
-	client.player=player
-	
-	_.send({players={player}}, clientId, data.requestId)
 end
 
 _.commandHandlers.get_full_state=function(data, clientId)
@@ -171,11 +148,6 @@ _.commandHandlers.get_full_state=function(data, clientId)
 	clientWorld.cells=getVisibleCells(client.player)
 	
 	_.send(clientWorld, clientId, data.requestId)
-end
-
-_.commandHandlers.logoff=function(data,clientId)
-	_.clients[clientId]=nil
-	_.clientCount=_.clientCount-1	
 end
 
 _.commandHandlers.test=function(data,clientId)
@@ -193,21 +165,7 @@ _.commandHandlers.name_picked=function(data, clientId)
 end
 
 
-
-
-local loadHandlers=function()
-	local baseDir="server/handlers/"
-	
-	local files=love.filesystem.getDirectoryItems(baseDir)
-	for k,item in ipairs(files) do
-		if Allen.endsWith(item, ".lua") then
-			local name=Allen.strLeftBack(item, ".lua")
-			_.commandHandlers[name]=require(baseDir..name)
-		end
-	end
-end
-
-loadHandlers()
+loadScripts("server/handlers/", _.commandHandlers)
 
 local connect=function(id)
 	-- id is userdata if tcp
@@ -301,5 +259,28 @@ _.sendLog=function(text, source, requestId)
 	_.send(data, nil, requestId)
 end
 
+
+
+-- except self
+-- isForce: ignore level difference (was on level case)
+_.sendPlayerStatus=function(client,isForce)
+	log("sendPlayerStatus:"..pack(client))
+	
+	assert(client.player~=nil)
+	
+	local data={responseType="player_status",player=client.player}
+	
+	for otherClientId,otherClient in pairs(_.clients) do
+		if otherClient~=client then 
+			if client.player.level==otherClient.player.level or isForce then
+				_.send(data, otherClientId, nil)
+				log("Sending status to:"..otherClient.player.name)
+			end
+			
+		end
+	end
+	
+	
+end
 
 return _

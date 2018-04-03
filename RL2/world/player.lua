@@ -21,11 +21,12 @@ Player.new=function(preset)
 	r.xp=0
 	r.lvl=1
 	r.level="start"
-	r.fov=5
+	r.fov=6
 	r.attackMin=1
 	r.attackMax=5
 	r.spriteName=preset.spriteName
 	r.isEditor=false
+	r.isLoggedIn=false;
 	return r
 end
 

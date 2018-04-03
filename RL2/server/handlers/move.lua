@@ -40,6 +40,7 @@ local move=function(data, clientId)
 	end
 	
 	Server.sendTurn(client, clientId, data.requestId)
+	Server.sendPlayerStatus(client)
 end
 
 return move

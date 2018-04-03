@@ -240,6 +240,8 @@ local drawCells=function()
 	-- в тайлах
 	local fov=W.player.fov
 	
+--	log("fov:"..fov)
+	
 	local startX = -fov
 	local endX = fov
 	
@@ -251,6 +253,8 @@ local drawCells=function()
 	
 	
 	local player=W.player
+	
+	local uiLayer={}
 	
 	-- в тайлах
 	for screenY=startY,endY do
@@ -272,12 +276,7 @@ local drawCells=function()
 				LG.draw(groundSprite, drawX, drawY)
 			end
 			
-			-- others
-			if cell.players~=nil then
-				for k,player in pairs(cell.players) do
-					LG.draw(Img[player.spriteName],drawX,drawY)
-				end
-			end
+
 			
 			if cell.wall~=nil then
 				local wallSprite=Img[cell.wall.spriteName]
@@ -301,8 +300,24 @@ local drawCells=function()
 				end
 			end
 			
+			-- others
+			if cell.players~=nil then
+				for k,player in pairs(cell.players) do
+					LG.draw(Img[player.spriteName],drawX,drawY)
+					
+					-- закрывается верхней ячейкой
+					table.insert(uiLayer, Lume.fn(LG.print, player.name, drawX, drawY-12))
+				end
+			end
+			
 		end
 	end
+	
+	
+	
+	for k,v in pairs(uiLayer) do v() end
+	
+	
 	
 	--self
 	local playerSprite

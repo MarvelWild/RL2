@@ -86,6 +86,18 @@ _.onKeyPressed=function(key, unicode)
 		elseif key==C.moveDown then
 			moveFocus(0,-1)
 			isProcessed=true			
+		elseif key==C.moveUpRight then
+			moveFocus(1,1)
+			isProcessed=true			
+		elseif key==C.moveUpLeft then
+			moveFocus(-1,1)
+			isProcessed=true			
+		elseif key==C.moveDownRight then
+			moveFocus(1,-1)
+			isProcessed=true			
+		elseif key==C.moveDownLeft then
+			moveFocus(-1,-1)
+			isProcessed=true			
 		end
 	else 
 --		if (key==C.moveRight or key==C.moveLeft or key==C.moveUp or key==C.moveDown) 

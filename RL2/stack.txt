@@ -2,7 +2,11 @@
 
 
 
-player pos
+
+multi level support
+login/logout update
+player pos-player status update+
+draw all players name+
 	server responds with log update+
 чат в минимализме+
 	tiled import support

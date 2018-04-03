@@ -28,5 +28,34 @@ _.new=function(x,y)
 	return result
 end
 
+_.findPlayer=function(cell, playerId)
+	if cell.players~=nil then
+		for playerKey,player in pairs(cell.players) do
+			if player.id==playerId then
+				return player, playerKey
+			end
+		end
+	end
+	
+	return nil,nil
+end
+
+	
+	
+
+
+_.removePlayer=function(cell,playerId)
+	if cell.players~=nil then
+		for playerKey,player in pairs(cell.players) do
+			if player.id==playerId then
+				cell.players[playerKey]=nil
+				return
+			end
+		end
+	end
+	
+	return
+end
+
 
 return _

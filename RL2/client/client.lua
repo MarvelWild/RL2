@@ -60,8 +60,13 @@ end
 
 
 
+
+
+loadScripts("client/handlers/", _.responseHandlers)
+
+
 local recv=function(data) -- search alias: receive
-	log("recv:"+data)
+	log("recv:"..data)	
 	
 	local isProcessed=false
 	local dataParts=string.split(data,NET_MSG_SEPARATOR)

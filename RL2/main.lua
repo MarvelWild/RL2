@@ -195,7 +195,9 @@ local saveConfig=function()
 end
 
 function love.resize(...)
-	tryCall(S.rootState.resize(...))
+	if S.rootState.resize~=nil then
+		S.rootState.resize(...)
+	end
 end
 
 
