@@ -77,15 +77,6 @@ _.enterEditorMode=function()
 	_.dispatchCommand({cmd="enter_editor_mode"}, true, unlock)
 end
 
-
-if S.isEditor then
-	_.enterEditorMode()
-end	
-
-
-
-
-
 -- 
 _.dispatchCommand=function(command, isLocking, callback)
 	--table.insert(_.commandsThisTurn,command)
@@ -97,7 +88,6 @@ _.dispatchCommand=function(command, isLocking, callback)
 		lockInput(command)
 	end
 end
-
 
 local commandMove=function(x,y)
 	local command={
@@ -154,9 +144,12 @@ end
 local onKeyPressed=function(key, unicode)
 	log("game receive kp:"..key..","..unicode.." abcPos:"+string.abcPos(key))
 	
+	-- для оптимизации можно _.substates разбить на обработчики, хотя бы для draw-update
 	for k,substate in pairs(_.substates) do
-		local isProcessed=substate.onKeyPressed(key,unicode)
-		if isProcessed then return end
+		if substate.onKeyPressed~=nil then
+			local isProcessed=substate.onKeyPressed(key,unicode)
+			if isProcessed then return end
+		end
 	end
 	
 	if _.locked then 
@@ -195,7 +188,7 @@ local onKeyPressed=function(key, unicode)
 		nextY=W.player.y-1
 		nextX=W.player.x+1
 		isMoving=true		
-	elseif key==C.climbDown then
+	elseif unicode==C.climbDown then
 		-- simple, no shifts while we have free keys
 		--if love.keyboard.isDown("lshift") then
 		log("climb down")
@@ -324,7 +317,7 @@ local drawCells=function()
 	LG.print(W.player.name, Ui.gamebox.playerX, Ui.gamebox.playerY-12)
 	
 	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
-	LG.print("Cell:"..TSerial.pack(playerCell),0,400)
+	LG.printf("Cell:"..TSerial.pack(playerCell),650,450,280, "left")
 end -- drawTiles()
 
 
@@ -347,6 +340,13 @@ _.activate=function()
 	_.client.responseHandlers.ok=onOkReceived
 	
 	CScreen.init(960, 540, true)
+	
+	local logSubstate=require "client/substate/log"
+	_.addSubstate(logSubstate)
+	
+	if S.isEditor then
+		_.enterEditorMode()
+	end	
 end
 
 _.resize=function(width, height)

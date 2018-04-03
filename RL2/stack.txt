@@ -1,4 +1,14 @@
-чат в минимализме
+
+
+
+
+player pos
+	server responds with log update+
+чат в минимализме+
+	tiled import support
+	tileset support
+брейк новый тайлик
+
 инвентарь
 хочу игры, но и кодинг моя игра
 

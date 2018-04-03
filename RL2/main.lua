@@ -18,6 +18,12 @@ Inspect=require "lib/inspect/inspect"
 CScreen = require "lib/CScreen/cscreen"
 
 
+Fonts={}
+Fonts.main=LG.getFont()
+Fonts.chat=love.graphics.newFont("res/LiberationSans-Regular.ttf", 18)
+
+
+
 
 -- Session
 S={}
@@ -137,6 +143,7 @@ love.load=function()
 	
 	if S.isServer then 
 		S.rootState=require "server/server" 
+		Server=S.rootState
 	else
 		S.rootState=require "client/client" 
 		Img=require "res/img"
@@ -159,7 +166,7 @@ love.update=function(dt)
 end
 
 love.keypressed=function(key, unicode)
-	-- log("keypressed "..key)
+	 log("keypressed "..key.."unicode:"..unicode)
 	for k,listener in ipairs(S.keyPressedListeners) do
 		listener(key, unicode)
 	end

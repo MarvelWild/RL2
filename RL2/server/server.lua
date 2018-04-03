@@ -2,7 +2,7 @@ local _={}
 
 local _server
 
-local _spells=require("server/spells")
+_.spells=require("server/spells")
 
 
 -- client info(login) by clientId
@@ -59,7 +59,7 @@ local getVisibleCells=function(player)
 end
 
 
-local sendTurn=function(client,clientId,requestId)
+_.sendTurn=function(client,clientId,requestId)
 	local response={}
 	response.responseType="turn"
 	-- clientWorld.requestId=data.requestId
@@ -71,8 +71,9 @@ local sendTurn=function(client,clientId,requestId)
 	_.send(response, clientId,requestId)
 end
 
+
 -- unlocks input on client - generic response
-local sendOk=function(client,clientId,requestId)
+_.sendOk=function(clientId,requestId)
 	local response={}
 	response.responseType="ok"
 	-- clientWorld.requestId=data.requestId
@@ -121,32 +122,8 @@ _.commandHandlers.editor_place=function(data,clientId)
 		log("error:unk editor item type")
 	end
 	
-	sendTurn(client, clientId, data.requestId)
+	_.sendTurn(client, clientId, data.requestId)
 end
-
-_.commandHandlers.pick_player=function(data,clientId)
-	local response={}
-	local playerId=data.playerId
-	local isEditor=data.isEditor
-	
-	local player=nil
-	for k,v in pairs(W.players) do
-		if v.id==playerId then 
-			player=v
-			break
-		end
-	end
-	
-	assert(player~=nil)
-	
-	local client=_.clients[clientId]
-	client.player=player
-	player.isEditor=isEditor
-	
-	response.responseType="pick_player_ok"
-	_.send(response, clientId, data.requestId)
-end
-
 
 _.commandHandlers.preset_picked=function(data,clientId)
 	log("new player")
@@ -206,88 +183,6 @@ _.commandHandlers.test=function(data,clientId)
 end
 
 
-_.commandHandlers.move=function(data, clientId)
-	local client=_.clients[clientId]
-	local player=client.player
-	--player.
-	
-	-- todo: prevent cheating
-	
-	local canMove=true -- ok let ghost fly not player.isDead
-	
-	local level=W.levels[player.level]
-	local desiredCell=Level.getCell(level.cells,data.x,data.y)
-	
-	if not player.isEditor and not player.isDead then
-		local entityAtDest=desiredCell.entity
-		if entityAtDest~=nil then
-			if entityAtDest.faction=="enemy" then
-				canMove=false
-				
-				local damage = math.random(player.attackMin, player.attackMax)
-				local isDead=Character.hit(entityAtDest,damage,desiredCell)
-				if isDead then
-					Player.receiveXp(player, entityAtDest.xpReward)
-				end
-				
-				
-				local damageFromMonster=math.random(entityAtDest.attackMin, entityAtDest.attackMax)
-				Player.hit(player,damageFromMonster)
-			end
-		end
-		
-		if desiredCell.wall~=nil then
-			canMove=false
-		end
-	end
-	
-	
-	if canMove then
-		player.x=data.x
-		player.y=data.y
-	end
-	
-	sendTurn(client, clientId, data.requestId)
-end
-
-
-
-_.commandHandlers.spell_cast=function(data, clientId)
-	log("spell_cast")
-	
-	local client=_.clients[clientId]
-	local player=client.player
-	local spell=data.spell
-	_spells[spell.code](spell,player)
-	
-	
-	sendTurn(client, clientId, data.requestId)
-end
-
-
-_.commandHandlers.activate_feature=function(data, clientId)
-	local client=_.clients[clientId]
-	local player=client.player
-	local level=W.levels[player.level]
-	local cell=Level.getCell(level.cells,player.x,player.y)
-	
-	local feature=cell.feature
-	
-	if feature==nil then 
-		sendOk(client, clientId, data.requestId)
-		return 
-	end
-	
-	if feature.featureType=="portal" then
-		player.level=feature.dest
-	else
-		log("error: not implemented")
-	end
-	
-	-- local response={"ok"}
-	sendTurn(client, clientId, data.requestId)
-	-- _.send(response, clientId, data.requestId)
-end
 
 
 _.commandHandlers.name_picked=function(data, clientId)
@@ -298,30 +193,21 @@ _.commandHandlers.name_picked=function(data, clientId)
 end
 
 
-_.commandHandlers.spells_get=function(data, clientId)
-	local spells=
-	{
-		spells=
-		{
-			{
-				name="Blink",
-				code="blink",
-				manaCost=2,
-				radius=4,
-			},
-			{
-				name="Heal",
-				code="heal",
-				manaCost=3,
-				amount=4
-			}
-		}
-	}
+
+
+local loadHandlers=function()
+	local baseDir="server/handlers/"
 	
-	_.send(spells, clientId, data.requestId)
+	local files=love.filesystem.getDirectoryItems(baseDir)
+	for k,item in ipairs(files) do
+		if Allen.endsWith(item, ".lua") then
+			local name=Allen.strLeftBack(item, ".lua")
+			_.commandHandlers[name]=require(baseDir..name)
+		end
+	end
 end
 
-
+loadHandlers()
 
 local connect=function(id)
 	-- id is userdata if tcp
@@ -407,6 +293,12 @@ _.update=function(dt)
 end
 
 _.textinput=function(t)
+end
+
+--Броадкаст
+_.sendLog=function(text, source, requestId)	
+	local data={text=text,responseType="log",channel="chat",source=source}
+	_.send(data, nil, requestId)
 end
 
 

@@ -6,7 +6,7 @@ local drawItem=function(item,cellX,cellY)
 	-- log("drawing item:"..cellX..","..cellY..TSerial.pack(item))
 	
 	local worldX = Ui.rightbox.x+(cellX*C.tileSize)
-	local worldY = Ui.rightbox.y+(cellY*C.tileSize)
+	local worldY = Ui.rightbox.y+(cellY*C.tileSize)+100
 	
 	if item.type=="ground" then
 		local itemDrawable=Registry.spriteByGroundType[item.ground_type]
@@ -30,8 +30,8 @@ local drawItem=function(item,cellX,cellY)
 end
 
 _.draw=function()
-	local line1="Editor coords:"..W.player.x..","..W.player.y
-	LG.print(line1,Ui.rightbox.x+10,Ui.rightbox.y+5)
+--	local line1="Editor coords:"..W.player.x..","..W.player.y
+--	LG.print(line1,Ui.rightbox.x+10,Ui.rightbox.y+5+100)
 	
 	local itemsCount = #Registry.editorItems
 	

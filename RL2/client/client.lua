@@ -3,6 +3,7 @@ local _={}
 _.requestId=0
 _.responseHandlers={}
 
+_.logComponent=require("client/component/log")
 
 -- state_game | 
 _.state=nil	
@@ -44,16 +45,22 @@ local afterLogin=function(response)
 	switchState(state)
 end
 
+
+-- just a log message from server for test purposes
 _.responseHandlers.message=function(data)
 	log("message:"..data.text)
 end
 
+-- user displayed log
+_.responseHandlers.log=function(data)
+	log("Server LOG:"..data.text)
+	
+	_.logComponent.add(data)
+end
 
 
 
-
-
-local recv=function(data)
+local recv=function(data) -- search alias: receive
 	log("recv:"+data)
 	
 	local isProcessed=false

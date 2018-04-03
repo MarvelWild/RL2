@@ -32,7 +32,7 @@ _.activate=function()
 end
 
 _.deactivate=function()
-	subscribe(S.keyPressedListeners, onKeyPressed)
+	unsubscribe(S.keyPressedListeners, onKeyPressed)
 end
 
 
