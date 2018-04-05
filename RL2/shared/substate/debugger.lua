@@ -18,7 +18,7 @@ _.draw=function()
 end
 
 _.onKeyPressed=function(key)
-	if key=="escape" then
+	if key=="escape" or key==C.keyDebugger then
 		_.parentstate.delSubstate(_)
 	elseif key=="f1" then
 		dump()

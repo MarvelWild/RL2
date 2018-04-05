@@ -354,7 +354,16 @@ local drawCells=function()
 	end
 
 	
+	if _.locked then
+		LG.setColor(1,1,1,0.5)
+	end
+	
 	LG.draw(playerSprite, Ui.gamebox.playerX, Ui.gamebox.playerY)
+	
+	if _.locked then
+		LG.setColor(1,1,1,1)
+	end
+	
 	LG.print(W.player.name, Ui.gamebox.playerX, Ui.gamebox.playerY-12)
 	
 	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
