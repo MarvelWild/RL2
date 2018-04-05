@@ -9,17 +9,16 @@ local login=function(data,clientId)
 	Server.clients[clientId]=client
 	Server.clientCount=Server.clientCount+1
 	
+	
+	-- здесь показываем всех доступных сейчас только 1
 	local player=W.players[data.login]
 	
-	--можно играть и мёртвыми ))
-	--if player~=nil and player.isDead then player=nil end
-	
-	-- todo : multiple players for client
-	client.player=player
-	player.isLoggedIn=true
+	-- но биндим уже после выбора
+	--client.player=player
+	--Server.sendPlayerStatus(client)
 	
 	Server.send({players={player}}, clientId, data.requestId)
-	Server.sendPlayerStatus(client)
+	
 end
 
 return login

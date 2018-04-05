@@ -8,6 +8,7 @@ _.logComponent=require("client/component/log")
 -- state_game | 
 _.state=nil	
 _.singleResponseHandlers={}
+_.isLoggedIn=false
 
 local switchState=function(state)
 	
@@ -43,6 +44,7 @@ local afterLogin=function(response)
 	local state=require "client/state_pick_player"
 	state.init(players)
 	switchState(state)
+	_.isLoggedIn=true
 end
 
 
@@ -128,7 +130,7 @@ local connect=function()
 	_netClient.handshake=C.handshake
 	_netClient.callbacks.recv=recv
 	
-	local ok, msg = _netClient:connect("127.0.0.1", C.port, false)
+	local ok, msg = _netClient:connect("lore", C.port, false)
 	if not ok then
 		log("error:Cannot connect:"..msg)
 		return
@@ -139,13 +141,32 @@ local connect=function()
 end
 
 
-_.activate=function()
-	_.state=require "client/state_connecting"
+_.startGame=function()
+	local state=require "client/state_connecting"
+	switchState(state)
 	connect()
 end
 
+_.activate=function()
+	local state=require "client/state_start"
+	switchState(state)
+--	_.startGame()
+end
+
+
+
+
 _.deactivate=function()
 	tryCall(_.state.deactivate)
+	
+	if _.isLoggedIn then 
+		local data={
+			cmd="logoff"
+		}
+		_.send(data)
+		_.isLoggedIn=false
+	end
+	
 end
 
 _.draw=function()
@@ -155,8 +176,8 @@ end
 
 
 _.update=function(dt)
-	_netClient:update(dt)
-	_.state.update()
+	if _netClient~=nil then _netClient:update(dt) end
+	tryCall(_.state.update)
 end
 
 _.resize=function(...)
@@ -176,5 +197,13 @@ _.textinput=function(t)
 	end
 end
 
+
+_.keypressed=function(...)
+	local state=_.state
+	if state~=nil and state.keypressed~=nil then
+		state.keypressed(...)
+	end
+	
+end
 
 return _

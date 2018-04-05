@@ -18,6 +18,8 @@ _.new=function(x,y)
 	-- заполняется при передаче клиенту
 	result.players=nil
 	
+	result.items=nil
+	
 	
 	
 	-- удобнее отлаживать, но первичные данные это level.cells

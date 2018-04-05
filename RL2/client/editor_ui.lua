@@ -20,6 +20,9 @@ local drawItem=function(item,cellX,cellY)
 	elseif item.type=="wall" then		
 		local drawable=Registry.spriteByWallType[item.wall_type]
 		LG.draw(drawable, worldX, worldY)
+	elseif item.type=="item" then		
+		local spriteInfo=Registry.spriteInfoByItemType[item.item_type]
+		LG.draw(spriteInfo.sprite, worldX, worldY)		
 	else 
 		log("error:unknown item type")
 	end

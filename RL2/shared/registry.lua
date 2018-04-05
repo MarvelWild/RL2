@@ -25,101 +25,8 @@ end
 
 
 --- DATA
-_.editorItems=
-{
-	{
-		["type"]="ground",
-		["ground_type"]="grass",
-	},
-	{
-		["type"]="ground",
-		["ground_type"]="sand",
-	},
-	{
-		["type"]="ground",
-		["ground_type"]="stone",
-	},
-	{
-		["type"]="ground",
-		["ground_type"]="stone_red",
-	},
-	{
-		["type"]="ground",
-		["ground_type"]="lava",
-	},
-	{
-		["type"]="ground",
-		["ground_type"]="acid",
-	},
-	{
-		["type"]="ground",
-		["ground_type"]="magic",
-	},
-	{
-		["type"]="ground",
-		["ground_type"]="water",
-	},
-	{
-		["type"]="character",
-		["character_type"]="frog",
-	},
-	{
-		["type"]="character",
-		["character_type"]="skeleton",
-	},
-	{
-		["type"]="character",
-		["character_type"]="cat",
-	},
-	{
-		["type"]="character",
-		["character_type"]="octopod",
-	},
-	{
-		["type"]="character",
-		["character_type"]="skelebat",
-	},	
-	{
-		["type"]="character",
-		["character_type"]="necromancer",
-	},		
-	{
-		["type"]="feature",
-		["feature_type"]="portal",
-	},
-	{
-		["type"]="feature",
-		["feature_type"]="tree",
-	},
-	{
-		["type"]="feature",
-		["feature_type"]="ladder_up",
-	},
-	{
-		["type"]="feature",
-		["feature_type"]="ladder_down",
-	},
-	{
-		["type"]="feature",
-		["feature_type"]="blood",
-	},	
-	{
-		["type"]="feature",
-		["feature_type"]="altar_cards",
-	},
-	{
-		["type"]="wall",
-		["wall_type"]="stone",
-	},
-	{
-		["type"]="wall",
-		["wall_type"]="bones",
-	},
-	{
-		["type"]="wall",
-		["wall_type"]="iron",
-	},
-}
+_.editorItems=require("data/editor_items")
+
 
 
 _.spriteNameByFeatureType=
@@ -190,6 +97,11 @@ addCharacter("necromancer","necromancer")
 _.addWall("stone", "wall_stone")
 _.addWall("bones", "wall_bones_1")
 _.addWall("iron", "wall_iron")
+
+_.spriteInfoByItemType=
+{
+	hat_green={spriteName="hat_green", sprite=Img.hat_green},
+}
 
 return _
 	

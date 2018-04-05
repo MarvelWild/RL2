@@ -88,3 +88,21 @@ loadScripts=function(dir, container)
 		end
 	end
 end
+
+-- for debug purpose. name is optional
+dump=function(content, name)
+	if name==nil then name="dump" end
+	
+	local str=pack(content)
+	local time = love.timer.getTime( )
+	love.filesystem.write(name.."_ts_"..time,str)
+	
+	local ins=Inspect(content)
+	love.filesystem.write(name.."_ins_"..time,ins)
+end
+
+
+
+key_is_enter=function(key)
+	return key=="return" or key=="kpenter"
+end

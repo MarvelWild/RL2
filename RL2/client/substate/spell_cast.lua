@@ -38,11 +38,13 @@ _.onKeyPressed=function(key)
 	if _.spells==nil then return end
 	local abcPos=string.abcPos(key)
 	local spell=_.spells[abcPos]
-	if spell==nil then return end
+	if spell==nil then return true end
 	
-		local command={cmd="spell_cast", spell=spell}
-		isInputLocked=true
-		_.parentstate.client.send(command, afterCast)
+	local command={cmd="spell_cast", spell=spell}
+	isInputLocked=true
+	_.parentstate.client.send(command, afterCast)
+	
+	return true
 end
 
 local displaySpells=function(response)

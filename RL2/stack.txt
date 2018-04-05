@@ -1,10 +1,19 @@
 
+	internal debugger
+задвоение сетевого игрока
+item+
 
 
+полиморф спелл
+
+	концепт времени - реалтайм гроу
+семечко
 
 
-multi level support
-login/logout update
+blink into wall (check DC for fun)
+
+multi level support+
+login/logout update+
 player pos-player status update+
 draw all players name+
 	server responds with log update+

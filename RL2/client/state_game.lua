@@ -137,8 +137,20 @@ end
 
 
 local openInventory=function()
-	log("inventory wip")
+	local state=require "client/substate/inventory"
+	_.addSubstate(state)
 end
+
+local openAbilities=function()
+	local abilities=require "client/substate/abilities"
+	_.addSubstate(abilities)
+end
+
+local openDebugger=function()
+	local state=require "shared/substate/debugger"
+	_.addSubstate(state)
+end
+
 
 
 local onKeyPressed=function(key, unicode)
@@ -212,13 +224,17 @@ local onKeyPressed=function(key, unicode)
 		startCastSpell()
 	elseif key==C.keyInventory then
 		openInventory()
+	elseif key==C.keyAbilities then
+		openAbilities()
+	elseif key==C.keyDebugger then
+		openDebugger()	
 	end
 	
 	if isMoving then
 		commandMove(nextX,nextY)
 	end
 	
-	if key=="return" then
+	if key_is_enter(key) then
 		enterChat()
 	end
 end
@@ -280,7 +296,10 @@ local drawCells=function()
 			
 			if cell.wall~=nil then
 				local wallSprite=Img[cell.wall.spriteName]
-				LG.draw(wallSprite, drawX, drawY)
+				
+				if wallSprite~=nil then
+					LG.draw(wallSprite, drawX, drawY)
+				end
 			end
 			
 			if cell.feature~=nil then
@@ -291,6 +310,17 @@ local drawCells=function()
 				end
 				
 				LG.draw(featureSprite, drawX, drawY)
+			end
+			
+			if cell.items~=nil then
+				for k,item in pairs(cell.items) do
+					if item.sprite==nil then
+						item.sprite=Img[item.spriteName]
+					end
+					
+					LG.draw(item.sprite, drawX, drawY)
+					
+				end
 			end
 			
 			if cell.entity~=nil then
@@ -305,7 +335,7 @@ local drawCells=function()
 				for k,player in pairs(cell.players) do
 					LG.draw(Img[player.spriteName],drawX,drawY)
 					
-					-- закрывается верхней ячейкой
+					-- закрывается верхней ячейкой, поэтому откладываем
 					table.insert(uiLayer, Lume.fn(LG.print, player.name, drawX, drawY-12))
 				end
 			end
@@ -313,11 +343,7 @@ local drawCells=function()
 		end
 	end
 	
-	
-	
 	for k,v in pairs(uiLayer) do v() end
-	
-	
 	
 	--self
 	local playerSprite
@@ -376,13 +402,12 @@ _.deactivate=function()
 		S.keyPressedListeners[listenerIndex]=nil
 	end
 	
-	
-	local data={
-		cmd="logoff"
-	}
-	_.client.send(data)
-	
 	_.client.responseHandlers.turn=nil
+end
+
+local doDraw=function()
+	ui.draw()
+	drawCells()
 end
 
 
@@ -392,9 +417,29 @@ _.draw=function()
 	CScreen.apply()
 	if W.player==nil then return end
 	
+	
 	if _.isDrawSelf then
-		ui.draw()
-		drawCells()
+		doDraw()
+	else
+		doDraw()
+		love.graphics.setColor(0, 0.1, 0.1, 0.8)
+		
+		local width, height = love.window.getMode( )
+		LG.rectangle("fill",0,0,width,height)
+		
+		--berserk test
+		--love.graphics.setColor( 255, 42, 42, 255)
+		
+		--random fun
+--		local c=love.graphics.getColor()
+--		local rc=function()
+--			return love.math.random(255)
+--		end
+		
+--		love.graphics.setColor(rc(), rc(), rc(), 42)
+		
+		
+		love.graphics.setColor( 1, 1, 1, 1)
 	end
 	
 	for k,substate in pairs(_.substates) do

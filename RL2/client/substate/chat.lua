@@ -41,7 +41,7 @@ _.onKeyPressed=function(key, unicode)
 	
 	if key=="escape" then
 		exit()
-	elseif key=="return" then
+	elseif key_is_enter(key) then
 		sendMessage()
 		exit()
 	elseif key=="backspace" then

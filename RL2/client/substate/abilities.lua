@@ -2,12 +2,14 @@ local _={}
 
 _.parentstate=nil
 
-_.name="Inventory"
+_.name="Abilities"
 
 _.draw=function()
-	LG.print("INVENTORY")
+	LG.print("ABILITIES")
+	if W.player.spriteName=="troll_green" then
+		LG.print("[Passive] Troll skin (Regen+1) | todo",10, 24)
+	end
 	
-	LG.print("You carry nothing", 10, 42)
 end
 
 _.activate=function()
@@ -25,5 +27,7 @@ _.onKeyPressed=function(key)
 	
 	return true -- catch all the keys
 end
+
+
 
 return _

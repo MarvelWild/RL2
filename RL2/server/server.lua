@@ -38,11 +38,15 @@ local getVisibleCells=function(player)
 	
 	local result={}
 	
+	local cells=level.cells
+	
+--	dump(cells,"getVisibleCells")
+	
 	for x=startX,endX do
 		local column={}
 		result[x]=column
 		for y=startY,endY do
-			local cell=Level.getCell(level.cells,x,y)
+			local cell=Level.getCell(cells,x,y)
 			column[y]=cell
 			cell.players=getActivePlayersAt(player,x,y)
 			
@@ -54,7 +58,7 @@ local getVisibleCells=function(player)
 	end
 	
 	
-	local test=TSerial.pack(result)
+	local test2=TSerial.pack(result)
 	return result
 end
 
@@ -99,30 +103,6 @@ _.commandHandlers.enter_editor_mode=function(data,clientId)
 	_.send({"ok"}, clientId, data.requestId)
 end
 
-_.commandHandlers.editor_place=function(data,clientId)
-	local editorItem=data.item
-	
-	local client = _.clients[clientId]
-	
-	local player=client.player
-	local level=W.levels[player.level]
-	local cell = Level.getCell(level.cells,data.x,data.y)
-	if editorItem.type=="ground" then
-		cell.ground_type=editorItem.ground_type
-	elseif editorItem.type=="character" then
-		local characterType=editorItem.character_type
-		-- if cell.entity~=nil then ok gc this current
-		cell.entity=Character.newByCharacterType(characterType,cell)
-	elseif editorItem.type=="feature" then
-		cell.feature=Feature.new(editorItem.feature_type)
-	elseif editorItem.type=="wall" then
-		cell.wall=Wall.new(editorItem.wall_type)
-	else
-		log("error:unk editor item type")
-	end
-	
-	_.sendTurn(client, clientId, data.requestId)
-end
 
 _.commandHandlers.preset_picked=function(data,clientId)
 	log("new player")
@@ -200,7 +180,9 @@ end
 
 local loadWorld=function()
 	local file=C.ServerSaveDir..C.WorldSaveName
-	if love.filesystem.exists(file) then
+	
+	local info=love.filesystem.getInfo(file)
+	if info~=nil then
 		local packed=love.filesystem.read(file)
 		W=TSerial.unpack(packed)
 	end
@@ -226,7 +208,7 @@ local save = function()
 	local saveDir=C.ServerSaveDir
 	love.filesystem.createDirectory(saveDir)
 	
-	local worldPacked=TSerial.pack(W)
+	local worldPacked=TSerial.pack(W,true,true)
 	love.filesystem.write(saveDir..C.WorldSaveName, worldPacked)
 end
 

@@ -25,7 +25,9 @@ C.editorActivate="e"
 C.testCommand="t"
 C.keyCastSpell="c"
 C.keyInventory="i"
+C.keyAbilities="a"
 C.editorPlaceItem="space"
+C.keyDebugger="f11"
 
 C.editorRows=6
 C.editorCols=4

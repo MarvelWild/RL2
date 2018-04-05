@@ -10,7 +10,7 @@ end
 local onKeyPressed=function(key)
 	local len=string.len(key)
 	if len~=1 then 
-		if key=="return" then
+		if key_is_enter(key) then
 			_.client.send({cmd="name_picked", name=_.text}, onNameEntered)
 		end
 		

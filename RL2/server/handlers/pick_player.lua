@@ -16,9 +16,12 @@ local pick_player=function(data,clientId)
 	local client=Server.clients[clientId]
 	client.player=player
 	player.isEditor=isEditor
+	player.isLoggedIn=true
 	
 	response.responseType="pick_player_ok"
 	Server.send(response, clientId, data.requestId)
+	
+	Server.sendPlayerStatus(client)
 end
 
 

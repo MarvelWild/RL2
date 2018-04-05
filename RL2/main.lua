@@ -43,10 +43,9 @@ Debug = require "lib/debug"
 log=Debug.log
 pack=TSerial.pack
 
-require "const"
+require "data/const"
 
--- bootstrapping config, it loaded later
-C=require "gameconfig"
+C=require "data/gameconfig"
 
 
 if S.isServer then
@@ -65,7 +64,9 @@ if Lume.find(arg, "d")~=nil then
 end
 
 
-if love.filesystem.exists(saveDir..configFile) then
+local confFileInfo=love.filesystem.getInfo(saveDir..configFile)
+if confFileInfo~=nil then
+	
 	local configPacked=love.filesystem.read(saveDir..configFile)
 	C=TSerial.unpack(configPacked)
 	log("Config loaded")
@@ -91,7 +92,7 @@ end
 
 
 
-require "util"
+require "shared/util"
 
 
 
@@ -122,6 +123,7 @@ Feature=require "world/feature"
 
 Cell=require "world/cell"
 Wall=require "world/Wall"
+Item=require "world/Item"
 
 -- configuration
 
@@ -129,11 +131,9 @@ if S.isServer then
 	log("server mode")
 end
 
-require "bootstrap"
-
 -- configuration end
 
-Ui=require "ui"
+Ui=require "data/ui"
 
 -- end of globals area --
 
@@ -144,12 +144,13 @@ love.load=function()
 	if S.isServer then 
 		S.rootState=require "server/server" 
 		Server=S.rootState
+		Img={}
 	else
 		S.rootState=require "client/client" 
 		Img=require "res/img"
 	end
 	
-	Registry=require "registry"
+	Registry=require "shared/registry"
 	tryCall(S.rootState.activate)
 end
 
@@ -171,6 +172,11 @@ love.keypressed=function(key, unicode)
 		listener(key, unicode)
 	end
 	-- S.keysDown[key]=true
+	
+	local stateKp=S.rootState.keypressed
+	if stateKp~=nil then
+		stateKp()
+	end
 	
 	if key=="f12" and not S.isEditor then
 		
