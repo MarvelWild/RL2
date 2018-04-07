@@ -394,10 +394,16 @@ end
 
 -- afterPicked(x,y)
 _.pickTarget=function(afterPicked)
+	local prevDrawSelf=_.isDrawSelf
 	_.isDrawSelf=true
 	local state=require "client/substate/pick_target"
 	_.addSubstate(state)
-	state.afterPicked=afterPicked
+	state.afterPicked=Lume.combine(
+		afterPicked,
+		function()
+			_.isDrawSelf=prevDrawSelf
+		end
+	)
 end
 
 

@@ -69,6 +69,8 @@ if not S.isServer then
 end
 
 local addCharacter=_.addCharacter
+
+-- charType, spriteName
 addCharacter("frog","frog")
 addCharacter("skeleton","skeleton")
 addCharacter("cat","cat_1")
@@ -76,6 +78,7 @@ addCharacter("octopod","octopod_red")
 addCharacter("skelebat","skelebat")
 addCharacter("necromancer","necromancer")
 addCharacter("eyemold","eyemold")
+addCharacter("reaper","reaper")
 
 _.addWall("stone", "wall_stone")
 _.addWall("bones", "wall_bones_1")

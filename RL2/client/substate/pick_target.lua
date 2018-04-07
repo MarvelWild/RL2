@@ -35,7 +35,11 @@ _.onKeyPressed=function(key)
 	log("pick_target key pressed:"..key)
 	if key=="escape" then
 		_.parentstate.delSubstate(_)
-		if _.afterPicked~=nil then _.afterPicked() end
+		if _.afterPicked~=nil then
+			_.afterPicked(_targetX,_targetY) 
+		else
+			_.afterPicked() 
+		end
 	end
 	
 	local dx,dy=get_direction_8(key)

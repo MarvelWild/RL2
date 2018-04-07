@@ -1,9 +1,7 @@
-
-esc from spell target  then spell
-
-
-
-
+	
+	apply target code path
+	как родительский не дравит себя на таргетинге?+
+	esc from spell target  then spell+
 	таргетинг
 	описать+
 полиморф спелл
