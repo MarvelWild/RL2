@@ -54,6 +54,7 @@ if not S.isServer then
 		["magic"]=Img.floor_magic,
 		["water"]=Img.floor_water,
 		["sand"]=Img.floor_sand,
+		["water_shallow"]=Img.water_shallow,
 	}
 	
 
@@ -79,6 +80,7 @@ addCharacter("skelebat","skelebat")
 addCharacter("necromancer","necromancer")
 addCharacter("eyemold","eyemold")
 addCharacter("reaper","reaper")
+addCharacter("clawplant","clawplant")
 
 _.addWall("stone", "wall_stone")
 _.addWall("bones", "wall_bones_1")

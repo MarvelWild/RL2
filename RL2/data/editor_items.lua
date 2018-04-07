@@ -32,6 +32,10 @@ local _={
 		["type"]="ground",
 		["ground_type"]="water",
 	},
+	{
+		["type"]="ground",
+		["ground_type"]="water_shallow",
+	},	
 --	{
 --		["type"]="character",
 --		["character_type"]="frog",
