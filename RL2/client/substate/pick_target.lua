@@ -35,9 +35,8 @@ _.onKeyPressed=function(key)
 	log("pick_target key pressed:"..key)
 	if key=="escape" then
 		_.parentstate.delSubstate(_)
+		
 		if _.afterPicked~=nil then
-			_.afterPicked(_targetX,_targetY) 
-		else
 			_.afterPicked() 
 		end
 	end
@@ -56,6 +55,8 @@ _.onKeyPressed=function(key)
 		if _.afterPicked==nil then
 			log("error: afterPicked not defined for targeting")
 		end
+		
+		_.afterPicked(_targetX,_targetY)
 		
 	end
 	

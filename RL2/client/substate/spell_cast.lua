@@ -30,40 +30,43 @@ local afterCast=function()
 	_.parentstate.delSubstate(_)
 end
 
-local afterTargetPicked=function()
-	log("after target picked")
-	isTargeting=false
-end
-
-
-local pickTarget=function()
-	-- log("Targeting")
-	
-	-- wip: unlock after targeting
-	assert(not isInputLocked)
-	
-	isTargeting=true
-	_.parentstate.pickTarget(afterTargetPicked)
-end
-
 local doCastSpell=function(spell)
 	local command={cmd="spell_cast", spell=spell}
 	isInputLocked=true
 	_.parentstate.client.send(command, afterCast)
 end
 
+local afterTargetPicked=function(spell, cellX,cellY)
+	log("after target picked")
+	isTargeting=false
+	doCastSpell(spell)
+	
+	-- wip coords
+end
+
+
+local startPickTarget=function(spell)
+	-- log("Targeting")
+	
+	-- wip: unlock after targeting
+	assert(not isInputLocked)
+	
+	isTargeting=true
+	
+	-- signature fx(x,y) now matches generic pickTarget
+	local fiWithParam=Lume.fn(afterTargetPicked,spell)
+--	 _.parentstate.pickTarget(afterTargetPicked)
+	_.parentstate.pickTarget(fiWithParam)
+end
+
+
+
 
 local onSpellKeyPressed=function(spell)
 	log("Before cast spell:"..pack(spell))
 	
 	if spell.isTargeted then
-		local tX,tY=pickTarget()
-		
-		if tX~=nil and tY~=nil then
--- wip			
---			command.targetX=tX
---			command.targetY=tY
-		end
+		startPickTarget(spell)
 	else
 		doCastSpell(spell)
 	end

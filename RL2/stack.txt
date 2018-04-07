@@ -1,4 +1,5 @@
-	
+
+		target selected once, then no spells
 	apply target code path
 	как родительский не дравит себя на таргетинге?+
 	esc from spell target  then spell+
