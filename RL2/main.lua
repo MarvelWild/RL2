@@ -151,6 +151,7 @@ love.load=function()
 	end
 	
 	Registry=require "shared/registry"
+	Registry.lateInit()
 	tryCall(S.rootState.activate)
 end
 

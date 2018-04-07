@@ -1,3 +1,5 @@
+-- text input part
+-- visual part is log substate
 local _={}
 
 

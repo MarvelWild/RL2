@@ -106,3 +106,64 @@ end
 key_is_enter=function(key)
 	return key=="return" or key=="kpenter"
 end
+
+
+-- read input from keypad
+-- y[down-|up+]
+get_direction_8=function(key)
+	local x=nil
+	local y=nil
+	
+	if key==C.moveRight then
+		x=1
+		y=0
+	elseif key==C.moveLeft then
+		x=-1
+		y=0
+	elseif key==C.moveUp then
+		y=1
+		x=0
+	elseif key==C.moveDown then
+		y=-1
+		x=0
+	elseif key==C.moveUpLeft then
+		y=1
+		x=-1
+	elseif key==C.moveUpRight then
+		y=1
+		x=1
+	elseif key==C.moveDownLeft then
+		y=-1
+		x=-1
+	elseif key==C.moveDownRight then
+		y=-1
+		x=1
+	end
+		
+	return x,y
+end
+
+-- grid to pixel
+coord_cell_to_game=function(cellX, cellY)
+	local player=W.player
+	
+	local relToPlayerX=cellX-player.x
+	local relToPlayerY=cellY-player.y
+	
+	local gameX=Ui.gamebox.playerX+(relToPlayerX*C.tileSize)
+	local gameY=Ui.gamebox.playerY+(-relToPlayerY*C.tileSize)
+	
+	return gameX,gameY
+end
+
+
+xy=function(x,y)
+	if type(x) == "table" then
+		assert(y==nil)
+		y=x.y
+		x=x.x
+	end
+	
+	
+	return x..","..y
+end

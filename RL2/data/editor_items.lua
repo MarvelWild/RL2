@@ -1,3 +1,4 @@
+-- todo: брать characters from registry
 local _={
 	{
 		["type"]="ground",
@@ -31,30 +32,34 @@ local _={
 		["type"]="ground",
 		["ground_type"]="water",
 	},
-	{
-		["type"]="character",
-		["character_type"]="frog",
-	},
-	{
-		["type"]="character",
-		["character_type"]="skeleton",
-	},
-	{
-		["type"]="character",
-		["character_type"]="cat",
-	},
-	{
-		["type"]="character",
-		["character_type"]="octopod",
-	},
-	{
-		["type"]="character",
-		["character_type"]="skelebat",
-	},	
-	{
-		["type"]="character",
-		["character_type"]="necromancer",
-	},		
+--	{
+--		["type"]="character",
+--		["character_type"]="frog",
+--	},
+--	{
+--		["type"]="character",
+--		["character_type"]="skeleton",
+--	},
+--	{
+--		["type"]="character",
+--		["character_type"]="cat",
+--	},
+--	{
+--		["type"]="character",
+--		["character_type"]="octopod",
+--	},
+--	{
+--		["type"]="character",
+--		["character_type"]="skelebat",
+--	},	
+--	{
+--		["type"]="character",
+--		["character_type"]="necromancer",
+--	},		
+--	{
+--		["type"]="character",
+--		["character_type"]="eyemold",
+--	},
 	{
 		["type"]="feature",
 		["feature_type"]="portal",
@@ -96,6 +101,17 @@ local _={
 		["item_type"]="hat_green",
 	},
 }
+
+local addCharacters=function()
+	for charType,v in pairs(Registry.spriteNameByCharacterType) do
+		local item={type="character", character_type=charType}
+		table.insert(_,item)
+	end
+	
+end
+
+
+addCharacters()
 
 
 return _

@@ -2,3 +2,5 @@ Developer KB
 
 Substate blocks parents:
 	see spell_cast
+	
+стейты иерархичны. компоненты плоски.

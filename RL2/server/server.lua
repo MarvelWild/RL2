@@ -66,7 +66,6 @@ end
 _.sendTurn=function(client,clientId,requestId)
 	local response={}
 	response.responseType="turn"
-	-- clientWorld.requestId=data.requestId
 	response.time=W.time
 	
 	response.player=client.player

@@ -1,5 +1,7 @@
 local _={}
 
+--local _cursorWaitArrow = love.mouse.getSystemCursor("waitarrow")
+
 -- ссылка на родительский стейт
 _.client=nil
 
@@ -142,6 +144,7 @@ local openInventory=function()
 end
 
 local openAbilities=function()
+	log("opening abilities")
 	local abilities=require "client/substate/abilities"
 	_.addSubstate(abilities)
 end
@@ -253,6 +256,8 @@ end
 
 
 local drawCells=function()
+	local player=W.player
+	
 	-- в тайлах
 	local fov=W.player.fov
 	
@@ -268,7 +273,7 @@ local drawCells=function()
 	local startPixelY=Ui.gamebox.playerY
 	
 	
-	local player=W.player
+	
 	
 	local uiLayer={}
 	
@@ -344,8 +349,13 @@ local drawCells=function()
 	end
 	
 	for k,v in pairs(uiLayer) do v() end
+
+end -- drawTiles()
+
+local drawPlayer=function()
+		
+	local player=W.player
 	
-	--self
 	local playerSprite
 	if player.isDead then
 		playerSprite=Img.ghost
@@ -354,21 +364,25 @@ local drawCells=function()
 	end
 
 	
+	-- make player transparent when waiting for blocking response
 	if _.locked then
 		LG.setColor(1,1,1,0.5)
+		-- это на разных системах по разному, поэтому не юзаем
+		-- love.mouse.setCursor(_cursorWaitArrow)
 	end
 	
 	LG.draw(playerSprite, Ui.gamebox.playerX, Ui.gamebox.playerY)
 	
 	if _.locked then
 		LG.setColor(1,1,1,1)
+		-- love.mouse.setCursor()
 	end
 	
 	LG.print(W.player.name, Ui.gamebox.playerX, Ui.gamebox.playerY-12)
 	
 	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
 	LG.printf("Cell:"..TSerial.pack(playerCell),650,450,280, "left")
-end -- drawTiles()
+end
 
 
 local startGame=function(response)
@@ -376,6 +390,14 @@ local startGame=function(response)
 	--log("get_full_state result:"..TSerial.pack(response))
 	W=response
 	table.insert(S.keyPressedListeners, onKeyPressed)
+end
+
+-- afterPicked(x,y)
+_.pickTarget=function(afterPicked)
+	_.isDrawSelf=true
+	local state=require "client/substate/pick_target"
+	_.addSubstate(state)
+	state.afterPicked=afterPicked
 end
 
 
@@ -390,9 +412,6 @@ _.activate=function()
 	_.client.responseHandlers.ok=onOkReceived
 	
 	CScreen.init(960, 540, true)
-	
-	local logSubstate=require "client/substate/log"
-	_.addSubstate(logSubstate)
 	
 	if S.isEditor then
 		_.enterEditorMode()
@@ -417,6 +436,8 @@ end
 local doDraw=function()
 	ui.draw()
 	drawCells()
+	drawPlayer()
+	_.client.logComponent.draw()
 end
 
 
@@ -427,26 +448,12 @@ _.draw=function()
 	if W.player==nil then return end
 	
 	
-	if _.isDrawSelf then
-		doDraw()
-	else
-		doDraw()
-		love.graphics.setColor(0, 0.1, 0.1, 0.8)
+	doDraw()
+	if not _.isDrawSelf then
+		love.graphics.setColor(0, 0.2, 0.2, 0.8)
 		
 		local width, height = love.window.getMode( )
 		LG.rectangle("fill",0,0,width,height)
-		
-		--berserk test
-		--love.graphics.setColor( 255, 42, 42, 255)
-		
-		--random fun
---		local c=love.graphics.getColor()
---		local rc=function()
---			return love.math.random(255)
---		end
-		
---		love.graphics.setColor(rc(), rc(), rc(), 42)
-		
 		
 		love.graphics.setColor( 1, 1, 1, 1)
 	end

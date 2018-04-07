@@ -19,6 +19,15 @@ _.heal=function(params,player)
 	Player.heal(player, params.amount)
 end
 
+_.polymorph=function(params,player)
+	log("casting polymorph")
+	-- wip cast on others
+	
+	player.spriteName=Lume.randomchoice(Registry.playerPresets).spriteName
+	
+end
+
+
 
 
 return _

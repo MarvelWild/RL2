@@ -1,10 +1,19 @@
 
-	internal debugger
-задвоение сетевого игрока
+esc from spell target  then spell
+
+
+
+
+	таргетинг
+	описать+
+полиморф спелл
+	internal debugger+
+задвоение сетевого игрока - не воспр+
 item+
 
 
-полиморф спелл
+abilities bug no shade+ (keypress path wont return true)
+
 
 	концепт времени - реалтайм гроу
 семечко
@@ -12,6 +21,8 @@ item+
 
 blink into wall (check DC for fun)
 
+	сделать его компонентом+
+чат не димится+
 multi level support+
 login/logout update+
 player pos-player status update+

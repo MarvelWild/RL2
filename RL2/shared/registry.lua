@@ -25,7 +25,7 @@ end
 
 
 --- DATA
-_.editorItems=require("data/editor_items")
+
 
 
 
@@ -39,25 +39,7 @@ _.spriteNameByFeatureType=
 	["altar_cards"]="altar_cards",
 }
 
-_.playerPresets=
-{
-	{
-		name="Ogre",
-		spriteName="ogre_dcss_32",
-	},
-	{
-		name="Troll",
-		spriteName="troll_green",
-	},
-	{
-		name="Sorceress",
-		spriteName="sorceress"
-	},
-	{
-		name="Skeleimp",
-		spriteName="skeleimp"
-	},
-}
+_.playerPresets=require("data/player_presets")
 
 
 -- CLIENT ONLY
@@ -93,6 +75,7 @@ addCharacter("cat","cat_1")
 addCharacter("octopod","octopod_red")
 addCharacter("skelebat","skelebat")
 addCharacter("necromancer","necromancer")
+addCharacter("eyemold","eyemold")
 
 _.addWall("stone", "wall_stone")
 _.addWall("bones", "wall_bones_1")
@@ -102,6 +85,13 @@ _.spriteInfoByItemType=
 {
 	hat_green={spriteName="hat_green", sprite=Img.hat_green},
 }
+
+
+
+-- stuff that depends on Registry
+_.lateInit=function()
+	_.editorItems=require("data/editor_items")
+end
 
 return _
 	

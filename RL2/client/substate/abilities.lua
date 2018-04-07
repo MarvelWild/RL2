@@ -13,10 +13,12 @@ _.draw=function()
 end
 
 _.activate=function()
+	log("abilities activate")
 	_.parentstate.isDrawSelf=false
 end
 
 _.deactivate=function()
+	log("abilities deactivate")
 	_.parentstate.isDrawSelf=true
 end
 

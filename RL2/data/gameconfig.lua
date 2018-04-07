@@ -27,9 +27,10 @@ C.keyCastSpell="c"
 C.keyInventory="i"
 C.keyAbilities="a"
 C.editorPlaceItem="space"
+C.pickTarget=C.editorPlaceItem
 C.keyDebugger="f11"
 
-C.editorRows=6
+C.editorRows=8
 C.editorCols=4
 
 C.editorCurrentRow=1

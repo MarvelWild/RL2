@@ -13,7 +13,13 @@ local drawItem=function(item,cellX,cellY)
 		LG.draw(itemDrawable, worldX, worldY)
 	elseif item.type=="character" then
 		local drawable=Registry.spriteByCharacterType[item.character_type]
-		LG.draw(drawable, worldX, worldY)
+		if drawable==nil then
+			LG.print("reg:addCharacter", worldX, worldY)
+		else
+			LG.draw(drawable, worldX, worldY)
+		end
+		
+		
 	elseif item.type=="feature" then
 		local drawable=Registry.spriteByFeatureType[item.feature_type]
 		LG.draw(drawable, worldX, worldY)

@@ -15,6 +15,7 @@ end
 
 _.newByCharacterType=function(characterType)
 	local spriteName=Registry.spriteNameByCharacterType[characterType]
+	assert(spriteName~=nil)
 	local hp=30
 	local result=_.new(spriteName,hp)
 	return result
