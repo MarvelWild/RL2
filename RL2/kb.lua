@@ -17,3 +17,33 @@
 	: limit search to that file(s?)
 	[ZeroBrane Tips and tricks](https://studio.zerobrane.com/doc-tips-and-tricks)
 --]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--[[
+Rider | Unity | Sketch Crawl
+	Expand all _Ctrl-Shift-Num+_
+	Collapse all _F12_
+	Max focus _F8_
+
+
+]]--

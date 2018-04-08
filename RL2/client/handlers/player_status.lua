@@ -21,6 +21,8 @@ local player_status=function(data)
 	
 		if updatedPlayer.level==W.player.level and updatedPlayer.isLoggedIn then
 			local newCell=Level.getCell(W.cells, updatedPlayer.x,updatedPlayer.y)
+			
+			-- баг? надо осторожно с .players - оно не гарантировано
 			if newCell.players==nil then newCell.players={} end
 			table.insert(newCell.players, updatedPlayer)
 		end

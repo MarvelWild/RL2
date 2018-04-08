@@ -30,18 +30,23 @@ local afterCast=function()
 	_.parentstate.delSubstate(_)
 end
 
-local doCastSpell=function(spell)
+local doCastSpell=function(spell,x,y)
+	spell.x=x
+	spell.y=y
 	local command={cmd="spell_cast", spell=spell}
 	isInputLocked=true
 	_.parentstate.client.send(command, afterCast)
 end
 
 local afterTargetPicked=function(spell, cellX,cellY)
-	log("after target picked")
+	log("after target picked:"..xy(cellX,cellY))
 	isTargeting=false
-	doCastSpell(spell)
 	
-	-- wip coords
+	if cellX~=nil then
+		doCastSpell(spell,cellX,cellY)
+	else
+		-- ok, stay at spellcast state
+	end
 end
 
 

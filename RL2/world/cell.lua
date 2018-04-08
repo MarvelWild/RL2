@@ -15,7 +15,11 @@ _.new=function(x,y)
 	
 	result.wall=nil
 	
-	-- заполняется при передаче клиенту
+	-- заполняется при передаче клиенту (todo: искать: )
+	-- поячейково только передаваемая область: cell.players=getActivePlayersAt(player,x,y)
+	-- сразу всех, для серверных обработок: Level.updatePlayers
+	
+	-- если же нужно получить - использовать 
 	result.players=nil
 	
 	result.items=nil
@@ -30,6 +34,7 @@ _.new=function(x,y)
 	return result
 end
 
+-- не гарантирует результат (см cell.players)
 _.findPlayer=function(cell, playerId)
 	if cell.players~=nil then
 		for playerKey,player in pairs(cell.players) do

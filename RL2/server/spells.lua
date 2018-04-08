@@ -21,9 +21,22 @@ end
 
 _.polymorph=function(params,player)
 	log("casting polymorph")
-	-- wip cast on others
 	
-	player.spriteName=Lume.randomchoice(Registry.playerPresets).spriteName
+	local level=W.levels[player.level]
+	local cell=Level.getCell(level.cells,params.x,params.y)
+	
+	local entity=cell.entity
+	if entity~=nil then
+		entity.spriteName=Lume.randomchoice_anytable(Registry.spriteNameByCharacterType)
+	end
+	
+	local cellPlayers=Server.getActivePlayersAtCell(player.level,params.x,params.y)
+	
+	if cellPlayers~=nil then
+		for k,cellPlayer in pairs(cellPlayers) do
+			cellPlayer.spriteName=Lume.randomchoice(Registry.playerPresets).spriteName
+		end
+	end
 	
 end
 

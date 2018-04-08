@@ -1,11 +1,20 @@
 
-		target selected once, then no spells
-	apply target code path
+		отмена прицеливания кастует спелл+
+		target selected once, then no spells+
+	apply target code path+
 	как родительский не дравит себя на таргетинге?+
 	esc from spell target  then spell+
-	таргетинг
+	таргетинг+
 	описать+
-полиморф спелл
+		Lume.randomchoice - для свободной таблицы+
+	сервер сайд+
+		
+				для одной ячейки : 
+			для негарантированных функция гарантирования?
+			W.players?
+		описать где игроки хранятся (cell.players not guaranteed)
+	игрока
+полиморф спелл+
 	internal debugger+
 задвоение сетевого игрока - не воспр+
 item+

@@ -164,6 +164,8 @@ xy=function(x,y)
 		x=x.x
 	end
 	
+	if x==nil then x="nil" end
+	if y==nil then y="nil" end
 	
 	return x..","..y
 end

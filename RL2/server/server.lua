@@ -12,13 +12,30 @@ _.commandHandlers={}
 
 
 -- current excluded
-local getActivePlayersAt=function(currentPlayer,x,y)
+local getActivePlayersAt=function(currentPlayer,x,y,levelName)
 	-- opt:could be index by xy
 	local result=nil
 	for k,client in pairs(_.clients) do
 		local player=client.player
 		if player~=nil and player.level==currentPlayer.level then
 			if player.x==x and player.y==y and player~=currentPlayer then
+				if result==nil then result={} end
+				table.insert(result, player)
+			end
+		end
+	end
+	
+	return result
+end
+
+
+_.getActivePlayersAtCell=function(levelName,x,y)
+	-- opt:could be index by xy
+	local result=nil
+	for k,client in pairs(_.clients) do
+		local player=client.player
+		if player~=nil and player.level==levelName then
+			if player.x==x and player.y==y then
 				if result==nil then result={} end
 				table.insert(result, player)
 			end
