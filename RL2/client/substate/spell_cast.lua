@@ -12,11 +12,12 @@ _.draw=function()
 	if _.spells==nil then
 		LG.print("loading")
 	else
+		LG.print("SPELLS")
 		
 		local y=50
-		for k,v in pairs(_.spells) do
+		for k,v in ipairs(_.spells) do
 			LG.print(string.abcChar(k)..":"..pack(v),10,y)
-			y=y-20
+			y=y+20
 		end
 		
 	end
@@ -53,7 +54,6 @@ end
 local startPickTarget=function(spell)
 	-- log("Targeting")
 	
-	-- wip: unlock after targeting
 	assert(not isInputLocked)
 	
 	isTargeting=true

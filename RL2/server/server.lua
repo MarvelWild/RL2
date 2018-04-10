@@ -264,7 +264,7 @@ end
 _.sendPlayerStatus=function(client,isForce)
 	log("sendPlayerStatus:"..pack(client))
 	
-	assert(client.player~=nil)
+	if client.player==nil then return end
 	
 	local data={responseType="player_status",player=client.player}
 	

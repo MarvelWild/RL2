@@ -20,6 +20,7 @@ C.moveDownRight="kp3"
 C.moveDown="kp2"
 C.moveDownLeft="kp1"
 C.climbDown="."
+C.pickupItem=","
 
 C.editorActivate="e"
 C.testCommand="t"
@@ -37,10 +38,6 @@ C.editorCurrentRow=1
 C.editorCurrentCol=1
 
 C.tileSize=32
-
-C.lastId={}
-C.lastId.player=1
-
 
 
 return C

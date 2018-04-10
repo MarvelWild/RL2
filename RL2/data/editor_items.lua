@@ -104,6 +104,10 @@ local _={
 		["type"]="item",
 		["item_type"]="hat_green",
 	},
+	{
+		["type"]="item",
+		["item_type"]="seed",
+	},
 }
 
 local addCharacters=function()

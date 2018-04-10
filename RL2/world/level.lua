@@ -10,6 +10,9 @@ end
 
 
 _.getCell=function(cells,x,y)
+	assert(x~=nil)
+	assert(y~=nil)
+	
 	local col = cells[x]
 	if col == nil then
 		col={}

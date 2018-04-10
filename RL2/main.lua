@@ -33,6 +33,7 @@ S.isServer=Lume.find(arg, "server")~=nil or Lume.find(arg, "s")~=nil
 S.isEditor=(not S.isServer) and (Lume.find(arg, "editor")~=nil or Lume.find(arg, "e")~=nil)
 S.keyPressedListeners={} -- это уйдёт, инпут пустить по цепочке стейтов, начиная с нижнего
 S.keysDown={}
+S.saveDir=nil
 
 -- Config
 local configFile="config"
@@ -48,15 +49,21 @@ require "data/const"
 C=require "data/gameconfig"
 
 
+
 if S.isServer then
 	saveDir=C.ServerSaveDir 
 	
 	love.window.setTitle("Server: "..love.window.getTitle( ))
 	love.window.setPosition(0,300)
+	
 else 
 	saveDir=C.QuickSaveDir 
 	love.window.setTitle("Client: "..love.window.getTitle( ))
 end
+S.saveDir=saveDir
+
+Id=require "tech/id"
+
 
 -- delete data (clear start)
 if Lume.find(arg, "d")~=nil then
@@ -140,7 +147,7 @@ Ui=require "data/ui"
 
 
 love.load=function()
-	
+	Id.load()
 	if S.isServer then 
 		S.rootState=require "server/server" 
 		Server=S.rootState
@@ -199,6 +206,8 @@ end
 local saveConfig=function()
 	local configPacked=TSerial.pack(C)
 	love.filesystem.write(saveDir..configFile, configPacked)
+	
+	Id.save()
 end
 
 function love.resize(...)

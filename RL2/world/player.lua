@@ -2,9 +2,7 @@
 local Player={}
 
 local newId=function()
-	local result = C.lastId.player
-	C.lastId.player=C.lastId.player+1
-	return result
+	return Id.new("player")
 end
 
 
@@ -27,6 +25,7 @@ Player.new=function(preset)
 	r.spriteName=preset.spriteName
 	r.isEditor=false
 	r.isLoggedIn=false;
+	r.inventory={}
 	return r
 end
 

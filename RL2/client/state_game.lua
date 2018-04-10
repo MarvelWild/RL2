@@ -27,12 +27,6 @@ local ui=require("client/game_ui")
 
 
 _.addSubstate=function(substate)
-	
--- wip: manual deact	
---	local prevState=_.substate
---	if prevState~=nil then
---		tryCall(prevState.deactivate)
---	end
 	table.insert(_.substates, substate)
 	substate.parentstate=_
 	tryCall(substate.activate)
@@ -64,6 +58,13 @@ local unlock=function(response)
 	_.lockInfo=nil
 end
 
+local dispatchCommand=function(command, isLocking, callback)
+	_.client.send(command, callback)
+	
+	if isLocking then
+		lockInput(command)
+	end
+end
 
 _.enterEditorMode=function()
 	-- if S.isEditor then return end
@@ -76,20 +77,11 @@ _.enterEditorMode=function()
 	-- todo: после разрешения от сервера
 	_.addSubstate(editorSubstate)
 	
-	_.dispatchCommand({cmd="enter_editor_mode"}, true, unlock)
+	dispatchCommand({cmd="enter_editor_mode"}, true, unlock)
 end
 
 -- 
-_.dispatchCommand=function(command, isLocking, callback)
-	--table.insert(_.commandsThisTurn,command)
-	
-	-- криво. лучше лок отдельно сделать.
-	_.client.send(command, callback)
-	
-	if isLocking then
-		lockInput(command)
-	end
-end
+
 
 local commandMove=function(x,y)
 	local command={
@@ -98,7 +90,7 @@ local commandMove=function(x,y)
 		y=y
 	}
 	
-	_.dispatchCommand(command,true)
+	dispatchCommand(command,true)
 end
 
 --local onFeatureActivated=function(response)
@@ -115,7 +107,7 @@ local activateFeature=function()
 	
 	-- generic turn as callback
 	-- or generic ok
-	_.dispatchCommand(command,true)--,onFeatureActivated)
+	dispatchCommand(command,true)--,onFeatureActivated)
 	
 	
 end
@@ -154,6 +146,29 @@ local openDebugger=function()
 	_.addSubstate(state)
 end
 
+
+local startPickupItems=function()
+	log("startPickupItems")
+	local currentCell=Level.getCell(W.cells,W.player.x,W.player.y)
+	if currentCell.items~=nil then
+		log("cell has items")
+		
+		local command={}
+		command.cmd="pickup_item"
+		command.x=W.player.x
+		command.y=W.player.y
+		command.itemIds={}
+		for k,item in pairs(currentCell.items) do
+			table.insert(command.itemIds,item.id)
+		end
+		
+		dispatchCommand(command,true,unlock)
+		
+	else
+		log("no items")
+	end
+	
+end
 
 
 local onKeyPressed=function(key, unicode)
@@ -218,11 +233,11 @@ local onKeyPressed=function(key, unicode)
 			rand=love.math.random(1000),
 		}
 
-		_.dispatchCommand(command,false)
+		dispatchCommand(command,false)
 		command.rand=love.math.random(1000)
-		_.dispatchCommand(command,false)
+		dispatchCommand(command,false)
 		command.rand=love.math.random(1000)
-		_.dispatchCommand(command,false)
+		dispatchCommand(command,false)
 	elseif key==C.keyCastSpell then
 		startCastSpell()
 	elseif key==C.keyInventory then
@@ -230,7 +245,9 @@ local onKeyPressed=function(key, unicode)
 	elseif key==C.keyAbilities then
 		openAbilities()
 	elseif key==C.keyDebugger then
-		openDebugger()	
+		openDebugger()
+	elseif key==C.pickupItem then
+		startPickupItems()
 	end
 	
 	if isMoving then
@@ -489,5 +506,9 @@ _.textinput=function(t)
 	end
 end
 
+
+-- exports
+
+_.dispatchCommand=dispatchCommand
 
 return _

@@ -89,6 +89,7 @@ _.addWall("iron", "wall_iron")
 _.spriteInfoByItemType=
 {
 	hat_green={spriteName="hat_green", sprite=Img.hat_green},
+	seed={spriteName="seed", sprite=Img.seed},
 }
 
 

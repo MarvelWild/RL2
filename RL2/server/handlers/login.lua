@@ -1,7 +1,7 @@
 local login=function(data,clientId)
 	for clId,client in pairs(Server.clients) do
 		if client.login==data.login then
-			log("WIP: Disconnect existing session")
+			log("todo: Disconnect existing session")
 		end
 	end
 	

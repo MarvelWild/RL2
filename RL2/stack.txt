@@ -1,34 +1,27 @@
 
-		отмена прицеливания кастует спелл+
-		target selected once, then no spells+
-	apply target code path+
-	как родительский не дравит себя на таргетинге?+
-	esc from spell target  then spell+
-	таргетинг+
-	описать+
-		Lume.randomchoice - для свободной таблицы+
-	сервер сайд+
+
+actions for inventory selection
+
 		
-				для одной ячейки : 
-			для негарантированных функция гарантирования?
-			W.players?
-		описать где игроки хранятся (cell.players not guaranteed)
-	игрока
-полиморф спелл+
-	internal debugger+
-задвоение сетевого игрока - не воспр+
-item+
-
-
-abilities bug no shade+ (keypress path wont return true)
-
-
 	концепт времени - реалтайм гроу
+	спрайт+
 семечко
 
 
 blink into wall (check DC for fun)
 
+
+
+
+
++no items on first open (bug), but there are on second (ok)
+inventory items selection+
+	display in inventory+
+		identify picked items? id+
+	send to server id list+
+items pickup ","+
+	дать новому игроку и новому мобу+
+инвентарь+
 	сделать его компонентом+
 чат не димится+
 multi level support+
@@ -37,21 +30,21 @@ player pos-player status update+
 draw all players name+
 	server responds with log update+
 чат в минимализме+
-	tiled import support
-	tileset support
-брейк новый тайлик
+tiled import support
+tileset support
+брейк новый тайлик+
 
-инвентарь
+
 хочу игры, но и кодинг моя игра
 
-	концепт есть лог, и есть поле чата
+	концепт есть лог, и есть поле чата+
 	
-	multi substate support
-	client log
-		activate chat substate
+	multi substate support+
+	client log+
+		activate chat substate+
 		react to key+
-	start chat (enter in game state)
-talk
+	start chat (enter in game state)+
+talk+
 
 
 metagame-scoreboard
@@ -64,7 +57,28 @@ metagame-achievments
 spell blink+
 
 
-start screen
+		отмена прицеливания кастует спелл+
+		target selected once, then no spells+
+	apply target code path+
+	как родительский не дравит себя на таргетинге?+
+	esc from spell target  then spell+
+	таргетинг+
+	описать+
+		Lume.randomchoice - для свободной таблицы+
+	сервер сайд+
+				для одной ячейки : + в левеле
+			для негарантированных функция гарантирования?
+			W.players
+		описать где игроки хранятся (cell.players not guaranteed)
+	игрока+
+полиморф спелл+
+	internal debugger+
+задвоение сетевого игрока - не воспр+
+item+
+
+
+abilities bug no shade+ (keypress path wont return true)
+start screen+
 name enter+
 check text editor (internet baby)-later+
 walls block way+	

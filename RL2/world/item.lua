@@ -3,6 +3,7 @@ local _={}
 _.new=function(itemType)
 	local result={}
 	local spriteInfo=Registry.spriteInfoByItemType[itemType]
+	result.id=Id.new("item")
 	result.spriteName=spriteInfo.spriteName
 	
 	--result.sprite=Img[result.spriteName]
