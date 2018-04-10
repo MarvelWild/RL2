@@ -1,5 +1,7 @@
 
 
+	action send to server
+	action numbers show+
 actions for inventory selection
 
 		
