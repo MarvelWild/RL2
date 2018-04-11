@@ -47,6 +47,7 @@ if not S.isServer then
 	_.spriteByGroundType=
 	{
 		["grass"]=Img.floor_grass_1,
+		["grass_planted"]=Img.grass_planted_1,
 		["stone"]=Img.floor_stone_1,
 		["stone_red"]=Img.floor_stone_red,
 		["lava"]=Img.floor_lava,

@@ -6,6 +6,10 @@ local _={
 	},
 	{
 		["type"]="ground",
+		["ground_type"]="grass_planted",
+	},	
+	{
+		["type"]="ground",
 		["ground_type"]="sand",
 	},
 	{

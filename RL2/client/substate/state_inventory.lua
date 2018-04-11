@@ -4,7 +4,7 @@ _.parentstate=nil
 
 _.name="Inventory"
 
-local inventory=nil
+-- local inventory=nil
 local actions=nil
 local isInputLocked=false
 
@@ -45,9 +45,15 @@ local sortFn = function(a, b) return a.id < b.id end
 
 _.activate=function()
 	_.parentstate.isDrawSelf=false
-	inventory=W.player.inventory
+	local inventory=W.player.inventory
+	local inventoryIndexed={}
+	for k,v in pairs(inventory) do
+		table.insert(inventoryIndexed,v)
+	end
 	
-	inventoryData=Lume.sort(W.player.inventory, sortFn)
+	
+	log("before sort:"..pack(inventoryIndexed))
+	inventoryData=Lume.sort(inventoryIndexed, sortFn)
 	
 	selectedIds={}
 	actions={}
@@ -127,7 +133,7 @@ _.onKeyPressed=function(key)
 	-- item selection
 	
 	local abcPos=string.abcPos(key)
-	local item=inventory[abcPos]
+	local item=inventoryData[abcPos]
 	if item~=nil then
 		toggleSelection(item)
 		return true
