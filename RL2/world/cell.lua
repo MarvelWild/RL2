@@ -34,6 +34,14 @@ _.new=function(x,y)
 	return result
 end
 
+_.clear=function(cell)
+	cell.items=nil
+	cell.wall=nil
+	cell.entity=nil
+	cell.feature=nil
+	cell.ground_type=nil
+end
+
 -- не гарантирует результат (см cell.players)
 _.findPlayer=function(cell, playerId)
 	if cell.players~=nil then

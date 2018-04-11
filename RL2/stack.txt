@@ -1,10 +1,14 @@
 
 
-	action send to server
-	action numbers show+
-actions for inventory selection
+editor delete
 
-		
+	editor item+
+	sprites+
+door
+
+
+
+		спрайты состояния
 	концепт времени - реалтайм гроу
 	спрайт+
 семечко
@@ -15,6 +19,14 @@ blink into wall (check DC for fun)
 
 
 
+	action send to server+
+	action numbers show+
+actions for inventory selection+
+
+
+	players+
+	levels+
+split save+
 
 +no items on first open (bug), but there are on second (ok)
 inventory items selection+

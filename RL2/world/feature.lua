@@ -8,8 +8,14 @@ _.new=function(featureType)
 	
 	result.featureType=featureType
 	if featureType=="portal" then
-		
 		result.dest="level2"
+		
+		-- todo: implement
+		result.destX=0
+		result.destY=0
+	elseif featureType=="door" then
+		result.isOpen=false
+		result.spriteName="door_closed"
 	end
 	
 	

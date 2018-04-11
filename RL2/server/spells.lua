@@ -22,7 +22,7 @@ end
 _.polymorph=function(params,player)
 	log("casting polymorph")
 	
-	local level=W.levels[player.level]
+	local level=Levels[player.level]
 	local cell=Level.getCell(level.cells,params.x,params.y)
 	
 	local entity=cell.entity

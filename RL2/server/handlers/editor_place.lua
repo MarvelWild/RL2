@@ -4,7 +4,7 @@ local editor_place=function(data,clientId)
 	local client = Server.clients[clientId]
 	
 	local player=client.player
-	local level=W.levels[player.level]
+	local level=Levels[player.level]
 	
 --	dump(level.cells, "editor_place")
 	

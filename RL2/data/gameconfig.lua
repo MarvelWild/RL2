@@ -6,6 +6,8 @@ C.clientLogin="MW"
 C.QuickSaveDir="quicksave/"
 C.ServerSaveDir="server_save/"
 C.WorldSaveName="world"
+C.PlayersSaveDir="players/"
+C.LevelsSaveDir="levels/"
 
 
 --C.ViewRadiusTilesX=5 -- -> player.fov 
@@ -28,6 +30,7 @@ C.keyCastSpell="c"
 C.keyInventory="i"
 C.keyAbilities="a"
 C.editorPlaceItem="space"
+C.editorDeleteItem="delete"
 C.pickTarget=C.editorPlaceItem
 C.keyDebugger="f11"
 

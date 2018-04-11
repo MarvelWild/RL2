@@ -4,7 +4,7 @@ local pick_player=function(data,clientId)
 	local isEditor=data.isEditor
 	
 	local player=nil
-	for k,v in pairs(W.players) do
+	for k,v in pairs(Players) do
 		if v.id==playerId then 
 			player=v
 			break

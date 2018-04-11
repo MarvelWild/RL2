@@ -51,7 +51,7 @@ local getVisibleCells=function(player)
 	local startY=player.y-player.fov
 	local endY=player.y+player.fov
 	
-	local level=W.levels[player.level]
+	local level=Levels[player.level]
 	
 	local result={}
 	
@@ -127,10 +127,10 @@ _.commandHandlers.preset_picked=function(data,clientId)
 	local player=Player.new(preset)
 	player.isLoggedIn=true
 	local client=_.clients[clientId]
-	W.players[client.login]=player
+	Players[client.login]=player
 	client.player=player
 	
-	local test=W.players[client.login]
+	local test=Players[client.login]
 	_.send({"ok"}, clientId, data.requestId)
 end
 
@@ -202,9 +202,21 @@ local loadWorld=function()
 		local packed=love.filesystem.read(file)
 		W=TSerial.unpack(packed)
 	end
+	
+	local playersDir=C.ServerSaveDir..C.PlayersSaveDir
+	local playerSaves=love.filesystem.getDirectoryItems(playersDir)
+	for k,login in pairs(playerSaves) do
+		local packed=love.filesystem.read(playersDir..login)
+		Players[login]=TSerial.unpack(packed)
+	end
+	
+	local levelsDir=C.ServerSaveDir..C.LevelsSaveDir
+	local levelSaves=love.filesystem.getDirectoryItems(levelsDir)
+	for k,levelName in pairs(levelSaves) do
+		local packed=love.filesystem.read(levelsDir..levelName)
+		Levels[levelName]=TSerial.unpack(packed)
+	end
 end
-
-
 
 _.activate=function()
 	loadWorld()
@@ -226,6 +238,24 @@ local save = function()
 	
 	local worldPacked=TSerial.pack(W,true,true)
 	love.filesystem.write(saveDir..C.WorldSaveName, worldPacked)
+	
+	local playersDir=saveDir..C.PlayersSaveDir
+	love.filesystem.createDirectory(playersDir)
+	
+	for login,player in pairs(Players) do
+		local playerPacked=pack(player,true,true)
+		love.filesystem.write(playersDir..login,playerPacked)
+	end
+	
+	local levelsDir=saveDir..C.LevelsSaveDir
+	love.filesystem.createDirectory(levelsDir)
+	
+	for levelName,level in pairs(Levels) do
+		local levelPacked=pack(level,true,true)
+		love.filesystem.write(levelsDir..levelName,levelPacked)
+	end
+	
+	
 end
 
 _.deactivate=function()
@@ -234,10 +264,6 @@ end
 
 
 _.draw=function()
---	local servInfo="LRL server. Players:".._.clientCount.."\n"
---	servInfo=servInfo..Inspect.inspect(W.players)
---	LG.print(servInfo)
-
 	local servInfo="LRL server. Clients:".._.clientCount.."\n"
 	servInfo=servInfo..Inspect.inspect(_.clients)
 	LG.print(servInfo)

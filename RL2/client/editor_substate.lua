@@ -64,6 +64,17 @@ local moveFocus=function(dx,dy)
 	
 end
 
+local deleteCurrentItem=function()
+	local command={
+		cmd="editor_delete",
+		x=W.player.x,
+		y=W.player.y
+	}
+	
+	_.parentstate.dispatchCommand(command,true)
+end
+
+
 
 --called from parent state, not subscribed globally
 _.onKeyPressed=function(key, unicode)
@@ -99,19 +110,9 @@ _.onKeyPressed=function(key, unicode)
 			moveFocus(-1,-1)
 			isProcessed=true			
 		end
-	else 
---		if (key==C.moveRight or key==C.moveLeft or key==C.moveUp or key==C.moveDown) 
---			and love.keyboard.isDown(C.editorPlaceItem) 
---		then
---			placeItem(false)
---		end
-		
-	end -- kb.isDown C.editorActivate
-	
---	if key==C.editorPlaceItem then
---		placeItem(true)
---	end
-	
+	elseif key==C.editorDeleteItem then
+		deleteCurrentItem()
+	end 
 	
 	return isProcessed
 end

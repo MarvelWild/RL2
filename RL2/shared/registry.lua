@@ -33,10 +33,12 @@ _.spriteNameByFeatureType=
 {
 	["portal"]="portal",
 	["tree"]="tree",
+	["blue_growth"]="blue_growth",
 	["ladder_up"]="ladder_up",
 	["ladder_down"]="ladder_down",
 	["blood"]="blood_1",
 	["altar_cards"]="altar_cards",
+	["door"]="door_closed",
 }
 
 _.playerPresets=require("data/player_presets")
@@ -58,16 +60,10 @@ if not S.isServer then
 		["water_shallow"]=Img.water_shallow,
 	}
 	
-
-	_.spriteByFeatureType=
-	{
-		["portal"]=Img.portal,
-		["tree"]=Img.tree,
-		["ladder_up"]=Img.ladder_up,
-		["ladder_down"]=Img.ladder_down,
-		["blood"]=Img.blood_1,
-		["altar_cards"]=Img.altar_cards,
-	}
+	_.spriteByFeatureType={}
+	for k,v in pairs(_.spriteNameByFeatureType) do
+		_.spriteByFeatureType[k]=Img[v]
+	end
 end
 
 local addCharacter=_.addCharacter

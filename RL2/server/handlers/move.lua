@@ -7,7 +7,7 @@ local move=function(data, clientId)
 	
 	local canMove=true -- ok let ghost fly not player.isDead
 	
-	local level=W.levels[player.level]
+	local level=Levels[player.level]
 	local desiredCell=Level.getCell(level.cells,data.x,data.y)
 	
 	if not player.isEditor and not player.isDead then

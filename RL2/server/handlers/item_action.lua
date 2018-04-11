@@ -8,7 +8,7 @@ local item_action=function(data,clientId)
 	local inventory=player.inventory
 	
 	local actionCode=data.actionCode
-	local level=W.levels[player.level]
+	local level=Levels[player.level]
 	local cell=Level.getCell(level.cells,player.x,player.y)
 	
 	if actionCode=="plant" then

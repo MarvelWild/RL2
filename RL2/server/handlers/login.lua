@@ -11,7 +11,7 @@ local login=function(data,clientId)
 	
 	
 	-- здесь показываем всех доступных сейчас только 1
-	local player=W.players[data.login]
+	local player=Players[data.login]
 	
 	-- но биндим уже после выбора
 	--client.player=player

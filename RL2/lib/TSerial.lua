@@ -1,3 +1,5 @@
+-- examples: TSerial.pack(t, isSilentDrop, isIndent)
+
 --- TSerial v1.5, a simple table serializer which turns tables into Lua script
 -- @author Taehl (SelfMadeSpirit@gmail.com)
 

@@ -40,58 +40,6 @@ local _={
 		["type"]="ground",
 		["ground_type"]="water_shallow",
 	},	
---	{
---		["type"]="character",
---		["character_type"]="frog",
---	},
---	{
---		["type"]="character",
---		["character_type"]="skeleton",
---	},
---	{
---		["type"]="character",
---		["character_type"]="cat",
---	},
---	{
---		["type"]="character",
---		["character_type"]="octopod",
---	},
---	{
---		["type"]="character",
---		["character_type"]="skelebat",
---	},	
---	{
---		["type"]="character",
---		["character_type"]="necromancer",
---	},		
---	{
---		["type"]="character",
---		["character_type"]="eyemold",
---	},
-	{
-		["type"]="feature",
-		["feature_type"]="portal",
-	},
-	{
-		["type"]="feature",
-		["feature_type"]="tree",
-	},
-	{
-		["type"]="feature",
-		["feature_type"]="ladder_up",
-	},
-	{
-		["type"]="feature",
-		["feature_type"]="ladder_down",
-	},
-	{
-		["type"]="feature",
-		["feature_type"]="blood",
-	},	
-	{
-		["type"]="feature",
-		["feature_type"]="altar_cards",
-	},
 	{
 		["type"]="wall",
 		["wall_type"]="stone",
@@ -124,6 +72,15 @@ end
 
 
 addCharacters()
+
+local addFeatures=function()
+	for featType,v in pairs(Registry.spriteNameByFeatureType) do
+		local item={type="feature", feature_type=featType}
+		table.insert(_,item)
+	end
+end
+
+addFeatures()
 
 
 return _

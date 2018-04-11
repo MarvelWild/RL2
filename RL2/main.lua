@@ -115,11 +115,15 @@ W.time=1
 
 Level=require "world/level"
 if S.isServer then 
-	-- by login
-	W.players={}
-	W.levels={}
-	W.levels.start=Level.new()
-	W.levels.level2=Level.new()
+	-- key=login
+	Players={}
+	
+	-- key==name
+	Levels={}
+	
+	-- todo: dynamic
+	Levels.start=Level.new()
+	Levels.level2=Level.new()
 end
 
 
@@ -206,7 +210,7 @@ end
 
 
 local saveConfig=function()
-	local configPacked=TSerial.pack(C)
+	local configPacked=TSerial.pack(C,true,true)
 	love.filesystem.write(saveDir..configFile, configPacked)
 	
 	Id.save()

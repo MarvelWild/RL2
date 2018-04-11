@@ -22,7 +22,11 @@ local drawItem=function(item,cellX,cellY)
 		
 	elseif item.type=="feature" then
 		local drawable=Registry.spriteByFeatureType[item.feature_type]
-		LG.draw(drawable, worldX, worldY)
+		if drawable~=nil then
+			LG.draw(drawable, worldX, worldY)
+		else
+			LG.print("spriteByFeatureType",worldX,worldY)
+		end
 	elseif item.type=="wall" then		
 		local drawable=Registry.spriteByWallType[item.wall_type]
 		LG.draw(drawable, worldX, worldY)
