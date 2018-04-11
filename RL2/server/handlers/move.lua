@@ -1,3 +1,12 @@
+local afterMoved=function(player,cell,prevX,prevY)
+	if cell.feature~=nil then
+		if cell.feature.featureType=="door" then
+			cell.feature.spriteName="door_open"
+		end
+	end
+end
+
+
 local move=function(data, clientId)
 	local client=Server.clients[clientId]
 	local player=client.player
@@ -33,10 +42,14 @@ local move=function(data, clientId)
 		end
 	end
 	
+	local prevX=player.x
+	local prevY=player.y
 	
 	if canMove then
 		player.x=data.x
 		player.y=data.y
+		
+		afterMoved(player,desiredCell,prevX,prevY)
 	end
 	
 	Server.sendTurn(client, clientId, data.requestId)

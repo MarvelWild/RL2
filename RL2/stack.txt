@@ -2,6 +2,7 @@
 
 editor delete
 
+	auto open
 	editor item+
 	sprites+
 door
