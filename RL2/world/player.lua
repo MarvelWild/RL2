@@ -25,7 +25,7 @@ Player.new=function(preset)
 	r.spriteName=preset.spriteName
 	r.isEditor=false
 	r.isLoggedIn=false;
-	r.inventory={}
+	r.inventory={} -- indexed, handled by Inventory
 	return r
 end
 

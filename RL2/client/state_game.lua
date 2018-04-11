@@ -131,7 +131,7 @@ end
 
 
 local openInventory=function()
-	local state=require "client/substate/inventory"
+	local state=require "client/substate/state_inventory"
 	_.addSubstate(state)
 end
 

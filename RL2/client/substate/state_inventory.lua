@@ -6,6 +6,9 @@ _.name="Inventory"
 
 local inventory=nil
 local actions=nil
+local isInputLocked=false
+
+local inventoryData=nil
 
 
 -- table k=id v=item
@@ -16,7 +19,8 @@ _.draw=function()
 	
 	-- LG.print("You carry nothing", 10, 42)
 	local y=40
-	for k,item in ipairs(inventory) do
+	-- ipairs ломает удаление
+	for k,item in pairs(inventoryData) do
 		local text = pack(item)
 		if selectedIds[item.id] then text="+ "..text end
 		
@@ -37,9 +41,14 @@ _.draw=function()
 	end
 end
 
+local sortFn = function(a, b) return a.id < b.id end
+
 _.activate=function()
 	_.parentstate.isDrawSelf=false
 	inventory=W.player.inventory
+	
+	inventoryData=Lume.sort(W.player.inventory, sortFn)
+	
 	selectedIds={}
 	actions={}
 end
@@ -60,6 +69,8 @@ local addActionsForItem=function(item)
 	if item.type=="seed" then
 		addAction({name="Plant", code="plant"})
 	end
+	
+	addAction({name="Drop", code="drop"})
 end
 
 
@@ -68,7 +79,6 @@ local updateActions=function()
 	for id,item in pairs(selectedIds) do
 		addActionsForItem(item)
 	end
-	
 end
 
 local toggleSelection=function(item)
@@ -81,12 +91,32 @@ local toggleSelection=function(item)
 	updateActions()
 end
 
-local performAction=function(action)
+local afterAction=function(response)
+	log("inventory afterAction:"..pack(response))
 	
+	isInputLocked=false
+	_.parentstate.delSubstate(_)
+end
+
+
+local performAction=function(action)
+	local command=
+	{
+		cmd="item_action",
+		actionCode=action.code,
+		itemIds=Lume.keys(selectedIds)
+	}
+	
+	log("action cmd:"..pack(command))
+	
+	isInputLocked=true
+	Client.send(command, afterAction)
 end
 
 
 _.onKeyPressed=function(key)
+	if isInputLocked then return end
+	
 	log("inventory received key:"..key)
 	
 	if key=="escape" or key=="space" then

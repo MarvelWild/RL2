@@ -127,6 +127,7 @@ end
 Player=require "world/player"
 Character=require "world/character"
 Feature=require "world/feature"
+Inventory=require "world/inventory"
 
 Cell=require "world/cell"
 Wall=require "world/Wall"
@@ -155,6 +156,7 @@ love.load=function()
 	else
 		S.rootState=require "client/client" 
 		Img=require "res/img"
+		Client=S.rootState
 	end
 	
 	Registry=require "shared/registry"
