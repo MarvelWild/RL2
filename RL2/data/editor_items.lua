@@ -60,6 +60,10 @@ local _={
 		["type"]="item",
 		["item_type"]="seed",
 	},
+	{
+		["type"]="item",
+		["item_type"]="book_blue",
+	},
 }
 
 local addCharacters=function()
@@ -83,4 +87,38 @@ end
 addFeatures()
 
 
+
+-- features v2 - mo trees of type "tree"
+-- try tag system? pro: convenent, con: slower
+
+local mangrove1=
+{
+	["type"]="feature",
+	["feature_type"]="tree",
+	["code"]="mangrove1",
+	["spriteName"]="mangrove_1"
+}
+table.insert(_,mangrove1)
+
+local mangrove2=
+{
+	["type"]="feature",
+	["feature_type"]="tree",
+	["code"]="mangrove2",
+	["spriteName"]="mangrove_2"
+}
+table.insert(_,mangrove2)
+
+
+local mangrove3=
+{
+	["type"]="feature",
+	["feature_type"]="tree",
+	["code"]="mangrove3",
+	["spriteName"]="mangrove_3"
+}
+table.insert(_,mangrove3)
+
 return _
+
+

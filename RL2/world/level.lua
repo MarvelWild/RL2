@@ -1,14 +1,17 @@
 local _={}
 
-_.new=function()
+_.new=function(name)
 	local result={}
 	
+	result.name=name
+	result.depth=0
 	result.cells={}
 	
 	return result
 end
 
 
+--должна оставаться единственной точкой получения ячейки
 _.getCell=function(cells,x,y)
 	assert(x~=nil)
 	assert(y~=nil)
@@ -25,8 +28,11 @@ _.getCell=function(cells,x,y)
 		col[y]=cell
 	end
 	
-	return cell
+	if S.isServer then
+		Life.updateCell(cell)
+	end
 	
+	return cell
 end
 
 

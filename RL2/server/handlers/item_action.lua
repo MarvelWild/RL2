@@ -12,10 +12,45 @@ local item_action=function(data,clientId)
 	local cell=Level.getCell(level.cells,player.x,player.y)
 	
 	if actionCode=="plant" then
+		-- todo: can we?
 		for k,itemId in pairs(data.itemIds) do
-			Inventory.removeItem(inventory,itemId)
+			local seed=Inventory.removeItem(inventory,itemId)
 			-- todo: что вырастет - это свойство семечки, и сущность
 			cell.ground_type="grass_planted"
+			
+			if cell.misc==nil then cell.misc={} end
+			
+			local plantedTime=os.time()
+			local plant={
+				entityType="plant",
+				seed=seed,
+				plantedTime=plantedTime,
+				growStates={
+					[1]={
+						spriteName="tomato_grow_1",
+						timeNextState=plantedTime+10,
+					},
+					[2]={
+						spriteName="tomato_grow_2",
+						timeNextState=plantedTime+30,
+					},
+					[3]={
+						spriteName="tomato_grow_3",
+						timeNextState=plantedTime+60,
+					},
+					[4]={
+						spriteName="tomato_grow_4",
+					},
+					-- harvested: manual state switch
+					[5]={
+						spriteName="tomato_grow_5",
+					},					
+				},
+				currentGrowState=1,
+			}
+			
+			table.insert(cell.misc, plant)
+			
 		end
 	elseif actionCode=="drop" then
 		for k,itemId in pairs(data.itemIds) do

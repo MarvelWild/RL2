@@ -16,7 +16,13 @@ TSerial=require "lib/TSerial"
 Async=require "lib/async/async"
 Inspect=require "lib/inspect/inspect"
 CScreen = require "lib/CScreen/cscreen"
+--Cron = require "lib/cron/cron"
 
+--local f=function()
+--	log("after 3 seconds")
+--end
+
+--Cron.after(3, f)
 
 Fonts={}
 Fonts.main=LG.getFont()
@@ -55,8 +61,9 @@ if S.isServer then
 	
 	love.window.setTitle("Server: "..love.window.getTitle( ))
 	love.window.setPosition(0,300)
-	
+	Life=require "world/life"
 else 
+	UiLayer={}
 	saveDir=C.QuickSaveDir 
 	love.window.setTitle("Client: "..love.window.getTitle( ))
 end
@@ -122,8 +129,8 @@ if S.isServer then
 	Levels={}
 	
 	-- todo: dynamic
-	Levels.start=Level.new()
-	Levels.level2=Level.new()
+	Levels.start=Level.new("start")
+	Levels.level2=Level.new("level2")
 end
 
 
@@ -134,8 +141,9 @@ Feature=require "world/feature"
 Inventory=require "world/inventory"
 
 Cell=require "world/cell"
-Wall=require "world/Wall"
-Item=require "world/Item"
+Wall=require "world/wall"
+Item=require "world/item"
+EditorItem=require "world/editoritem"
 
 -- configuration
 
@@ -177,6 +185,16 @@ end
 
 love.update=function(dt)
 	S.rootState.update(dt)
+	
+	--if S.frame % 600 == 0 then
+		-- log("slow update")
+		-- ideas: partial update
+		-- fov only
+		-- update on cell request
+		-- квантовая неопределённость - в момент наблюдения и обновить
+	--end
+	
+	
 	S.frame=S.frame+1
 end
 

@@ -1,7 +1,13 @@
-local afterMoved=function(player,cell,prevX,prevY)
+local afterMoved=function(player,prevCell,cell)
 	if cell.feature~=nil then
 		if cell.feature.featureType=="door" then
 			cell.feature.spriteName="door_open"
+		end
+	end
+	
+	if prevCell.feature~=nil then
+		if prevCell.feature.featureType=="door" and love.math.random()>0.3 then
+			prevCell.feature.spriteName="door_closed"
 		end
 	end
 end
@@ -18,6 +24,7 @@ local move=function(data, clientId)
 	
 	local level=Levels[player.level]
 	local desiredCell=Level.getCell(level.cells,data.x,data.y)
+	local prevCell=Level.getCell(level.cells,player.x,player.y)
 	
 	if not player.isEditor and not player.isDead then
 		local entityAtDest=desiredCell.entity
@@ -39,6 +46,8 @@ local move=function(data, clientId)
 		
 		if desiredCell.wall~=nil then
 			canMove=false
+		elseif desiredCell.ground_type=="water" or desiredCell.ground_type=="lava" then
+			canMove=false
 		end
 	end
 	
@@ -49,7 +58,7 @@ local move=function(data, clientId)
 		player.x=data.x
 		player.y=data.y
 		
-		afterMoved(player,desiredCell,prevX,prevY)
+		afterMoved(player,prevCell,desiredCell)
 	end
 	
 	Server.sendTurn(client, clientId, data.requestId)

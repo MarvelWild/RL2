@@ -31,11 +31,13 @@ C.keyInventory="i"
 C.keyAbilities="a"
 C.editorPlaceItem="space"
 C.editorDeleteItem="delete"
+C.editorNextPage="pagedown"
+C.editorPrevPage="pageup"
 C.pickTarget=C.editorPlaceItem
 C.keyDebugger="f11"
 
-C.editorRows=8
-C.editorCols=4
+C.editorRows=10
+C.editorCols=10
 
 C.editorCurrentRow=1
 C.editorCurrentCol=1

@@ -38,6 +38,7 @@ _.spriteNameByFeatureType=
 	["ladder_down"]="ladder_down",
 	["blood"]="blood_1",
 	["altar_cards"]="altar_cards",
+	["altar_cheibriados"]="altar_cheibriados",
 	["door"]="door_closed",
 }
 
@@ -78,6 +79,8 @@ addCharacter("necromancer","necromancer")
 addCharacter("eyemold","eyemold")
 addCharacter("reaper","reaper")
 addCharacter("clawplant","clawplant")
+addCharacter("living_shade","living_shade")
+addCharacter("shade_violet","shade_violet")
 
 _.addWall("stone", "wall_stone")
 _.addWall("bones", "wall_bones_1")
@@ -87,6 +90,7 @@ _.spriteInfoByItemType=
 {
 	hat_green={spriteName="hat_green", sprite=Img.hat_green},
 	seed={spriteName="seed", sprite=Img.seed},
+	book_blue={spriteName="book_blue", sprite=Img.book_blue},
 }
 
 

@@ -1,5 +1,6 @@
 local _={}
 
+-- returns removed item
 _.removeItem=function(inventory, id)
 	for k,item in pairs(inventory) do
 		if item.id==id then

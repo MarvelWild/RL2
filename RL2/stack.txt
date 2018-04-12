@@ -1,30 +1,44 @@
 
 
-editor delete
 
-	auto open
-	editor item+
-	sprites+
-door
+display level name
+sleep ability - enter the dream level sometimes
+exit closes the door (sometimes :)+
 
 
-
-		спрайты состояния
-	концепт времени - реалтайм гроу
-	спрайт+
-семечко
-
+	ingame level creation
+	levelname_num
+infinite dungeon
 
 blink into wall (check DC for fun)
 
+	применить+
+	draw at layer - delayed draws+
+	формат cell+
+а что если editor item это сама сущность детачнутая. Клонируем, редактируем, го!+
 
+	apply new editor items
+more tiles
 
-
+rx experiments: other project, lops, or simpler+
+editor page switch+
 	action send to server+
 	action numbers show+
 actions for inventory selection+
 
+	рисовать с нижнего угла+
+	рисовать misc cущности+
+	entity растения при помещении семени+
+		спрайты состояния+
+	концепт времени - реалтайм гроу+
+	спрайт+
+семечко+
+editor delete+
 
+	auto open+
+	editor item+
+	sprites+
+door+	
 	players+
 	levels+
 split save+

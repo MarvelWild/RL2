@@ -4,6 +4,7 @@ _.new=function(featureType)
 	local result={}
 	result.id=Id.new("feature")
 	result.spriteName=Registry.spriteNameByFeatureType[featureType]
+	result.code=nil
 	--result.sprite=Img[result.spriteName]
 	
 	result.featureType=featureType

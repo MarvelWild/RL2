@@ -289,84 +289,23 @@ local drawCells=function()
 	local startPixelX=Ui.gamebox.playerX
 	local startPixelY=Ui.gamebox.playerY
 	
-	
-	
-	
-	local uiLayer={}
-	
 	-- в тайлах
 	for screenY=startY,endY do
 		for screenX=startX,endX do
 			
+			-- в тайлах
 			local cellX = player.x+screenX
 			local cellY = player.y+screenY
-			
-			--log("draw cell "..cellX..","..cellY)
-			local cell = Level.getCell(W.cells,cellX,cellY)
-			
---			-- todo прямо в cell спрайты
-			local groundSprite = Registry.spriteByGroundType[cell.ground_type]
 			
 			local drawX=startPixelX+(screenX*C.tileSize)
 			local drawY=startPixelY+(-screenY*C.tileSize)
 			
-			if groundSprite~=nil then
-				LG.draw(groundSprite, drawX, drawY)
-			end
+			--log("draw cell "..cellX..","..cellY)
+			local cell = Level.getCell(W.cells,cellX,cellY)
 			
-
-			
-			if cell.wall~=nil then
-				local wallSprite=Img[cell.wall.spriteName]
-				
-				if wallSprite~=nil then
-					LG.draw(wallSprite, drawX, drawY)
-				end
-			end
-			
-			if cell.feature~=nil then
-				local featureSprite=Img[cell.feature.spriteName]
-				if featureSprite==nil then
-					log("error: no sprite for feat:"..cell.feature.spriteName)
-					featureSprite=Img.error
-				end
-				
-				LG.draw(featureSprite, drawX, drawY)
-			end
-			
-			if cell.items~=nil then
-				for k,item in pairs(cell.items) do
-					if item.sprite==nil then
-						item.sprite=Img[item.spriteName]
-					end
-					
-					LG.draw(item.sprite, drawX, drawY)
-					
-				end
-			end
-			
-			if cell.entity~=nil then
-				if cell.entity.spriteName~=nil then 
-					local sprite=Img[cell.entity.spriteName]
-					LG.draw(sprite, drawX, drawY)
-				end
-			end
-			
-			-- others
-			if cell.players~=nil then
-				for k,player in pairs(cell.players) do
-					LG.draw(Img[player.spriteName],drawX,drawY)
-					
-					-- закрывается верхней ячейкой, поэтому откладываем
-					table.insert(uiLayer, Lume.fn(LG.print, player.name, drawX, drawY-12))
-				end
-			end
-			
+			Cell.draw(cell,drawX,drawY)
 		end
 	end
-	
-	for k,v in pairs(uiLayer) do v() end
-
 end -- drawTiles()
 
 local drawPlayer=function()
@@ -398,7 +337,7 @@ local drawPlayer=function()
 	LG.print(W.player.name, Ui.gamebox.playerX, Ui.gamebox.playerY-12)
 	
 	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
-	LG.printf("Cell:"..TSerial.pack(playerCell),650,450,280, "left")
+	LG.printf("Cell:"..TSerial.pack(playerCell),500,400,380, "left")
 end
 
 
@@ -484,6 +423,12 @@ _.draw=function()
 	for k,substate in pairs(_.substates) do
 		tryCall(substate.draw)
 	end
+	
+	for k,drawFn in pairs(UiLayer) do
+		drawFn()
+	end
+	
+	UiLayer={}
 	
 	CScreen.cease()
 end

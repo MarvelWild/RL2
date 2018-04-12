@@ -6,11 +6,13 @@ _.lastPlace.x=nil
 _.lastPlace.y=nil
 _.lastPlace.item=nil
 
-local ui=require "client/editor_ui"
-
+local pageNumber=1
+-- pop on activate
+local maxPages=nil
 
 local getCurrentItem=function()
 	local registryPos = (C.editorCurrentRow-1)*C.editorCols+C.editorCurrentCol
+	-- todo: read from server
 	return Registry.editorItems[registryPos]
 end
 
@@ -60,8 +62,8 @@ local moveFocus=function(dx,dy)
 	if nextItem~=nil then
 		C.editorCurrentCol=nextX
 		C.editorCurrentRow=nextY
+		log("editor current item:"..pack(nextItem))
 	end
-	
 end
 
 local deleteCurrentItem=function()
@@ -82,6 +84,7 @@ _.onKeyPressed=function(key, unicode)
 	
 	-- isProcessed means parents should not react
 	local isProcessed=false
+	local pageSize=C.editorRows*C.editorCols-C.editorCols
 	
 	if love.keyboard.isDown(C.editorActivate) then
 		if key==C.moveLeft then
@@ -112,7 +115,14 @@ _.onKeyPressed=function(key, unicode)
 		end
 	elseif key==C.editorDeleteItem then
 		deleteCurrentItem()
+	elseif key==C.editorNextPage then
+		_.startItemIndex=_.startItemIndex+pageSize
+	elseif key==C.editorPrevPage then	
+		_.startItemIndex=_.startItemIndex-pageSize
+		if _.startItemIndex<1 then _.startItemIndex=1 end
 	end 
+	
+	
 	
 	return isProcessed
 end
@@ -142,9 +152,47 @@ _.update=function()
 	
 end
 
-_.draw=function()
-	ui.draw()
+local drawItem=function(item,cellX,cellY)
+	-- log("drawing item:"..cellX..","..cellY..TSerial.pack(item))
+	
+	local worldX = Ui.rightbox.x+(cellX*C.tileSize)-140
+	local worldY = Ui.rightbox.y+(cellY*C.tileSize)+100
+
+	EditorItem.draw(item,worldX,worldY)
+	
+
+	if cellX==C.editorCurrentCol and cellY==C.editorCurrentRow then
+		LG.draw(Img.active_frame_32, worldX, worldY)
+	end
 end
+
+
+_.startItemIndex=1
+
+_.draw=function()
+--	local line1="Editor coords:"..W.player.x..","..W.player.y
+--	LG.print(line1,Ui.rightbox.x+10,Ui.rightbox.y+5+100)
+	
+	local itemsCount = #Registry.editorItems
+	
+	if itemsCount==0 then return end
+	
+	local itemIndex=_.startItemIndex
+	local nextItem = Registry.editorItems[itemIndex]
+	
+	for y=1,C.editorRows do
+		for x=1,C.editorCols do
+			if nextItem==nil then break end
+			drawItem(nextItem,x,y)
+			
+			itemIndex=itemIndex+1
+			nextItem = Registry.editorItems[itemIndex]
+		end
+		if nextItem==nil then break end
+	end
+	
+end
+
 
 
 

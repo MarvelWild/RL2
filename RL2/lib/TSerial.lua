@@ -21,7 +21,8 @@ function TSerial.pack(t, drop, indent)
 	
 --	if indent==nil then indent=true end
 	
-	assert(type(t) == "table", "Can only TSerial.pack tables.")
+	local type_=type(t)
+	assert(type_ == "table", "Can only TSerial.pack tables., got:"..type_)
 	local s, empty, indent = "{"..(indent and "\n" or ""), true, indent and math.max(type(indent)=="number" and indent or 0,0)
 	local function proc(k,v, omitKey)	-- encode a key/value pair
 		empty = nil	-- helps ensure empty tables return as "{}"
