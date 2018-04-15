@@ -32,42 +32,66 @@ Fonts.chat=love.graphics.newFont("res/LiberationSans-Regular.ttf", 18)
 
 
 -- Session
-S={}
-S.rootState=nil
-S.frame=0
-S.isServer=Lume.find(arg, "server")~=nil or Lume.find(arg, "s")~=nil
-S.isEditor=(not S.isServer) and (Lume.find(arg, "editor")~=nil or Lume.find(arg, "e")~=nil)
-S.keyPressedListeners={} -- это уйдёт, инпут пустить по цепочке стейтов, начиная с нижнего
-S.keysDown={}
-S.saveDir=nil
+S=require "data/session"
+
 
 -- Config
 local configFile="config"
 local saveDir
 
 Debug = require "lib/debug"
+
+
+
+
 -- lowercase Globals - frequently used
 log=Debug.log
 pack=TSerial.pack
 
 require "data/const"
 
-C=require "data/gameconfig"
-
-
 
 if S.isServer then
-	saveDir=C.ServerSaveDir 
+	saveDir=SERVER_SAVE_DIR
+else 
+	saveDir=CLIENT_SAVE_DIR
+end
+S.saveDir=saveDir
+
+-- конфиг важно загрузить пораньше
+local confFileInfo=love.filesystem.getInfo(saveDir..configFile)
+if confFileInfo~=nil then
 	
+	local configPacked=love.filesystem.read(saveDir..configFile)
+	C=TSerial.unpack(configPacked)
+	
+	local defaultConfig=require "data/gameconfig"
+	if defaultConfig.version>C.version then
+		-- вторая приоритетней
+		С=Lume.merge(defaultConfig,C)
+		--C=defaultConfig
+		log("Old config merged")
+	end
+	log("Config loaded")
+else
+	log("New config")
+	
+	C=require "data/gameconfig"
+end
+
+-- compat
+C.ServerSaveDir=SERVER_SAVE_DIR
+C.QuickSaveDir=CLIENT_SAVE_DIR
+
+if S.isServer then
 	love.window.setTitle("Server: "..love.window.getTitle( ))
 	love.window.setPosition(0,300)
 	Life=require "world/life"
 else 
 	UiLayer={}
-	saveDir=C.QuickSaveDir 
 	love.window.setTitle("Client: "..love.window.getTitle( ))
+	Audio=require "tech/audio"
 end
-S.saveDir=saveDir
 
 Id=require "tech/id"
 
@@ -77,20 +101,6 @@ if Lume.find(arg, "d")~=nil then
 	log("d param not implemented")
 end
 
-
-local confFileInfo=love.filesystem.getInfo(saveDir..configFile)
-if confFileInfo~=nil then
-	
-	local configPacked=love.filesystem.read(saveDir..configFile)
-	C=TSerial.unpack(configPacked)
-	log("Config loaded")
-else
-	
-	log("New config")
-end
-
-
--- config cmd override
 
 local loginParam=Lume.match(arg, function(arg) 
 		return Allen.startsWith(arg,"l=")
@@ -168,7 +178,9 @@ love.load=function()
 	else
 		S.rootState=require "client/client" 
 		Img=require "res/img"
+		Shaders=require "res/shaders"
 		Client=S.rootState
+		Audio.startMusic()
 	end
 	
 	Registry=require "shared/registry"
@@ -183,7 +195,13 @@ love.draw=function()
 	-- LG.print(tostring(love.timer.getFPS( )),0,0)
 end
 
+
+
+
 love.update=function(dt)
+	for k,listener in ipairs(S.updateListeners) do
+		listener(dt)
+	end
 	S.rootState.update(dt)
 	
 	--if S.frame % 600 == 0 then
@@ -229,6 +247,7 @@ end
 
 local saveConfig=function()
 	local configPacked=TSerial.pack(C,true,true)
+	love.filesystem.createDirectory(saveDir)
 	love.filesystem.write(saveDir..configFile, configPacked)
 	
 	Id.save()

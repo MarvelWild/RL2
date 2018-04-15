@@ -81,17 +81,39 @@ addCharacter("reaper","reaper")
 addCharacter("clawplant","clawplant")
 addCharacter("living_shade","living_shade")
 addCharacter("shade_violet","shade_violet")
+addCharacter("bat","bat")
+addCharacter("elephant","elephant")
+addCharacter("sheep","sheep")
+addCharacter("snake_brown","snake_brown")
+addCharacter("eye_fire","eye_fire")
+addCharacter("hound","hound")
+addCharacter("coyote","coyote")
 
 _.addWall("stone", "wall_stone")
 _.addWall("bones", "wall_bones_1")
 _.addWall("iron", "wall_iron")
 
-_.spriteInfoByItemType=
-{
-	hat_green={spriteName="hat_green", sprite=Img.hat_green},
-	seed={spriteName="seed", sprite=Img.seed},
-	book_blue={spriteName="book_blue", sprite=Img.book_blue},
+local itemSprites={
+	"hat_green",
+	"seed",
+	"book_blue",
+	"flask_blue",
+	"flask_yellow",
+	"ring_eye",
 }
+
+_.spriteInfoByItemType={}
+for k,v in pairs(itemSprites) do
+	_.spriteInfoByItemType[v]={spriteName=v,sprite=Img[v]}
+end
+
+
+--=
+--{
+--	hat_green={spriteName="hat_green", sprite=Img.hat_green},
+--	seed={spriteName="seed", sprite=Img.seed},
+--	book_blue={spriteName="book_blue", sprite=Img.book_blue},
+--}
 
 
 

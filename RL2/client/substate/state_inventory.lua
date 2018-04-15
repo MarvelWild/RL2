@@ -82,9 +82,17 @@ end
 
 local updateActions=function()
 	actions={}
+	local selectionCount=0
 	for id,item in pairs(selectedIds) do
 		addActionsForItem(item)
+		selectionCount=selectionCount+1
 	end
+	
+	if selectionCount==1 then
+		
+	end
+	
+	
 end
 
 local toggleSelection=function(item)

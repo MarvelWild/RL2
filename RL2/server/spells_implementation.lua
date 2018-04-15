@@ -34,7 +34,18 @@ _.polymorph=function(params,player)
 	
 	if cellPlayers~=nil then
 		for k,cellPlayer in pairs(cellPlayers) do
-			cellPlayer.spriteName=Lume.randomchoice(Registry.playerPresets).spriteName
+			
+			local allSprites={}
+			
+			for k,spriteName in pairs(Registry.spriteNameByCharacterType) do
+				table.insert(allSprites, spriteName)
+			end
+			
+			for k,preset in pairs(Registry.playerPresets) do
+				table.insert(allSprites, preset.spriteName)
+			end
+			
+			cellPlayer.spriteName=Lume.randomchoice(allSprites)
 		end
 	end
 	

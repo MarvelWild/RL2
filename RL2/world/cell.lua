@@ -76,6 +76,12 @@ _.removePlayer=function(cell,playerId)
 	return
 end
 
+local shader = love.graphics.newShader("res/shaders/technicolor1.frag","res/shaders/dummy.v")
+
+SHEEP_HACK=1
+SHEEP_HACK2=1
+SHEEP_HACK3=1
+
 _.draw=function(cell,drawX,drawY)
 	local groundSprite = Registry.spriteByGroundType[cell.ground_type]
 	
@@ -104,7 +110,6 @@ _.draw=function(cell,drawX,drawY)
 		
 	if cell.misc~=nil then
 		for k,miscItem in pairs(cell.misc) do
-			local x=miscItem
 			if miscItem.entityType=="plant" then
 			
 				local growState=miscItem.growStates[miscItem.currentGrowState]
@@ -132,7 +137,35 @@ _.draw=function(cell,drawX,drawY)
 	if cell.entity~=nil then
 		if cell.entity.spriteName~=nil then 
 			local sprite=Img[cell.entity.spriteName]
+			
+			
+			
+			if cell.entity.spriteName=="sheep" then
+				if S.frame%180==0 then
+					SHEEP_HACK=love.math.random()
+					SHEEP_HACK2=love.math.random()
+					SHEEP_HACK3=love.math.random()
+				end
+				
+				
+				SHEEP_HACK=SHEEP_HACK+Lume.random(-0.006,0.004)
+				SHEEP_HACK2=SHEEP_HACK2+Lume.random(-0.008,0.012)
+				SHEEP_HACK3=SHEEP_HACK3+Lume.random(-0.004,0.008)
+				
+--				LG.print(SHEEP_HACK,10,10)
+--				LG.print(SHEEP_HACK2,10,30)
+--				LG.print(SHEEP_HACK3,10,50)
+				
+				LG.setColor(SHEEP_HACK2,SHEEP_HACK,SHEEP_HACK3,1)
+--				love.graphics.setShader(shader)
+			end
 			LG.draw(sprite, drawX, drawY)
+			
+			if cell.entity.spriteName=="sheep" then
+--				love.graphics.setShader()
+				LG.setColor(1,1,1,1)
+			end
+		
 		end
 	end
 	

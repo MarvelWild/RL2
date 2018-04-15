@@ -170,6 +170,12 @@ local startPickupItems=function()
 	
 end
 
+local openOptions=function()
+	local state=require "client/substate/options"
+	_.addSubstate(state)
+end
+
+
 
 local onKeyPressed=function(key, unicode)
 	log("game receive kp:"..key..","..unicode.." abcPos:"+string.abcPos(key))
@@ -248,6 +254,8 @@ local onKeyPressed=function(key, unicode)
 		openDebugger()
 	elseif key==C.pickupItem then
 		startPickupItems()
+	elseif key==C.keyOpenOptions then
+		openOptions()
 	end
 	
 	if isMoving then
@@ -396,6 +404,27 @@ _.deactivate=function()
 end
 
 local doDraw=function()
+	if W.player~=nil then
+		if W.player.spriteName=="hound" or W.player.spriteName=="coyote"  then
+			love.graphics.setShader(Shaders.greyscale)
+		elseif W.player.spriteName=="cat_1" then
+			love.graphics.setShader(Shaders.technicolor1)
+		elseif W.player.spriteName=="necromancer" then
+			love.graphics.setShader(Shaders.mess)
+		elseif W.player.spriteName=="sorceress" then
+			love.graphics.setShader(Shaders.greentint)
+		elseif W.player.spriteName=="skeleton" then
+			love.graphics.setShader(Shaders.edges)
+		elseif W.player.spriteName=="octopod_red" then
+			love.graphics.setShader(Shaders.waterpaint)
+		elseif W.player.spriteName=="bat" then
+			love.graphics.setShader(Shaders.battlefield)					
+		elseif W.player.spriteName=="eyemold" then
+			love.graphics.setShader(Shaders.pictureinpicture)					
+		else
+			love.graphics.setShader()
+		end
+	end
 	ui.draw()
 	drawCells()
 	drawPlayer()

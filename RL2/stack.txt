@@ -1,6 +1,12 @@
+краска
+овца+
+
+красить овец ))
+editor water flood mode
 
 
-
+	m-toggle music
+F10 options
 display level name
 sleep ability - enter the dream level sometimes
 exit closes the door (sometimes :)+
@@ -12,6 +18,7 @@ infinite dungeon
 
 blink into wall (check DC for fun)
 
+grab some pd music+
 	применить+
 	draw at layer - delayed draws+
 	формат cell+

@@ -2,7 +2,7 @@ local _={}
 
 local _server
 
-_.spells=require("server/spells")
+_.spells=require("server/spells_implementation")
 
 
 -- client info(login) by clientId

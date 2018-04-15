@@ -52,18 +52,6 @@ local _={
 		["type"]="wall",
 		["wall_type"]="iron",
 	},
-	{
-		["type"]="item",
-		["item_type"]="hat_green",
-	},
-	{
-		["type"]="item",
-		["item_type"]="seed",
-	},
-	{
-		["type"]="item",
-		["item_type"]="book_blue",
-	},
 }
 
 local addCharacters=function()
@@ -86,6 +74,16 @@ end
 
 addFeatures()
 
+
+local addItems=function()
+	for k,v in pairs(Registry.spriteInfoByItemType) do
+		local item={type="item", item_type=k}
+		table.insert(_,item)
+	end
+end
+
+
+addItems()
 
 
 -- features v2 - mo trees of type "tree"

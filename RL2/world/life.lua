@@ -14,6 +14,7 @@ end
 
 
 -- обновляем только интересующие ячейки (квантовый принцип)
+-- todo: live update
 _.updateCell=function(cell)
 	if cell.misc~=nil then
 		for k,miscItem in pairs(cell.misc) do
