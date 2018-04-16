@@ -63,7 +63,7 @@ _.getVisibleCells=function(player)
 		local column={}
 		result[x]=column
 		for y=startY,endY do
-			local cell=Level.getCell(cells,x,y)
+			local cell=Level.getUpdatedCell(cells,x,y)
 			column[y]=cell
 			cell.players=getActivePlayersAt(player,x,y)
 			

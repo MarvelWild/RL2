@@ -2,7 +2,7 @@ local activate_feature=function(data, clientId)
 	local client=Server.clients[clientId]
 	local player=client.player
 	local level=Levels[player.level]
-	local cell=Level.getCell(level.cells,player.x,player.y)
+	local cell=LevelUtil.getCell(level.cells,player.x,player.y)
 	local isStatusChanged=false
 	
 	local feature=cell.feature

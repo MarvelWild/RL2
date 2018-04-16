@@ -1,21 +1,11 @@
-		walls
-		floor+
-	editor
-	draw ground
-		main+
-	run client+
-	run server+
-	split main server+
-	split+
-split server/client
-
-	spriteInfoByItemType убрать
+	spriteInfoByItemType убрать+
 	flask action: throw
 краска
 овца+
 
 красить овец ))
 editor water flood mode
+
 
 
 	m-toggle music
@@ -31,6 +21,20 @@ infinite dungeon
 
 blink into wall (check DC for fun)
 
+		items+
+		features+
+		characters+
+		display item+
+		walls+
+		floor+
+	editor+
+	draw ground+
+		main+
+	run client+
+	run server+
+	split main server+
+	split+
+split server/client+
 grab some pd music+
 	применить+
 	draw at layer - delayed draws+

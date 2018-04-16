@@ -23,8 +23,8 @@ local move=function(data, clientId)
 	local canMove=true -- ok let ghost fly not player.isDead
 	
 	local level=Levels[player.level]
-	local desiredCell=Level.getCell(level.cells,data.x,data.y)
-	local prevCell=Level.getCell(level.cells,player.x,player.y)
+	local desiredCell=LevelUtil.getCell(level.cells,data.x,data.y)
+	local prevCell=LevelUtil.getCell(level.cells,player.x,player.y)
 	
 	if not player.isEditor and not player.isDead then
 		local entityAtDest=desiredCell.entity

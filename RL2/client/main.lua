@@ -85,13 +85,13 @@ W={}
 -- in turns
 W.time=1
 
-Level=require "shared/world/level"
+LevelUtil=require "shared/world/levelutil"
+CellUtil=require "shared/world/cellutil"
 Player=require "shared/world/player"
 Character=require "shared/world/character"
 Feature=require "shared/world/feature"
 Inventory=require "shared/world/inventory"
 
-Cell=require "shared/world/cell"
 Wall=require "shared/world/wall"
 Item=require "shared/world/item"
 EditorItem=require "shared/world/editoritem"

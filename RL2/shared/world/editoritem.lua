@@ -14,24 +14,22 @@ _.applyToCell=function(editorItem,cell)
 		cell.ground_type=editorItem.ground_type
 		cell.groundSpriteName=editorItem.spriteName
 	elseif editorItem.type=="character" then
-		local characterType=editorItem.character_type
 		-- if cell.entity~=nil then ok gc this current
-		cell.entity=Character.newByCharacterType(characterType,cell)
+		cell.entity=Character.new()
+		cell.entity.spriteName=editorItem.spriteName
 	elseif editorItem.type=="feature" then
-		-- wip new trees
-		local feature=Feature.new(editorItem.feature_type)
+		local feature=Feature.new(editorItem.featureType)
 		feature.code=editorItem.code
-		if editorItem.spriteName~=nil then
-			feature.spriteName=editorItem.spriteName
-		end
-		
+		feature.code=editorItem.code
+		feature.spriteName=editorItem.spriteName
 		cell.feature=feature
 	elseif editorItem.type=="wall" then
 		cell.wall=Wall.new(editorItem.wall_type)
 		cell.wall.spriteName=editorItem.spriteName
 	elseif editorItem.type=="item" then
 		if cell.items==nil then cell.items={} end
-		table.insert(cell.items, Item.new(editorItem.item_type))
+		local item=Item.clone(editorItem.item)
+		table.insert(cell.items, item)
 	else
 		log("error:unk editor item type")
 	end
@@ -44,40 +42,6 @@ _.draw=function(item,worldX,worldY)
 	if item.spriteName~=nil then
 		local sprite=Img.get(item.spriteName)
 		LG.draw(sprite, worldX, worldY)
-		return
-	end
-	
-	
-	if item.type=="ground" then
---		LG.draw(, worldX, worldY)
-		LG.print("NoGround", worldX, worldY)
-	elseif item.type=="character" then
-		
-		--local drawable=Registry.spriteByCharacterType[item.character_type]
-		if drawable==nil then
-			LG.print("reg:addCharacter", worldX, worldY)
-		else
-			LG.draw(drawable, worldX, worldY)
-		end
-		
-		
-	elseif item.type=="feature" then
-		local drawable=nil--Registry.spriteByFeatureType[item.feature_type]
-		if drawable~=nil then
-			LG.draw(drawable, worldX, worldY)
-		else
-			LG.print("spriteByFeatureType",worldX,worldY)
-		end
-	elseif item.type=="wall" then		
-		--local drawable=Registry.spriteByWallType[item.wall_type]
---		LG.draw(drawable, worldX, worldY)
-		LG.print("wall wip", worldX, worldY)
-	elseif item.type=="item" then		
---		local spriteInfo=Registry.spriteInfoByItemType[item.item_type]
---		LG.draw(spriteInfo.sprite, worldX, worldY)		
-		LG.print("item wip", worldX, worldY)
-	else 
-		log("error:unknown item type. Item:"..pack(item))
 	end
 end
 

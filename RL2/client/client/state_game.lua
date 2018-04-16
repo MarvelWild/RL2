@@ -145,7 +145,7 @@ end
 
 local startPickupItems=function()
 	log("startPickupItems")
-	local currentCell=Level.getCell(W.cells,W.player.x,W.player.y)
+	local currentCell=LevelUtil.getCell(W.cells,W.player.x,W.player.y)
 	if currentCell.items~=nil then
 		log("cell has items")
 		
@@ -305,9 +305,9 @@ local drawCells=function()
 			local drawY=startPixelY+(-screenY*C.tileSize)
 			
 			--log("draw cell "..cellX..","..cellY)
-			local cell = Level.getCell(W.cells,cellX,cellY)
+			local cell = LevelUtil.getCell(W.cells,cellX,cellY)
 			
-			Cell.draw(cell,drawX,drawY)
+			CellUtil.draw(cell,drawX,drawY)
 		end
 	end
 end -- drawTiles()
@@ -331,7 +331,9 @@ local drawPlayer=function()
 		-- love.mouse.setCursor(_cursorWaitArrow)
 	end
 	
-	LG.draw(playerSprite, Ui.gamebox.playerX, Ui.gamebox.playerY)
+	if playerSprite~=nil then
+		LG.draw(playerSprite, Ui.gamebox.playerX, Ui.gamebox.playerY)
+	end
 	
 	if _.locked then
 		LG.setColor(1,1,1,1)
@@ -340,8 +342,8 @@ local drawPlayer=function()
 	
 	LG.print(W.player.name, Ui.gamebox.playerX, Ui.gamebox.playerY-12)
 	
-	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
-	LG.printf("Cell:"..TSerial.pack(playerCell),500,400,380, "left")
+	local playerCell = LevelUtil.getCell(W.cells,W.player.x,W.player.y)
+	LG.printf("Cell:"..TSerial.pack(playerCell),480,400,440, "left")
 end
 
 

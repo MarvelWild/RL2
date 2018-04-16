@@ -51,7 +51,7 @@ end
 
 -- compat
 
-Life=require "shared/world/life"
+Life=require "world/life"
 Id=require "shared/tech/id"
 Id.init(SERVER_SAVE_DIR)
 Id.load()
@@ -67,7 +67,8 @@ W={}
 -- in turns
 W.time=1
 
-Level=require "shared/world/level"
+Level=require "world/level"
+LevelUtil=require "shared/world/levelutil"
 
 -- key=login
 Players={}
@@ -84,7 +85,7 @@ Character=require "shared/world/character"
 Feature=require "shared/world/feature"
 Inventory=require "shared/world/inventory"
 
-Cell=require "shared/world/cell"
+Cell=require "world/cell"
 Wall=require "shared/world/wall"
 Item=require "shared/world/item"
 EditorItem=require "shared/world/editoritem"

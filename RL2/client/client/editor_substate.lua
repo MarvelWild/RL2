@@ -11,6 +11,7 @@ local pageNumber=1
 local maxPages=nil
 local isLoading=false
 local editorItems=nil
+local currentItem=nil
 
 
 local getCurrentItem=function()
@@ -46,6 +47,7 @@ local placeItem=function(isLocking,x,y)
 end
 
 
+
 local moveFocus=function(dx,dy)
 	local nextX=C.editorCurrentCol
 	local nextY=C.editorCurrentRow
@@ -66,6 +68,7 @@ local moveFocus=function(dx,dy)
 		C.editorCurrentCol=nextX
 		C.editorCurrentRow=nextY
 		log("editor current item:"..pack(nextItem))
+		currentItem=nextItem
 	end
 end
 
@@ -205,6 +208,11 @@ _.draw=function()
 		end
 		if nextItem==nil then break end
 	end
+	
+	if currentItem~=nil then
+		LG.print(pack(currentItem),20,460)
+	end
+	
 	
 end
 

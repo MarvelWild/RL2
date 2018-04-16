@@ -23,24 +23,22 @@ _.polymorph=function(params,player)
 	log("casting polymorph")
 	
 	local level=Levels[player.level]
-	local cell=Level.getCell(level.cells,params.x,params.y)
+	local cell=LevelUtil.getCell(level.cells,params.x,params.y)
 	
 	local entity=cell.entity
 	if entity~=nil then
-		entity.spriteName=Lume.randomchoice_anytable(Registry.spriteNameByCharacterType)
+		-- cast on npc
+		entity.spriteName=Lume.randomchoice_anytable(Registry.getEntitySpriteNames())
 	end
 	
 	local cellPlayers=Server.getActivePlayersAtCell(player.level,params.x,params.y)
 	
+	-- cast on players
 	if cellPlayers~=nil then
 		for k,cellPlayer in pairs(cellPlayers) do
 			
-			local allSprites={}
-			
-			for k,spriteName in pairs(Registry.spriteNameByCharacterType) do
-				table.insert(allSprites, spriteName)
-			end
-			
+			local allSprites=Registry.getEntitySpriteNames()
+
 			for k,preset in pairs(Registry.playerPresets) do
 				table.insert(allSprites, preset.spriteName)
 			end

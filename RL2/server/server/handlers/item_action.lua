@@ -1,5 +1,5 @@
 local item_action=function(data,clientId)
-	log("item action wip. Data:"..pack(data))
+	log("item action. Data:"..pack(data))
 	
 	--data example:	{requestId=3,cmd="item_action",itemIds={[1]=2},actionCode="plant"}
 	
@@ -9,7 +9,7 @@ local item_action=function(data,clientId)
 	
 	local actionCode=data.actionCode
 	local level=Levels[player.level]
-	local cell=Level.getCell(level.cells,player.x,player.y)
+	local cell=LevelUtil.getCell(level.cells,player.x,player.y)
 	
 	if actionCode=="plant" then
 		-- todo: can we?

@@ -74,7 +74,8 @@ end
 local addActionsForItem=function(item)
 	if item.type=="seed" then
 		addAction({name="Plant", code="plant"})
-	else if item.type==""
+	elseif item.type=="flask" then
+		-- wip flask
 	end
 	
 	addAction({name="Drop", code="drop"})

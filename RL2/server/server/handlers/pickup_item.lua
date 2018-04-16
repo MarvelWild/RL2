@@ -8,7 +8,7 @@ local pickup_item=function(data,clientId)
 	local player=client.player
 	local level=Levels[player.level]
 	
-	local cell=Level.getCell(level.cells,x,y)
+	local cell=LevelUtil.getCell(level.cells,x,y)
 	
 	local cellItems=cell.items
 	

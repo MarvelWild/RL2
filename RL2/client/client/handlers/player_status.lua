@@ -7,7 +7,7 @@ local player_status=function(data)
 		
 		
 		--  player is not at that cell now
-		-- local cell=Level.getCell(W.cells,updatedPlayer.x,updatedPlayer.y)
+		-- local cell=LevelUtil.getCell(W.cells,updatedPlayer.x,updatedPlayer.y)
 		-- if cell==nil then return end
 		
 		local player,playerKey,oldCell=Level.findPlayer(W.cells, updatedPlayer.id)
@@ -20,7 +20,7 @@ local player_status=function(data)
 		end
 	
 		if updatedPlayer.level==W.player.level and updatedPlayer.isLoggedIn then
-			local newCell=Level.getCell(W.cells, updatedPlayer.x,updatedPlayer.y)
+			local newCell=LevelUtil.getCell(W.cells, updatedPlayer.x,updatedPlayer.y)
 			
 			-- баг? надо осторожно с .players - оно не гарантировано
 			if newCell.players==nil then newCell.players={} end

@@ -1,3 +1,4 @@
+-- Registry.playerPresets
 local _=
 {
 	{

@@ -1,3 +1,5 @@
+-- server only
+
 local _={}
 
 _.new=function(name)
@@ -12,25 +14,11 @@ end
 
 
 --должна оставаться единственной точкой получения ячейки
-_.getCell=function(cells,x,y)
-	assert(x~=nil)
-	assert(y~=nil)
-	
-	local col = cells[x]
-	if col == nil then
-		col={}
-		cells[x]=col
-	end
-	
-	local cell = col[y]
-	if cell ==  nil then
-		cell= Cell.new(x,y)
-		col[y]=cell
-	end
-	
-	if S.isServer then
-		Life.updateCell(cell)
-	end
+
+_.getUpdatedCell=function(cells,x,y)
+
+	local cell=LevelUtil.getCell(cells,x,y)
+	Life.updateCell(cell)
 	
 	return cell
 end

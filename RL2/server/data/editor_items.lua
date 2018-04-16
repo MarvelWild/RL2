@@ -1,3 +1,4 @@
+-- access: Registry.editorItems
 -- todo: брать characters from registry
 -- todo: editorItem as cell, as new item type.
 
@@ -67,32 +68,122 @@ local _={
 		["wall_type"]="iron",
 		["spriteName"]="wall_iron",
 	},
+	{
+		["type"]="character",
+		["spriteName"]="frog",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="skeleton",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="cat_1",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="octopod_red",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="skelebat",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="necromancer",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="eyemold",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="reaper",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="clawplant",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="living_shade",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="shade_violet",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="bat",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="elephant",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="sheep",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="snake_brown",
+	},
+		{
+		["type"]="character",
+		["spriteName"]="eye_fire",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="hound",
+	},
+	{
+		["type"]="character",
+		["spriteName"]="coyote",
+	},
+	{
+		["type"]="feature",
+		["spriteName"]="portal",
+	},
+	{
+		["type"]="feature",
+		["spriteName"]="tree",
+	},
+	{
+		["type"]="feature",
+		["spriteName"]="blue_growth",
+	},
+	{
+		["type"]="feature",
+		["spriteName"]="ladder_up",
+	},
+	{
+		["type"]="feature",
+		["spriteName"]="ladder_down",
+	},
+	{
+		["type"]="feature",
+		["spriteName"]="blood_1",
+	},
+	{
+		["type"]="feature",
+		["spriteName"]="altar_cards",
+	},
+	{
+		["type"]="feature",
+		["spriteName"]="altar_cheibriados",
+	},	
+	{
+		["type"]="feature",
+		["featureType"]="door",
+		["spriteName"]="door_closed",
+	},		
 }
 
-local addCharacters=function()
-	for charType,v in pairs(Registry.spriteNameByCharacterType) do
-		local item={type="character", character_type=charType}
-		table.insert(_,item)
-	end
-	
-end
-
-
-addCharacters()
-
-local addFeatures=function()
-	for featType,v in pairs(Registry.spriteNameByFeatureType) do
-		local item={type="feature", feature_type=featType}
-		table.insert(_,item)
-	end
-end
-
-addFeatures()
 
 
 local addItems=function()
-	for k,v in pairs(Registry.spriteInfoByItemType) do
-		local item={type="item", item_type=k}
+	for k,v in pairs(Registry.items) do
+		local item={type="item", spriteName=v.spriteName,item=v}
 		table.insert(_,item)
 	end
 end

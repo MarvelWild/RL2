@@ -5,8 +5,6 @@ _.new=function(featureType)
 	result.id=Id.new("feature")
 	result.spriteName=nil
 	result.code=nil
-	--result.sprite=Img[result.spriteName]
-	
 	result.featureType=featureType
 	if featureType=="portal" then
 		result.dest="level2"
