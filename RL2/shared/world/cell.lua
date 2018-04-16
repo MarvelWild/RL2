@@ -6,6 +6,7 @@ _.new=function(x,y)
 	
 	-- x,y решил пока что не добавлять, чтобы не дублировать данные и не создавать возможности битых
 	result.ground_type=nil
+	result.groundSpriteName=nil
 	
 	-- лестница, портал -рисуется под врагом, но над полом
 	result.feature=nil
@@ -74,13 +75,11 @@ _.removePlayer=function(cell,playerId)
 end
 
 _.draw=function(cell,drawX,drawY)
-	local groundSprite = nil
-	-- wip
-	
-	if groundSprite~=nil then
-		LG.draw(groundSprite, drawX, drawY)
+	if cell.groundSpriteName~=nil then
+		local drawable=Img[cell.groundSpriteName]
+		LG.draw(drawable, drawX, drawY)
 	else
-		LG.print("NoGround", drawX, drawY)
+--		LG.print("NoGround", drawX, drawY)
 	end
 	
 	if cell.wall~=nil then

@@ -1,5 +1,9 @@
-		main
-	run client
+		walls
+		floor+
+	editor
+	draw ground
+		main+
+	run client+
 	run server+
 	split main server+
 	split+

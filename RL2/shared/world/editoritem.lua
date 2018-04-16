@@ -12,6 +12,7 @@ end
 _.applyToCell=function(editorItem,cell)
 	if editorItem.type=="ground" then
 		cell.ground_type=editorItem.ground_type
+		cell.groundSpriteName=editorItem.spriteName
 	elseif editorItem.type=="character" then
 		local characterType=editorItem.character_type
 		-- if cell.entity~=nil then ok gc this current
@@ -27,6 +28,7 @@ _.applyToCell=function(editorItem,cell)
 		cell.feature=feature
 	elseif editorItem.type=="wall" then
 		cell.wall=Wall.new(editorItem.wall_type)
+		cell.wall.spriteName=editorItem.spriteName
 	elseif editorItem.type=="item" then
 		if cell.items==nil then cell.items={} end
 		table.insert(cell.items, Item.new(editorItem.item_type))
@@ -40,7 +42,7 @@ end
 
 _.draw=function(item,worldX,worldY)
 	if item.spriteName~=nil then
-		local sprite=Img[item.spriteName]
+		local sprite=Img.get(item.spriteName)
 		LG.draw(sprite, worldX, worldY)
 		return
 	end
