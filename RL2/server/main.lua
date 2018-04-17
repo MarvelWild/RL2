@@ -81,14 +81,19 @@ Levels.start=Level.new("start")
 Levels.level2=Level.new("level2")
 
 Player=require "shared/world/player"
-Character=require "shared/world/character"
+local sharedCharacter=require "shared/world/character"
+local serverCharacter=require "world/character"
+
+Character=Lume.merge(sharedCharacter,serverCharacter)
 Feature=require "shared/world/feature"
 Inventory=require "shared/world/inventory"
 
 Cell=require "world/cell"
 Wall=require "shared/world/wall"
 Item=require "shared/world/item"
+ItemUtil=require "world/itemutil"
 EditorItem=require "shared/world/editoritem"
+Effect=require "shared/world/effect"
 
 -- end of globals area --
 

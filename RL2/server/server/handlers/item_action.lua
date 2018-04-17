@@ -52,8 +52,10 @@ actions.drop=function(data,cell,player)
 end
 
 actions.throw=function(data,cell,player)
-	log("Throw wip")
-	
+	for k,itemId in pairs(data.itemIds) do
+		local item=Inventory.removeItem(inventory,itemId)
+		
+	end
 end
 
 

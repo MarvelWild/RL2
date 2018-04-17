@@ -1,3 +1,5 @@
+-- shared side part, base of Character module
+
 _={}
 
 _.new=function()
@@ -10,10 +12,12 @@ _.new=function()
 	result.attackMin=2
 	result.attackMax=4
 	result.inventory={}
+	result.effects={}
 	--result.x=x
 	--result.y=y
 	return result
 end
+
 
 
 _.hit=function(character,damage,cell)

@@ -164,5 +164,8 @@ feedback possibility
 https://github.com/CiaccoDavide/Alchemy-Circles-Generator
 	
 	
+вшивать в игру странные вещи, ключи к реалу, загадки
+
+ингейм комп - хак всю игру через него
 	
 	
