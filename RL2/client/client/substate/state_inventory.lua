@@ -1,7 +1,6 @@
 local _={}
 
 _.parentstate=nil
-
 _.name="Inventory"
 
 -- local inventory=nil
@@ -10,11 +9,15 @@ local isInputLocked=false
 
 local inventoryData=nil
 
+local isTargeting=false
+
 
 -- table k=id v=item
 local selectedIds=nil
 
 _.draw=function()
+	if isTargeting then return end
+	
 	LG.print("INVENTORY")
 	
 	-- LG.print("You carry nothing", 10, 42)
@@ -74,8 +77,8 @@ end
 local addActionsForItem=function(item)
 	if item.type=="seed" then
 		addAction({name="Plant", code="plant"})
-	elseif item.type=="flask" then
-		-- wip flask
+	elseif item.type=="flask" then -- evo: isThrowable
+		addAction({name="Throw", code="throw"})
 	end
 	
 	addAction({name="Drop", code="drop"})
@@ -114,8 +117,37 @@ local afterAction=function(response)
 	_.parentstate.delSubstate(_)
 end
 
+local afterTargetPicked=function(x,y)
+end
+
+
+
+local pickThrowTarget=function()
+	assert(not isInputLocked)
+	
+	isTargeting=true
+	
+	-- signature fx(x,y) now matches generic pickTarget
+	local fiWithParam=Lume.fn(afterTargetPicked,spell)
+--	 _.parentstate.pickTarget(afterTargetPicked)
+	_.parentstate.pickTarget(afterTargetPicked)
+end
+
+
 
 local performAction=function(action)
+	if action.code=="throw" then
+		pickThrowTarget()
+	else
+		doPerformAction(action)
+	end
+	
+	
+	
+	
+end
+
+local doPerformAction=function(action)
 	local command=
 	{
 		cmd="item_action",
@@ -131,7 +163,8 @@ end
 
 
 _.onKeyPressed=function(key)
-	if isInputLocked then return end
+	if isInputLocked then return false end
+	if isTargeting then return false end
 	
 	log("inventory received key:"..key)
 	

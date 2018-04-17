@@ -1,6 +1,9 @@
+			там не разделить какие из сабов рабочие в этот момент+
+		вынести в родителя-не надо+
+	pick target
+flask action: throw+
 	spriteInfoByItemType убрать+
-	flask action: throw
-краска
+краска+
 овца+
 
 красить овец ))
@@ -8,8 +11,8 @@ editor water flood mode
 
 
 
-	m-toggle music
-F10 options
+	m-toggle music+
+F10 options+
 display level name
 sleep ability - enter the dream level sometimes
 exit closes the door (sometimes :)+
