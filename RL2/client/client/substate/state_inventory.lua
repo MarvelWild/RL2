@@ -117,36 +117,6 @@ local afterAction=function(response)
 	_.parentstate.delSubstate(_)
 end
 
-local afterTargetPicked=function(x,y)
-end
-
-
-
-local pickThrowTarget=function()
-	assert(not isInputLocked)
-	
-	isTargeting=true
-	
-	-- signature fx(x,y) now matches generic pickTarget
-	local fiWithParam=Lume.fn(afterTargetPicked,spell)
---	 _.parentstate.pickTarget(afterTargetPicked)
-	_.parentstate.pickTarget(afterTargetPicked)
-end
-
-
-
-local performAction=function(action)
-	if action.code=="throw" then
-		pickThrowTarget()
-	else
-		doPerformAction(action)
-	end
-	
-	
-	
-	
-end
-
 local doPerformAction=function(action)
 	local command=
 	{
@@ -160,6 +130,39 @@ local doPerformAction=function(action)
 	isInputLocked=true
 	Client.send(command, afterAction)
 end
+
+local afterTargetPicked=function(action,x,y)
+	log("target picked:"..xy(x,y))
+	isTargeting=false
+	
+	action.x=x
+	action.y=y
+	doPerformAction(action)
+end
+
+
+
+local pickThrowTarget=function(action)
+	assert(not isInputLocked)
+	
+	isTargeting=true
+	
+	-- signature fx(x,y) now matches generic pickTarget
+	local f=Lume.fn(afterTargetPicked,action)
+	_.parentstate.pickTarget(f)
+end
+
+
+
+local performAction=function(action)
+	if action.code=="throw" then
+		pickThrowTarget(action)
+	else
+		doPerformAction(action)
+	end
+end
+
+
 
 
 _.onKeyPressed=function(key)

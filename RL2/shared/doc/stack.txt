@@ -1,6 +1,7 @@
+server handle throw
 			там не разделить какие из сабов рабочие в этот момент+
 		вынести в родителя-не надо+
-	pick target
+	pick target+
 flask action: throw+
 	spriteInfoByItemType убрать+
 краска+
