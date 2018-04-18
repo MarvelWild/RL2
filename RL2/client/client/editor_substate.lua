@@ -159,22 +159,13 @@ end
 _.update=function()
 	if love.keyboard.isDown(C.editorPlaceItem) then
 		placeItem(false,W.player.x,W.player.y)
---		if W.player.x~=_.lastPlace.x or W.player.y~=_.lastPlace.y then
-			
---		end
-		
 	end
-	
 end
 
 local drawItem=function(item,cellX,cellY)
-	-- log("drawing item:"..cellX..","..cellY..TSerial.pack(item))
-	
 	local worldX = Ui.rightbox.x+(cellX*C.tileSize)-140
 	local worldY = Ui.rightbox.y+(cellY*C.tileSize)+100
-
 	EditorItem.draw(item,worldX,worldY)
-	
 
 	if cellX==C.editorCurrentCol and cellY==C.editorCurrentRow then
 		LG.draw(Img.active_frame_32, worldX, worldY)

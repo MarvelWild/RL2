@@ -184,7 +184,6 @@ local _={
 	{type="character",spriteName="eye_ghost",},
 	{type="character",spriteName="drake_swamp",},
 	{type="character",spriteName="blade_demon",},
-	{type="character",spriteName="corrupted_demon",},
 	{type="character",spriteName="xenoslime",},
 	{type="character",spriteName="ooze_cosmic",},
 	{type="character",spriteName="eyeorb_black",},
