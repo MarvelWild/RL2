@@ -169,3 +169,8 @@ https://github.com/CiaccoDavide/Alchemy-Circles-Generator
 ингейм комп - хак всю игру через него
 	
 	
+шахматы, шахматные задачи
+	скилл шахмат даёт подсказки, соответствующие уровню.
+	
+императивный клиент, быстрые ходы	
+possibility to hide name (confuse with npc)

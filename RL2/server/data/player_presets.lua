@@ -21,6 +21,7 @@ local _=
 		name="Eye",
 		spriteName="floating_eye"
 	},
+	{name="Minotaur",spriteName="minotaur"},
 }
 
 

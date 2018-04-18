@@ -281,7 +281,7 @@ _.sendPlayerStatus=function(client,isForce)
 	local data={responseType="player_status",player=client.player}
 	
 	for otherClientId,otherClient in pairs(_.clients) do
-		if otherClient~=client then 
+		if otherClient~=client and otherClient.player~=nil then 
 			if client.player.level==otherClient.player.level or isForce then
 				_.send(data, otherClientId, nil)
 				log("Sending status to:"..otherClient.player.name)

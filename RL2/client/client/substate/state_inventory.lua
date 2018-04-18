@@ -121,7 +121,7 @@ local doPerformAction=function(action)
 	local command=
 	{
 		cmd="item_action",
-		actionCode=action.code,
+		action=action,
 		itemIds=Lume.keys(selectedIds)
 	}
 	

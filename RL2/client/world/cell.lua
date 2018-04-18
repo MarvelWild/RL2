@@ -58,9 +58,26 @@ _.draw=function(cell,drawX,drawY)
 	end
 	
 	if cell.entity~=nil then
+		local isVideoAltered=false
+		if cell.entity.effects~=nil then
+			for k,effect in pairs(cell.entity.effects) do
+				if effect.type=="paint" then
+					if effect.color.r~=nil then
+						LG.setColor(effect.color.r,effect.color.g,effect.color.b)
+					end
+					isVideoAltered=true
+				end
+			end
+		end
+		
+		
 		if cell.entity.spriteName~=nil then 
 			local sprite=Img[cell.entity.spriteName]
 			LG.draw(sprite, drawX, drawY)
+		end
+		
+		if isVideoAltered then
+			LG.setColor(1,1,1,1)
 		end
 	end
 	

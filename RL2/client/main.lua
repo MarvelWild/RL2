@@ -86,7 +86,7 @@ W={}
 W.time=1
 
 LevelUtil=require "shared/world/levelutil"
-CellUtil=require "shared/world/cellutil"
+Cell=require "world/cell"
 Player=require "shared/world/player"
 Character=require "shared/world/character"
 Feature=require "shared/world/feature"

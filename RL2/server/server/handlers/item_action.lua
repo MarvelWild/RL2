@@ -53,8 +53,8 @@ end
 
 actions.throw=function(data,cell,player)
 	for k,itemId in pairs(data.itemIds) do
-		local item=Inventory.removeItem(inventory,itemId)
-		
+		local item=Inventory.removeItem(player.inventory,itemId)
+		Item.applyThrow(item,cell)
 	end
 end
 
@@ -62,14 +62,21 @@ end
 local item_action=function(data,clientId)
 	log("item action. Data:"..pack(data))
 	
-	--data example:	{requestId=3,cmd="item_action",itemIds={[1]=2},actionCode="plant"}
+	--data example:	
 	
 	local client=Server.clients[clientId]
 	local player=client.player
 	
-	local actionCode=data.actionCode
+	local actionCode=data.action.code
 	local level=Levels[player.level]
-	local cell=LevelUtil.getCell(level.cells,player.x,player.y)
+	
+	local cell
+	if data.action.x~=nil and data.action.y~=nil then
+		cell=LevelUtil.getCell(level.cells,data.action.x,data.action.y)
+	else
+		cell=LevelUtil.getCell(level.cells,player.x,player.y)
+	end
+	
 	
 	local action=actions[actionCode]
 	if action~=nil then

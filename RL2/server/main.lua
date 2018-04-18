@@ -90,10 +90,10 @@ Inventory=require "shared/world/inventory"
 
 Cell=require "world/cell"
 Wall=require "shared/world/wall"
-Item=require "shared/world/item"
-ItemUtil=require "world/itemutil"
+Item=multirequire("shared/world/item", "world/item")
 EditorItem=require "shared/world/editoritem"
 Effect=require "shared/world/effect"
+Spell=require "shared/world/spell"
 
 -- end of globals area --
 

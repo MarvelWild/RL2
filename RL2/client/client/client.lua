@@ -66,14 +66,30 @@ end
 
 loadScripts("client/handlers/", _.responseHandlers)
 
+-- incomplete part accumulated here
+local receiveBuffer=""
 
+-- data is raw string, chunk of data flow (could be fragmented)
 local recv=function(data) -- search alias: receive
+	if not Allen.endsWith(data,NET_MSG_SEPARATOR) then
+		-- todo: process completed parts
+		receiveBuffer=receiveBuffer+data
+		log("received incomplete data. buffering:"..data)
+		return
+	end
+	
+	if receiveBuffer~="" then
+		data=receiveBuffer+data
+		receiveBuffer=""
+	end
+	
 	log("recv:"..data)	
 	
 	local isProcessed=false
 	local dataParts=string.split(data,NET_MSG_SEPARATOR)
 	
 	for k,dataCommand in pairs(dataParts) do
+		-- wip: unfinished data
 		local response=TSerial.unpack(dataCommand)
 		
 		local singleHandler=_.singleResponseHandlers[response.requestId]

@@ -185,6 +185,8 @@ end
 _.startItemIndex=1
 
 _.draw=function()
+	
+	if not _.parentstate.isDrawSelf then return end
 --	local line1="Editor coords:"..W.player.x..","..W.player.y
 --	LG.print(line1,Ui.rightbox.x+10,Ui.rightbox.y+5+100)
 

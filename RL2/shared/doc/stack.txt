@@ -1,13 +1,8 @@
-server handle throw
-			там не разделить какие из сабов рабочие в этот момент+
-		вынести в родителя-не надо+
-	pick target+
-flask action: throw+
-	spriteInfoByItemType убрать+
-краска+
-овца+
+	magic school and levels
+	spell configuration
+polymorph with selection
 
-красить овец ))
+
 editor water flood mode
 
 
@@ -26,6 +21,18 @@ infinite dungeon
 
 blink into wall (check DC for fun)
 
+
+client apply effect type="paint",color={r,g,b}+
+server handle throw+
+			там не разделить какие из сабов рабочие в этот момент+
+		вынести в родителя-не надо+
+	pick target+
+flask action: throw+
+	spriteInfoByItemType убрать+
+краска+
+овца+
+
+красить овец ))+
 		items+
 		features+
 		characters+

@@ -200,3 +200,18 @@ function deepcopy(orig)
     end
     return copy
 end
+
+-- multi-file module
+function multirequire(...)
+	local params={...}
+	local result=nil
+	for k,path in ipairs(params) do
+		if result==nil then
+			result=require(path)
+		else
+			result=Lume.merge(result, require(path))
+		end
+	end
+	
+	return result
+end

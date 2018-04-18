@@ -307,7 +307,7 @@ local drawCells=function()
 			--log("draw cell "..cellX..","..cellY)
 			local cell = LevelUtil.getCell(W.cells,cellX,cellY)
 			
-			CellUtil.draw(cell,drawX,drawY)
+			Cell.draw(cell,drawX,drawY)
 		end
 	end
 end -- drawTiles()
@@ -342,8 +342,6 @@ local drawPlayer=function()
 	
 	LG.print(W.player.name, Ui.gamebox.playerX, Ui.gamebox.playerY-12)
 	
-	local playerCell = LevelUtil.getCell(W.cells,W.player.x,W.player.y)
-	LG.printf("Cell:"..TSerial.pack(playerCell),480,400,440, "left")
 end
 
 
