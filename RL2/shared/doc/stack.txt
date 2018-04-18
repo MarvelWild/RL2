@@ -1,5 +1,5 @@
 
-editor switch page on move down
+editor switch page on move down+
 +editor place from page>1 support	
 	magic school and levels
 	spell configuration

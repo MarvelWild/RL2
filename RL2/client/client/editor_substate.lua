@@ -1,5 +1,11 @@
 local _={}
 
+local isDrawFrame=false
+
+local drawX=nil
+local drawY=nil
+
+
 _.parentstate=nil
 _.lastPlace={}
 _.lastPlace.x=nil
@@ -105,7 +111,9 @@ _.onKeyPressed=function(key, unicode)
 	-- isProcessed means parents should not react
 	local isProcessed=false
 	
+	isDrawFrame=false
 	if love.keyboard.isDown(C.editorActivate) then
+		isDrawFrame=true
 		if key==C.moveLeft then
 			-- shift not working here
 			moveFocus(-1,0)
@@ -161,6 +169,9 @@ _.activate=function()
 	isLoading=true
 	local command={cmd="editor_items_get"}
 	Client.send(command, onEditorItemsReceived)
+	
+	drawX=Ui.rightbox.x-140
+	drawY=Ui.rightbox.y+100
 end
 
 _.deactivate=function()
@@ -175,8 +186,8 @@ _.update=function()
 end
 
 local drawItem=function(item,cellX,cellY)
-	local worldX = Ui.rightbox.x+(cellX*C.tileSize)-140
-	local worldY = Ui.rightbox.y+(cellY*C.tileSize)+100
+	local worldX = drawX+(cellX*C.tileSize)
+	local worldY = drawY+(cellY*C.tileSize)
 	EditorItem.draw(item,worldX,worldY)
 
 	if cellX==C.editorCurrentCol and cellY==C.editorCurrentRow then
