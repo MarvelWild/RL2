@@ -12,10 +12,12 @@ local maxPages=nil
 local isLoading=false
 local editorItems=nil
 local currentItem=nil
+local pageSize=C.editorRows*C.editorCols-C.editorCols
 
+_.startItemIndex=1
 
 local getCurrentItem=function()
-	local registryPos = (C.editorCurrentRow-1)*C.editorCols+C.editorCurrentCol
+	local registryPos = (C.editorCurrentRow-1)*C.editorCols+C.editorCurrentCol+_.startItemIndex-1
 	-- todo: read from server
 	return editorItems[registryPos]
 end
@@ -46,6 +48,11 @@ local placeItem=function(isLocking,x,y)
 	_.parentstate.dispatchCommand(command,isLocking)
 end
 
+local switchPage=function(num)
+	_.startItemIndex=_.startItemIndex+(pageSize*num)
+	
+	if _.startItemIndex<1 then _.startItemIndex=1 end
+end
 
 
 local moveFocus=function(dx,dy)
@@ -59,7 +66,13 @@ local moveFocus=function(dx,dy)
 	end
 	
 	if dy~=0 then
-		nextY=math.overflow(1,C.editorCurrentRow-dy,C.editorRows)
+		local nextRow=C.editorCurrentRow-dy
+		if nextRow>C.editorRows then
+			nextY=1
+			switchPage(1)
+		else
+			nextY=nextRow
+		end
 	end
 	
 	local registryPos = (nextY-1)*C.editorCols+nextX
@@ -84,13 +97,13 @@ end
 
 
 
+
 --called from parent state, not subscribed globally
 _.onKeyPressed=function(key, unicode)
 	-- log("editor receiving key:"..key)
 	
 	-- isProcessed means parents should not react
 	local isProcessed=false
-	local pageSize=C.editorRows*C.editorCols-C.editorCols
 	
 	if love.keyboard.isDown(C.editorActivate) then
 		if key==C.moveLeft then
@@ -122,10 +135,9 @@ _.onKeyPressed=function(key, unicode)
 	elseif key==C.editorDeleteItem then
 		deleteCurrentItem()
 	elseif key==C.editorNextPage then
-		_.startItemIndex=_.startItemIndex+pageSize
+		switchPage(1)
 	elseif key==C.editorPrevPage then	
-		_.startItemIndex=_.startItemIndex-pageSize
-		if _.startItemIndex<1 then _.startItemIndex=1 end
+		switchPage(-1)
 	end 
 	
 	
@@ -173,7 +185,7 @@ local drawItem=function(item,cellX,cellY)
 end
 
 
-_.startItemIndex=1
+
 
 _.draw=function()
 	
