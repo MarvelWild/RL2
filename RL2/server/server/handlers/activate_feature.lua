@@ -1,4 +1,7 @@
+-- use ladder, portal, fountain
 local activate_feature=function(data, clientId)
+	--activate_feature. data={requestId=8,cmd="activate_feature"}
+	log("activate_feature. data="..pack(data))
 	local client=Server.clients[clientId]
 	local player=client.player
 	local level=Levels[player.level]
@@ -16,7 +19,8 @@ local activate_feature=function(data, clientId)
 		player.level=feature.dest
 		isStatusChanged=true
 	else
-		log("error: not implemented")
+		--error: not implemented for feature:{spriteName="ladder_down",id=5}
+		log("error: not implemented for feature:"..pack(feature))
 	end
 	
 	-- local response={"ok"}

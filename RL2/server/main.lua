@@ -1,6 +1,12 @@
 local isDebug=arg[#arg] == "-debug"
 if isDebug then require("mobdebug").start() end
 
+require "shared/lib/strict"
+_G.common=nil
+Server=nil
+Img={}
+Registry=nil
+
 local time=love.timer.getTime()
 love.math.setRandomSeed(time)
 
@@ -11,6 +17,8 @@ LG=love.graphics
 Utf8 = require("utf8")
 Lume=require "shared/lib/lume/lume"
 Allen=require "shared/lib/Allen/allen"
+
+
 Grease=require "shared/lib/grease/grease.init"
 TSerial=require "shared/lib/TSerial"
 Async=require "shared/lib/async/async"
@@ -49,6 +57,8 @@ else
 	C=require "shared/data/gameconfig"
 end
 
+
+
 -- compat
 
 Life=require "world/life"
@@ -80,18 +90,15 @@ Levels={}
 Levels.start=Level.new("start")
 Levels.level2=Level.new("level2")
 
-Player=require "shared/world/player"
-local sharedCharacter=require "shared/world/character"
-local serverCharacter=require "world/character"
-
-Character=Lume.merge(sharedCharacter,serverCharacter)
+Player=multirequire("shared/world/player","world/player")
+Character=multirequire("shared/world/character","world/character")
 Feature=require "shared/world/feature"
 Inventory=require "shared/world/inventory"
 
 Cell=require "world/cell"
 Wall=require "shared/world/wall"
 Item=multirequire("shared/world/item", "world/item")
-EditorItem=require "shared/world/editoritem"
+EditorItem=multirequire("shared/world/editoritem","world/editoritem")
 Effect=require "shared/world/effect"
 Spell=require "shared/world/spell"
 
@@ -102,7 +109,6 @@ Spell=require "shared/world/spell"
 love.load=function()
 	S.rootState=require "server/server" 
 	Server=S.rootState
-	Img={}
 	
 	Registry=require "data/registry"
 	Registry.lateInit()

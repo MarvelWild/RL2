@@ -174,3 +174,5 @@ https://github.com/CiaccoDavide/Alchemy-Circles-Generator
 	
 императивный клиент, быстрые ходы	
 possibility to hide name (confuse with npc)
+
+tag system pro: convenent, con: slower

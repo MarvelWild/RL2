@@ -1,6 +1,12 @@
 local isDebug=arg[#arg] == "-debug"
 if isDebug then require("mobdebug").start() end
 
+require "shared/lib/strict"
+_G.common=nil
+Img=nil
+Shaders=nil
+Client=nil
+
 local time=love.timer.getTime()
 love.math.setRandomSeed(time)
 
@@ -38,6 +44,8 @@ pack=TSerial.pack
 
 require "shared/data/const"
 require "data/const"
+
+
 
 
 -- конфиг важно загрузить пораньше

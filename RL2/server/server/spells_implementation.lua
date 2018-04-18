@@ -16,7 +16,9 @@ end
 _.heal=function(params,player)
 	log("heal spell")
 	
-	Player.heal(player, params.amount)
+	if params.amount~=nil then
+		Player.heal(player, params.amount)
+	end
 end
 
 _.polymorph=function(params,player)

@@ -201,7 +201,7 @@ function deepcopy(orig)
     return copy
 end
 
--- multi-file module
+-- multi-file module, members are merged
 function multirequire(...)
 	local params={...}
 	local result=nil
@@ -214,4 +214,12 @@ function multirequire(...)
 	end
 	
 	return result
+end
+
+
+-- omit keys, just insert  values
+table.append=function(t,t2)
+	for k,v in pairs(t2) do
+		table.insert(t,v)
+	end
 end

@@ -1,6 +1,7 @@
-
-editor switch page on move down+
-+editor place from page>1 support	
+editor presets: RndLvlGen elements
+editor: placing door cuts wall
+	activate ladder creates new level
+every level in infinite (ladder)
 	magic school and levels
 	spell configuration
 polymorph with selection
@@ -10,7 +11,7 @@ editor water flood mode
 
 
 Dj lib
-
+sprites jit (Img.get)+
 	m-toggle music+
 F10 options+
 display level name
@@ -22,8 +23,11 @@ exit closes the door (sometimes :)+
 	levelname_num
 infinite dungeon
 
+server autosave on logoff+
 blink into wall (check DC for fun)
 
+editor switch page on move down+
++editor place from page>1 support	
 
 client apply effect type="paint",color={r,g,b}+
 server handle throw+

@@ -1,40 +1,35 @@
 -- access: Registry.spells
+-- handler should be described in server/spells
 
 local _=
 {
 	-- number indexes used to sort and name spells on client
-	-- handler should be described in server/spells
-	
-
-	{
-		name="Heal",
-		code="heal",
-		manaCost=3,
-		amount=4,
-	},
-	{
-		name="Polymorph",
-		code="polymorph",
-		manaCost=5,
-		range=5,
-		isTargeted=true,
-	},
 }
 
 
-local blink=Spell.new()
-blink.name="Blink"
-blink.code="blink"
-blink.manaCost=2
-blink.radius=4
-table.insert(_,blink)
+local s
+s=Spell.new()
+s.name="Blink"
+s.code="blink"
+s.manaCost=2
+s.radius=4
+table.insert(_,s)
 
-local heal=Spell.new()
-heal.name="Heal"
-heal.code="heal"
-heal.manaCost=3
-heal.radius=4
-table.insert(_,heal)
+s=Spell.new()
+s.name="Heal"
+s.code="heal"
+s.manaCost=3
+s.radius=4 -- not impl
+s.amount=7
+table.insert(_,s)
 
+s=Spell.new()
+s.name="Polymorph"
+s.code="polymorph"
+s.manaCost=5
+s.range=5
+s.isTargeted=true
+s.isRandom=true
+table.insert(_,s)
 
 return _

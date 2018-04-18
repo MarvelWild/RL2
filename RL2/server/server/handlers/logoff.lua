@@ -8,6 +8,7 @@ local logoff=function(data,clientId)
 	end
 	
 	Server.sendPlayerStatus(client)
+	Server.save()
 end
 
 return logoff

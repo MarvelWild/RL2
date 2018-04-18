@@ -13,13 +13,15 @@ local loadImg=function()
 		end
 		
 	end
-	
-	
-	
 end
 
 Img.get=function(id)
 	local result=Img[id]
+	
+	if result==nil then
+		result=i(baseDir.."/"..id)
+		Img[id]=result
+	end
 	
 	if result==nil then
 		log("error: no img by id:"..id)

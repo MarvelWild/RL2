@@ -105,7 +105,14 @@ end
 _.send=function(data, clientId,requestId)
 	data.requestId=requestId
 	local packed=TSerial.pack(data)
-	log("sending:"..packed)
+	
+	local sendLen=string.len(packed)
+	local sendInfo="sending size="..sendLen
+	if sendLen<10000 then
+		sendInfo=sendInfo.." data:"..packed
+	end
+	log(sendInfo)
+	
 	_server:send(packed..NET_MSG_SEPARATOR, clientId)
 end
 
@@ -219,7 +226,7 @@ _.activate=function()
 	log("server started")
 end
 
-local save = function()
+_.save = function()
 	love.filesystem.createDirectory(SERVER_SAVE_DIR)
 	
 	local worldPacked=TSerial.pack(W,true,true)
@@ -245,7 +252,7 @@ local save = function()
 end
 
 _.deactivate=function()
-	save()
+	_.save()
 end
 
 
