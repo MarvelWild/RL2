@@ -16,7 +16,7 @@ _.draw=function()
 	LG.print("Debugger")
 	LG.print("F1-dump",0,16)
 	
-	local playerCell = LevelUtil.getCell(W.cells,W.player.x,W.player.y)
+	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
 	LG.printf("Cell:"..TSerial.pack(playerCell),0,400,800, "left")
 end
 

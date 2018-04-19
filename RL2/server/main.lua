@@ -77,8 +77,7 @@ W={}
 -- in turns
 W.time=1
 
-Level=require "world/level"
-LevelUtil=require "shared/world/levelutil"
+Level=multirequire("shared/world/level","world/level")
 
 -- key=login
 Players={}
@@ -95,7 +94,7 @@ Character=multirequire("shared/world/character","world/character")
 Feature=require "shared/world/feature"
 Inventory=require "shared/world/inventory"
 
-Cell=require "world/cell"
+Cell=multirequire("shared/world/cell","world/cell")
 Wall=require "shared/world/wall"
 Item=multirequire("shared/world/item", "world/item")
 EditorItem=multirequire("shared/world/editoritem","world/editoritem")

@@ -1,5 +1,5 @@
 editor presets: RndLvlGen elements
-editor: placing door cuts wall
+
 	activate ladder creates new level
 every level in infinite (ladder)
 	magic school and levels
@@ -23,6 +23,7 @@ exit closes the door (sometimes :)+
 	levelname_num
 infinite dungeon
 
+editor: placing door cuts wall+
 server autosave on logoff+
 blink into wall (check DC for fun)
 

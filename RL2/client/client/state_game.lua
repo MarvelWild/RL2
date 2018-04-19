@@ -145,7 +145,7 @@ end
 
 local startPickupItems=function()
 	log("startPickupItems")
-	local currentCell=LevelUtil.getCell(W.cells,W.player.x,W.player.y)
+	local currentCell=Level.getCell(W.cells,W.player.x,W.player.y)
 	if currentCell.items~=nil then
 		log("cell has items")
 		
@@ -305,7 +305,7 @@ local drawCells=function()
 			local drawY=startPixelY+(-screenY*C.tileSize)
 			
 			--log("draw cell "..cellX..","..cellY)
-			local cell = LevelUtil.getCell(W.cells,cellX,cellY)
+			local cell = Level.getCell(W.cells,cellX,cellY)
 			
 			Cell.draw(cell,drawX,drawY)
 		end

@@ -72,9 +72,9 @@ local item_action=function(data,clientId)
 	
 	local cell
 	if data.action.x~=nil and data.action.y~=nil then
-		cell=LevelUtil.getCell(level.cells,data.action.x,data.action.y)
+		cell=Level.getCell(level.cells,data.action.x,data.action.y)
 	else
-		cell=LevelUtil.getCell(level.cells,player.x,player.y)
+		cell=Level.getCell(level.cells,player.x,player.y)
 	end
 	
 	

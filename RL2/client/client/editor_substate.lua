@@ -24,7 +24,6 @@ _.startItemIndex=1
 
 local getCurrentItem=function()
 	local registryPos = (C.editorCurrentRow-1)*C.editorCols+C.editorCurrentCol+_.startItemIndex-1
-	-- todo: read from server
 	return editorItems[registryPos]
 end
 
@@ -58,6 +57,7 @@ local switchPage=function(num)
 	_.startItemIndex=_.startItemIndex+(pageSize*num)
 	
 	if _.startItemIndex<1 then _.startItemIndex=1 end
+	currentItem=getCurrentItem()
 end
 
 
@@ -72,16 +72,20 @@ local moveFocus=function(dx,dy)
 	end
 	
 	if dy~=0 then
-		local nextRow=C.editorCurrentRow-dy
-		if nextRow>C.editorRows then
+		nextY=C.editorCurrentRow-dy
+		if nextY>C.editorRows then
 			nextY=1
 			switchPage(1)
+		elseif nextY<1 then
+			nextY=C.editorRows
+			switchPage(-1)
 		else
-			nextY=nextRow
+			-- were fine
+			-- nextY=nextRow
 		end
 	end
 	
-	local registryPos = (nextY-1)*C.editorCols+nextX
+	local registryPos = (nextY-1)*C.editorCols+nextX+_.startItemIndex-1
 	local nextItem=editorItems[registryPos]
 	if nextItem~=nil then
 		C.editorCurrentCol=nextX

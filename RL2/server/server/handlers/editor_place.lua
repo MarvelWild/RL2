@@ -8,7 +8,7 @@ local editor_place=function(data,clientId)
 	
 --	dump(level.cells, "editor_place")
 	
-	local cell = LevelUtil.getCell(level.cells,data.x,data.y)
+	local cell = Level.getCell(level.cells,data.x,data.y)
 	
 	EditorItem.applyToCell(editorItem,cell)
 	

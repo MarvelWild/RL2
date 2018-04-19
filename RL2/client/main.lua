@@ -93,8 +93,8 @@ W={}
 -- in turns
 W.time=1
 
-LevelUtil=require "shared/world/levelutil"
-Cell=require "world/cell"
+Level=require "shared/world/level"
+Cell=multirequire("shared/world/cell","world/cell")
 Player=require "shared/world/player"
 Character=require "shared/world/character"
 Feature=require "shared/world/feature"

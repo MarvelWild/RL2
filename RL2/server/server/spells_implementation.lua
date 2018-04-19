@@ -25,7 +25,7 @@ _.polymorph=function(params,player)
 	log("casting polymorph")
 	
 	local level=Levels[player.level]
-	local cell=LevelUtil.getCell(level.cells,params.x,params.y)
+	local cell=Level.getCell(level.cells,params.x,params.y)
 	
 	local entity=cell.entity
 	if entity~=nil then

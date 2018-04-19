@@ -15,6 +15,11 @@ _.applyToCell=function(editorItem,cell)
 		feature.code=editorItem.code
 		feature.spriteName=editorItem.spriteName
 		cell.feature=feature
+		if editorItem.featureType=="door" then
+			cell.wall=nil
+		end
+		
+		
 	elseif editorItem.type=="wall" then
 		cell.wall=Wall.new(editorItem.wall_type)
 		cell.wall.spriteName=editorItem.spriteName
