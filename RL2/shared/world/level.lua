@@ -1,15 +1,35 @@
 local _={}
 
 -- Хоть new и используется на сервере, всегда ложим в shared чтобы понимать структуру
-_.new=function(name)
+_.new=function(name,depth)
 	local result={}
 	
-	result.name=name
+	if depth==nil then depth=0 end
+	
+	result.name=name -- name only, example: dungeon
+	
+	-- по этому полю левела лежат в глобале Levels
+	result.code=name -- name_depth (default:0) dungeon_42
 	result.depth=0
 	result.cells={}
 	
 	return result
 end
+
+_.setDepth=function(level,depth)
+	level.code=level.name.."_"..depth
+	level.depth=depth
+end
+
+
+-- code:level_42 -> name:level, depth:42
+_.splitCode=function(code)
+	local parts=Lume.split(code,"_")
+	
+	-- name,depth
+	return parts[1],tonumber(parts[2])
+end
+
 
 _.getCell=function(cells,x,y)
 

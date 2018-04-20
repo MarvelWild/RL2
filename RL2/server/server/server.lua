@@ -12,12 +12,12 @@ _.commandHandlers={}
 
 
 -- current excluded
-local getActivePlayersAt=function(currentPlayer,x,y,levelName)
+local getActivePlayersAt=function(currentPlayer,x,y,levelCode)
 	-- opt:could be index by xy
 	local result=nil
 	for k,client in pairs(_.clients) do
 		local player=client.player
-		if player~=nil and player.level==currentPlayer.level then
+		if player~=nil and player.levelCode==currentPlayer.levelCode then
 			if player.x==x and player.y==y and player~=currentPlayer then
 				if result==nil then result={} end
 				table.insert(result, player)
@@ -29,12 +29,12 @@ local getActivePlayersAt=function(currentPlayer,x,y,levelName)
 end
 
 
-_.getActivePlayersAtCell=function(levelName,x,y)
+_.getActivePlayersAtCell=function(levelCode,x,y)
 	-- opt:could be index by xy
 	local result=nil
 	for k,client in pairs(_.clients) do
 		local player=client.player
-		if player~=nil and player.level==levelName then
+		if player~=nil and player.levelCode==levelCode then
 			if player.x==x and player.y==y then
 				if result==nil then result={} end
 				table.insert(result, player)
@@ -51,7 +51,7 @@ _.getVisibleCells=function(player)
 	local startY=player.y-player.fov
 	local endY=player.y+player.fov
 	
-	local level=Levels[player.level]
+	local level=Levels[player.levelCode]
 	
 	local result={}
 	
@@ -123,21 +123,6 @@ _.commandHandlers.enter_editor_mode=function(data,clientId)
 	local player=client.player
 	player.isEditor=true
 	
-	_.send({"ok"}, clientId, data.requestId)
-end
-
-
-_.commandHandlers.preset_picked=function(data,clientId)
-	log("new player")
-	local pickNumber=data.pick
-	local preset=Registry.playerPresets[pickNumber]
-	local player=Player.new(preset)
-	player.isLoggedIn=true
-	local client=_.clients[clientId]
-	Players[client.login]=player
-	client.player=player
-	
-	local test=Players[client.login]
 	_.send({"ok"}, clientId, data.requestId)
 end
 
@@ -287,7 +272,7 @@ _.sendPlayerStatus=function(client,isForce)
 	
 	for otherClientId,otherClient in pairs(_.clients) do
 		if otherClient~=client and otherClient.player~=nil then 
-			if client.player.level==otherClient.player.level or isForce then
+			if client.player.levelCode==otherClient.player.levelCode or isForce then
 				_.send(data, otherClientId, nil)
 				log("Sending status to:"..otherClient.player.name)
 			end

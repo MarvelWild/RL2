@@ -18,6 +18,8 @@ local pick_player=function(data,clientId)
 	player.isEditor=isEditor
 	player.isLoggedIn=true
 	
+	Level.load(player.levelCode)
+	
 	response.responseType="pick_player_ok"
 	Server.send(response, clientId, data.requestId)
 	

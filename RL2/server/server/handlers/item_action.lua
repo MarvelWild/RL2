@@ -68,7 +68,7 @@ local item_action=function(data,clientId)
 	local player=client.player
 	
 	local actionCode=data.action.code
-	local level=Levels[player.level]
+	local level=Levels[player.levelCode]
 	
 	local cell
 	if data.action.x~=nil and data.action.y~=nil then

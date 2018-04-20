@@ -4,7 +4,7 @@ local activate_feature=function(data, clientId)
 	log("activate_feature. data="..pack(data))
 	local client=Server.clients[clientId]
 	local player=client.player
-	local level=Levels[player.level]
+	local level=Levels[player.levelCode]
 	local cell=Level.getCell(level.cells,player.x,player.y)
 	
 	local feature=cell.feature
@@ -19,7 +19,7 @@ local activate_feature=function(data, clientId)
 	{
 		x=player.x,
 		y=player.y,
-		level=player.level,
+		levelCode=player.levelCode,
 	}
 
 	Feature.activate(feature,player,level)

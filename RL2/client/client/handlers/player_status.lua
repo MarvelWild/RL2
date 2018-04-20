@@ -19,21 +19,15 @@ local player_status=function(data)
 			log("Error: cannot find player")
 		end
 	
-		if updatedPlayer.level==W.player.level and updatedPlayer.isLoggedIn then
+		if updatedPlayer.levelCode==W.player.levelCode
+			and updatedPlayer.isLoggedIn 
+		then
 			local newCell=Level.getCell(W.cells, updatedPlayer.x,updatedPlayer.y)
 			
 			-- баг? надо осторожно с .players - оно не гарантировано
 			if newCell.players==nil then newCell.players={} end
 			table.insert(newCell.players, updatedPlayer)
 		end
-			
-		
-		
---		local player,playerKey,cell=Level.findPlayer(W.cells)
---		if player~=nil then
---			cell.players[playerKey]=updatedPlayer
---		end
-		
 	end
 end
 

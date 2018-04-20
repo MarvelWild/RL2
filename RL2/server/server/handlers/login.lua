@@ -17,8 +17,6 @@ local login=function(data,clientId)
 	--client.player=player
 	--Server.sendPlayerStatus(client)
 	
-	Level.load(player.level)
-	
 	Server.send({players={player}}, clientId, data.requestId)
 	
 end

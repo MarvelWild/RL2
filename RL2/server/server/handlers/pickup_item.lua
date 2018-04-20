@@ -6,7 +6,7 @@ local pickup_item=function(data,clientId)
 	local client = Server.clients[clientId]
 	
 	local player=client.player
-	local level=Levels[player.level]
+	local level=Levels[player.levelCode]
 	
 	local cell=Level.getCell(level.cells,x,y)
 	

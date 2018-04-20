@@ -22,7 +22,7 @@ local move=function(data, clientId)
 	
 	local canMove=true -- ok let ghost fly not player.isDead
 	
-	local level=Levels[player.level]
+	local level=Levels[player.levelCode]
 	local desiredCell=Level.getCell(level.cells,data.x,data.y)
 	local prevCell=Level.getCell(level.cells,player.x,player.y)
 	
