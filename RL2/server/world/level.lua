@@ -2,18 +2,37 @@
 
 local _={}
 
-_.new=function(name)
-	local result={}
+--должна оставаться единственной точкой получения ячейки
+
+-- загружает уровень если ещё не загружен
+-- возвращает уровень
+_.load=function(levelName)
 	
-	result.name=name
-	result.depth=0
-	result.cells={}
+-- prev load
+--	for k,levelName in pairs(levelSaves) do
+--		local packed=love.filesystem.read(levelsDir..levelName)
+--		Levels[levelName]=TSerial.unpack(packed)
+--	end	
+	
+	local result=Levels[levelName]
+	if result==nil then
+		
+		local file=SERVER_SAVE_DIR..LEVELS_SAVE_DIR..levelName
+		local info=love.filesystem.getInfo(file)
+		if info~=nil then
+			local packed=love.filesystem.read(file)
+			result=TSerial.unpack(packed)
+			log("loading level:"..levelName)
+		else
+			result=Level.new(levelName)
+			log("creating level:"..levelName)
+		end
+		
+		Levels[levelName]=result
+	end
 	
 	return result
 end
-
-
---должна оставаться единственной точкой получения ячейки
 
 _.getUpdatedCell=function(cells,x,y)
 

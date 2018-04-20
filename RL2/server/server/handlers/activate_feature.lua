@@ -6,7 +6,6 @@ local activate_feature=function(data, clientId)
 	local player=client.player
 	local level=Levels[player.level]
 	local cell=Level.getCell(level.cells,player.x,player.y)
-	local isStatusChanged=false
 	
 	local feature=cell.feature
 	
@@ -15,13 +14,16 @@ local activate_feature=function(data, clientId)
 		return 
 	end
 	
-	if feature.featureType=="portal" then
-		player.level=feature.dest
-		isStatusChanged=true
-	else
-		--error: not implemented for feature:{spriteName="ladder_down",id=5}
-		log("error: not implemented for feature:"..pack(feature))
-	end
+	
+	local statusBeforeActivation=
+	{
+		x=player.x,
+		y=player.y,
+		level=player.level,
+	}
+
+	Feature.activate(feature,player,level)
+	local isStatusChanged=not table.existingEquals(statusBeforeActivation,player)
 	
 	-- local response={"ok"}
 	Server.sendTurn(client, clientId, data.requestId)

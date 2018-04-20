@@ -1,5 +1,16 @@
 local _={}
 
+-- Хоть new и используется на сервере, всегда ложим в shared чтобы понимать структуру
+_.new=function(name)
+	local result={}
+	
+	result.name=name
+	result.depth=0
+	result.cells={}
+	
+	return result
+end
+
 _.getCell=function(cells,x,y)
 
 	assert(x~=nil)

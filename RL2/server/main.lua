@@ -85,13 +85,9 @@ Players={}
 -- key==name
 Levels={}
 
--- todo: dynamic
-Levels.start=Level.new("start")
-Levels.level2=Level.new("level2")
-
 Player=multirequire("shared/world/player","world/player")
 Character=multirequire("shared/world/character","world/character")
-Feature=require "shared/world/feature"
+Feature=multirequire("shared/world/feature","world/feature")
 Inventory=require "shared/world/inventory"
 
 Cell=multirequire("shared/world/cell","world/cell")

@@ -108,7 +108,7 @@ _.send=function(data, clientId,requestId)
 	
 	local sendLen=string.len(packed)
 	local sendInfo="sending size="..sendLen
-	if sendLen<10000 then
+	if sendLen<8192 then
 		sendInfo=sendInfo.." data:"..packed
 	end
 	log(sendInfo)
@@ -206,10 +206,8 @@ local loadWorld=function()
 	
 	local levelsDir=SERVER_SAVE_DIR..LEVELS_SAVE_DIR
 	local levelSaves=love.filesystem.getDirectoryItems(levelsDir)
-	for k,levelName in pairs(levelSaves) do
-		local packed=love.filesystem.read(levelsDir..levelName)
-		Levels[levelName]=TSerial.unpack(packed)
-	end
+	
+
 end
 
 _.activate=function()

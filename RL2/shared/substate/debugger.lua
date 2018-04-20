@@ -11,10 +11,19 @@ local dump=function()
 end
 
 
+local consoledump=function()
+	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
+	if playerCell~=nil then
+		log("consoledump:"..pack(playerCell))
+	end
+end
+
+
 
 _.draw=function()
 	LG.print("Debugger")
 	LG.print("F1-dump",0,16)
+	LG.print("F2-consoledump",0,32)
 	
 	local playerCell = Level.getCell(W.cells,W.player.x,W.player.y)
 	LG.printf("Cell:"..TSerial.pack(playerCell),0,400,800, "left")
@@ -25,6 +34,8 @@ _.onKeyPressed=function(key)
 		_.parentstate.delSubstate(_)
 	elseif key=="f1" then
 		dump()
+	elseif key=="f2" then
+		consoledump()
 	end
 	
 	return true

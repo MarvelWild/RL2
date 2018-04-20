@@ -1,3 +1,12 @@
++level load dynamic upgrade
++describe ladder 			
+	feature={featureType="ladder",id=15,code="ladder_down",spriteName="ladder_down"}}
+	-- todo: dynamic
+	Levels.start=Level.new("start")
+ladder creates level
+ladder generate corresponding ladder
+
+
 editor presets: RndLvlGen elements
 
 	activate ladder creates new level
@@ -7,7 +16,7 @@ every level in infinite (ladder)
 polymorph with selection
 
 
-editor water flood mode
+editor flood mode
 
 
 Dj lib

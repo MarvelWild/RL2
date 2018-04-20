@@ -223,3 +223,18 @@ table.append=function(t,t2)
 		table.insert(t,v)
 	end
 end
+
+-- проверяет что все значения из t1 равны значениям из t2
+-- пример использования: обнаружение изменений в сабсете данных
+-- пока что только value типы, без таблиц
+table.existingEquals=function(t1,t2)
+	for k1,v1 in pairs(t1) do
+		local v2=t2[k1]
+		if v2~=v1 then
+			return false
+		end
+	end
+	
+	return true
+end
+

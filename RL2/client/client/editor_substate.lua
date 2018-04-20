@@ -195,6 +195,7 @@ local drawItem=function(item,cellX,cellY)
 	EditorItem.draw(item,worldX,worldY)
 
 	if cellX==C.editorCurrentCol and cellY==C.editorCurrentRow then
+		-- LG.draw(Img.active_frame_32, worldX+16, worldY+16, S.frame/60,1,1,16,16)
 		LG.draw(Img.active_frame_32, worldX, worldY)
 	end
 end
