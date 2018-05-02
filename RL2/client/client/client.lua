@@ -28,6 +28,7 @@ end
 
 _.switchToGameState=function()
 	local gameState=require "client/state_game"
+	Game=gameState
 	switchState(gameState)
 end
 

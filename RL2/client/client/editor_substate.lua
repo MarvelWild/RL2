@@ -6,6 +6,7 @@ local drawX=nil
 local drawY=nil
 
 
+_.name="editor_substate"
 _.parentstate=nil
 _.lastPlace={}
 _.lastPlace.x=nil
@@ -19,6 +20,15 @@ local isLoading=false
 local editorItems=nil
 local currentItem=nil
 local pageSize=C.editorRows*C.editorCols-C.editorCols
+
+local mode="single"--,"square"
+local isInputLocked=false
+
+local modes={
+	"single",
+	"square"
+}
+
 
 _.startItemIndex=1
 
@@ -51,6 +61,21 @@ local placeItem=function(isLocking,x,y)
 	_.lastPlace.item=command.item
 	
 	_.parentstate.dispatchCommand(command,isLocking)
+end
+
+local placeArea=function(x1,y1,x2,y2)
+	local item=getCurrentItem()
+
+	local command={
+		cmd="editor_place_area",
+		item=item,
+		x1=x1,
+		y1=y1,
+		x2=x2,
+		y2=y2,
+	}
+	
+	_.parentstate.dispatchCommand(command,true)
 end
 
 local switchPage=function(num)
@@ -108,9 +133,35 @@ end
 
 
 
+
+local modeSwitch=function()
+	local nextMode=table.nextInCircle(modes,mode)
+	
+	mode=nextMode
+	log("editor mode switched to:"..mode)
+end
+
+
+
+local afterSquarePicked=function(x1,y1,x2,y2)
+	log("after square picked:"..xy(x1,y1).." to "..xy(x2,y2))
+	-- todo: place item on square
+	
+	isInputLocked=false
+end
+
+
+local handleSquareKey=function()
+	isInputLocked=true
+	_.parentstate.pickSquare(afterSquarePicked)
+end
+
+
 --called from parent state, not subscribed globally
 _.onKeyPressed=function(key, unicode)
 	-- log("editor receiving key:"..key)
+	
+	if isInputLocked then return false end
 	
 	-- isProcessed means parents should not react
 	local isProcessed=false
@@ -146,11 +197,24 @@ _.onKeyPressed=function(key, unicode)
 		end
 	elseif key==C.editorDeleteItem then
 		deleteCurrentItem()
+		isProcessed=true	
 	elseif key==C.editorNextPage then
 		switchPage(1)
+		isProcessed=true	
 	elseif key==C.editorPrevPage then	
 		switchPage(-1)
+		isProcessed=true	
+	elseif key==C.editorModeSwitch then
+		modeSwitch()
+		isProcessed=true	
+	elseif key==C.editorPlaceItem then
+		if mode=="square" then
+			handleSquareKey()
+			isProcessed=true	
+		end
 	end 
+	
+	-- C.editorPlaceItem handled in update for 1tile
 	
 	
 	
@@ -184,7 +248,7 @@ end
 
 
 _.update=function()
-	if love.keyboard.isDown(C.editorPlaceItem) then
+	if not isInputLocked and love.keyboard.isDown(C.editorPlaceItem) and mode=="single" then
 		placeItem(false,W.player.x,W.player.y)
 	end
 end
@@ -234,7 +298,7 @@ _.draw=function()
 		LG.print(pack(currentItem),20,460)
 	end
 	
-	
+	LG.print("Mode:"..mode,640,100)
 end
 
 

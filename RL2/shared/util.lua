@@ -1,3 +1,4 @@
+
 tryCall=function(func)
 	if func~=nil then func() end
 end
@@ -236,5 +237,36 @@ table.existingEquals=function(t1,t2)
 	end
 	
 	return true
+end
+
+
+table.nextInCircle=function(t,prevv)
+	
+	local curr=nil
+	local nxt=nil
+	local first=nil
+	
+	for k,currv in pairs(t) do
+		if first==nil then first=currv end
+		
+		if currv==prevv then
+			curr=currv
+		elseif curr~=nil then
+			nxt=currv
+			break
+		end
+	end
+	
+	if curr==nil then return nil end
+	
+	local result
+	if nxt==nil then
+		result=first
+	else
+		result=nxt
+	end
+	
+	return result
+	
 end
 

@@ -6,6 +6,7 @@ _G.common=nil
 Img=nil
 Shaders=nil
 Client=nil
+Game=nil -- state_game
 
 local time=love.timer.getTime()
 love.math.setRandomSeed(time)
@@ -57,7 +58,8 @@ if confFileInfo~=nil then
 	local defaultConfig=require "shared/data/gameconfig"
 	if defaultConfig.version>C.version then
 		-- вторая приоритетней
-		С=Lume.merge(defaultConfig,C)
+		local mergedC=Lume.merge(defaultConfig,C)
+		C=mergedC
 		--C=defaultConfig
 		log("Old config merged")
 	end
@@ -120,6 +122,8 @@ love.load=function()
 	Audio.startMusic()
 	
 	tryCall(S.rootState.activate)
+	
+	require "tech/tests"
 end
 
 love.draw=function()

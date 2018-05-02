@@ -1,6 +1,6 @@
 local C={}
 
-C.version=2
+C.version=3
 C.handshake="RL"
 C.port=4242
 
@@ -30,6 +30,7 @@ C.editorPlaceItem="space"
 C.editorDeleteItem="delete"
 C.editorNextPage="pagedown"
 C.editorPrevPage="pageup"
+C.editorModeSwitch="kp/"
 C.pickTarget=C.editorPlaceItem
 C.keyDebugger="f11"
 C.keyOpenOptions="f10"

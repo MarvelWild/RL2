@@ -1,7 +1,28 @@
-editor presets: RndLvlGen elements
+спелл invisibility/скилл маскировки
+спелл interdimensional travel
+класс developer
+
+
+
+	флоу ввода реверснуть? пока что не надо
+пробел сразу летит в picktarg
+
+
+	square selection substate
+editor square fill tool
+
+
+	а лог вью - сабстейт
+рефактор - лог это не компонент а сервис
+
+	spell sets
+players individuality
+
 	magic school and levels
 	spell configuration
+	react to isRandom
 polymorph with selection
+editor presets: RndLvlGen elements
 editor flood mode
 Dj lib
 sprites jit (Img.get)+
@@ -21,6 +42,8 @@ blink into wall (check DC for fun)
 editor switch page on move down+
 +editor place from page>1 support	
 
+
+editor mode switch+
 client apply effect type="paint",color={r,g,b}+
 server handle throw+
 			там не разделить какие из сабов рабочие в этот момент+
@@ -252,3 +275,5 @@ ui редактора+
 +ladder generate corresponding ladder
 +	activate ladder creates new level
 +every level in infinite (ladder)
+
+

@@ -24,5 +24,7 @@ local _=
 	{name="Minotaur",spriteName="minotaur"},
 }
 
+-- todo: preset as character.
+-- todo: move spells to character
 
 return _

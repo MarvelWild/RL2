@@ -1,3 +1,4 @@
+-- alias: Game
 local _={}
 
 --local _cursorWaitArrow = love.mouse.getSystemCursor("waitarrow")
@@ -178,6 +179,7 @@ local onKeyPressed=function(key, unicode)
 	
 	-- для оптимизации можно _.substates разбить на обработчики, хотя бы для draw-update
 	for k,substate in pairs(_.substates) do
+		log("try to process key by substate:"..tostring(substate.name))
 		if substate.onKeyPressed~=nil then
 			local isProcessed=substate.onKeyPressed(key,unicode)
 			if isProcessed then return end
@@ -353,10 +355,13 @@ local startGame=function(response)
 end
 
 -- afterPicked(x,y)
-_.pickTarget=function(afterPicked)
+_.pickTarget=function(afterPicked,range)
 	local prevDrawSelf=_.isDrawSelf
 	_.isDrawSelf=true
 	local state=require "client/substate/pick_target"
+	
+	if range~=nil then state.range=range end
+	
 	_.addSubstate(state)
 	state.afterPicked=Lume.combine(
 		afterPicked,
@@ -365,6 +370,22 @@ _.pickTarget=function(afterPicked)
 		end
 	)
 end
+
+_.pickSquare=function(afterPicked)
+	-- wip
+	local prevDrawSelf=_.isDrawSelf
+	_.isDrawSelf=true
+	local state=require "client/substate/select_square"
+	_.addSubstate(state)
+	state.afterPicked=Lume.combine(
+		afterPicked,
+		function()
+			_.isDrawSelf=prevDrawSelf
+		end
+	)
+	
+end
+	
 
 
 

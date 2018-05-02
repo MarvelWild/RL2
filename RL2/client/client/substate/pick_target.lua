@@ -3,6 +3,8 @@
 -- remember target
 -- iterate targets7
 
+-- todo: free targeting
+
 local _={}
 
 -- cell coords
@@ -12,6 +14,7 @@ local _targetY=nil
 local _centerX=nil
 local _centerY=nil
 
+-- calculated from range
 local _minX=nil
 local _maxX=nil
 local _minY=nil
@@ -22,17 +25,19 @@ _.range=3
 
 _.afterPicked=nil
 
+_.name="pick_target"
+
 _.draw=function()
 	
 	
 	local gameX,gameY=coord_cell_to_game(_targetX,_targetY)
 	
 	LG.draw(Img.target, gameX, gameY)
-	LG.print("PICK TARGET:".._targetX..",".._targetY.." scr:"..gameX..","..gameY)
+	LG.print("PICK TARGET:".._targetX..",".._targetY.." scr:"..gameX..","..gameY,0,20)
 end
 
 _.onKeyPressed=function(key)
-	log("pick_target key pressed:"..key)
+--	log("pick_target key pressed:"..key)
 	if key=="escape" then
 		_.parentstate.delSubstate(_)
 		
