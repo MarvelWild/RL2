@@ -13,6 +13,7 @@ _.new=function()
 	result.attackMax=4
 	result.inventory={}
 	result.effects={}
+	result.abilities={}
 	--result.x=x
 	--result.y=y
 	return result

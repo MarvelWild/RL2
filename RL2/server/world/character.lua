@@ -24,4 +24,20 @@ _.applyEffect=function(character,effect)
 	end
 end
 
+-- incomplete, just enough to create player from preset
+_.clone=function(character)
+	local result=Character.new()
+	
+	result.hp=character.hp
+	result.spriteName=character.spriteName
+	result.abilities={}
+	if character.abilities~=nil then
+		for k,v in pairs(character.abilities) do
+			table.insert(result.abilities,Ability.clone(v))
+		end
+	end
+	
+	return result
+end
+
 return _

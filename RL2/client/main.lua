@@ -14,6 +14,16 @@ love.math.setRandomSeed(time)
 -- the only Globals area --
 LG=love.graphics
 
+LG.oldDraw=LG.draw
+LG.draw=function(drawable,x,y,r, sx, sy, ox, oy, kx, ky)
+	if drawable==nil then
+		LG.print("NOIMG",x,y)
+		return
+	end
+	
+	LG.oldDraw(drawable,x,y,r, sx, sy, ox, oy, kx, ky)
+end
+
 -- third party
 Utf8 = require("utf8")
 Lume=require "shared/lib/lume/lume"

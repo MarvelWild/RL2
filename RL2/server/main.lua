@@ -23,6 +23,7 @@ Grease=require "shared/lib/grease/grease.init"
 TSerial=require "shared/lib/TSerial"
 Async=require "shared/lib/async/async"
 Inspect=require "shared/lib/inspect/inspect"
+Stack=require "shared/lib/FloodFill/struct/stack"
 
 -- Session
 S=require "shared/data/session"
@@ -67,7 +68,7 @@ Id.init(SERVER_SAVE_DIR)
 Id.load()
 
 
-require "shared/util"
+Util=require "shared/util"
 
 
 -- ours
@@ -95,7 +96,7 @@ Wall=require "shared/world/wall"
 Item=multirequire("shared/world/item", "world/item")
 EditorItem=multirequire("shared/world/editoritem","world/editoritem")
 Effect=require "shared/world/effect"
-Spell=require "shared/world/spell"
+Ability=multirequire("shared/world/ability","world/ability")
 
 -- end of globals area --
 

@@ -109,11 +109,11 @@ local activateFeature=function()
 	
 end
 
-local startCastSpell=function()
-	log("Cast spell start")
+local startUseAbility=function()
+	log("startUseAbility")
 	
-	local spellSubstate=require "client/substate/spell_cast"
-	_.addSubstate(spellSubstate)
+	local abilitySubstate=require "client/substate/ability_use"
+	_.addSubstate(abilitySubstate)
 end
 
 -- активирует поле для чата, которое принимает инпут
@@ -132,11 +132,6 @@ local openInventory=function()
 	_.addSubstate(state)
 end
 
-local openAbilities=function()
-	log("opening abilities")
-	local abilities=require "client/substate/abilities"
-	_.addSubstate(abilities)
-end
 
 local openDebugger=function()
 	local state=require "shared/substate/debugger"
@@ -242,12 +237,10 @@ local onKeyPressed=function(key, unicode)
 		dispatchCommand(command,false)
 		command.rand=love.math.random(1000)
 		dispatchCommand(command,false)
-	elseif key==C.keyCastSpell then
-		startCastSpell()
 	elseif key==C.keyInventory then
 		openInventory()
 	elseif key==C.keyAbilities then
-		openAbilities()
+		startUseAbility()
 	elseif key==C.keyDebugger then
 		openDebugger()
 	elseif key==C.pickupItem then
@@ -322,7 +315,7 @@ local drawPlayer=function()
 	if player.isDead then
 		playerSprite=Img.ghost
 	else
-		playerSprite=Img[player.spriteName]
+		playerSprite=Img[player.character.spriteName]
 	end
 
 	

@@ -19,7 +19,6 @@ end
 --- DATA
 
 
-_.spells=require("data/spells")
 _.playerPresets=require("data/player_presets")
 
 _.addWall("stone", "wall_stone")

@@ -26,7 +26,8 @@ local isInputLocked=false
 
 local modes={
 	"single",
-	"square"
+	"square",
+	"fill",
 }
 
 
@@ -145,7 +146,7 @@ end
 
 local afterSquarePicked=function(x1,y1,x2,y2)
 	log("after square picked:"..xy(x1,y1).." to "..xy(x2,y2))
-	-- todo: place item on square
+	placeArea(x1,y1,x2,y2)
 	
 	isInputLocked=false
 end
@@ -154,6 +155,21 @@ end
 local handleSquareKey=function()
 	isInputLocked=true
 	_.parentstate.pickSquare(afterSquarePicked)
+end
+
+
+
+local fill=function()
+	local item=getCurrentItem()
+
+	local command={
+		cmd="editor_fill",
+		item=item,
+		x=W.player.x,
+ 		y=W.player.y,
+	}
+	
+	_.parentstate.dispatchCommand(command,true)
 end
 
 
@@ -195,7 +211,9 @@ _.onKeyPressed=function(key, unicode)
 			moveFocus(-1,-1)
 			isProcessed=true			
 		end
-	elseif key==C.editorDeleteItem then
+	end
+	
+	if key==C.editorDeleteItem then
 		deleteCurrentItem()
 		isProcessed=true	
 	elseif key==C.editorNextPage then
@@ -211,12 +229,13 @@ _.onKeyPressed=function(key, unicode)
 		if mode=="square" then
 			handleSquareKey()
 			isProcessed=true	
+		elseif mode=="fill" then
+			fill()
+			isProcessed=true
 		end
 	end 
 	
 	-- C.editorPlaceItem handled in update for 1tile
-	
-	
 	
 	return isProcessed
 end

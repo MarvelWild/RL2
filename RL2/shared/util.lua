@@ -1,4 +1,4 @@
-
+-- global scope
 tryCall=function(func)
 	if func~=nil then func() end
 end
@@ -270,3 +270,10 @@ table.nextInCircle=function(t,prevv)
 	
 end
 
+
+-- local scope
+local _={}
+
+
+
+return _

@@ -3,8 +3,8 @@ local _={}
 
 _.new=function()
 	local result={}
-	result.id=Id.new("spell")
-	result.name="New spell"
+	result.id=Id.new("ability")
+	result.name="New ability"
 	result.code=nil
 	result.spriteName=nil
 	result.type=nil

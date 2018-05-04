@@ -31,6 +31,15 @@ _.splitCode=function(code)
 end
 
 
+
+
+-- working, but unused
+--_.isFree=function(cells,x,y)
+--		local cell=_.getCell(cells,x,y)
+--		local result=Cell.isEmpty(cell)
+--		return result
+--end
+
 _.getCell=function(cells,x,y)
 
 	assert(x~=nil)

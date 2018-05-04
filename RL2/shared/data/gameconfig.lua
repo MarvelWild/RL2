@@ -23,7 +23,6 @@ C.pickupItem=","
 
 C.editorActivate="e"
 C.testCommand="t"
-C.keyCastSpell="c"
 C.keyInventory="i"
 C.keyAbilities="a"
 C.editorPlaceItem="space"

@@ -8,6 +8,7 @@ _.clear=function(cell)
 	cell.entity=nil
 	cell.feature=nil
 	cell.ground_type=nil
+	cell.groundSpriteName=nil
 	cell.misc=nil
 end
 

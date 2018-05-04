@@ -41,7 +41,17 @@ local _=
 		["type"]="feature",
 		["featureType"]="door",
 		["spriteName"]="door_closed",
-	},		
+	},
+	{
+		["type"]="feature",
+		["featureType"]="bed",
+		["spriteName"]="bed",
+	},
+	{
+		["type"]="feature",
+		["featureType"]="computer",
+		["spriteName"]="table",
+	},
 }
 
 

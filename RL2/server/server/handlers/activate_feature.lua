@@ -20,6 +20,7 @@ local activate_feature=function(data, clientId)
 		x=player.x,
 		y=player.y,
 		levelCode=player.levelCode,
+		hp=player.hp,
 	}
 
 	Feature.activate(feature,player,level)

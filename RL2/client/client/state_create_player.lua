@@ -62,7 +62,12 @@ _.draw=function()
 	local yStep=40
 	local x=10
 	for k,preset in pairs(presets) do
-		local sprite=Img[preset.spriteName]
+		local sprite
+		if preset.character~=nil then
+			sprite=Img[preset.character.spriteName]
+		else
+			sprite=Img[preset.spriteName]
+		end
 		
 		LG.print(k,x,y)
 		LG.draw(sprite,x+16,y)

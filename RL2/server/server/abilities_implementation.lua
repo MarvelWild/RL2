@@ -14,7 +14,7 @@ _.blink=function(params,player)
 end
 
 _.heal=function(params,player)
-	log("heal spell")
+	log("heal ability")
 	
 	if params.amount~=nil then
 		Player.heal(player, params.amount)

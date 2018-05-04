@@ -51,4 +51,16 @@ _.new=function(x,y)
 	return result
 end
 
+
+_.isEmpty=function(cell)
+	if cell.ground_type~=nil then return false end
+	if cell.groundSpriteName~=nil then return false end
+	if cell.wall~=nil then return false end
+	if cell.feature~=nil then return false end
+	
+	-- incomplete, but sufficient for fill
+	
+	return true
+end
+
 return _

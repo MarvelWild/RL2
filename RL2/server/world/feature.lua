@@ -40,6 +40,8 @@ _.activate=function(feature,player,level)
 			
 			cell.feature=ladder
 		end
+	elseif featType=="bed" then
+		Player.heal(player,9000)
 	else
 		log("error: Feature not activated:"..pack(feature))
 	end

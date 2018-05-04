@@ -1,4 +1,5 @@
 local _={
+	{type="ground",spriteName="floor_wooden",	},
 	{type="ground",ground_type="grass",spriteName="floor_grass_1",	},
 	{type="ground",ground_type="grass",spriteName="floor_grass_2",	},
 	{type="ground",ground_type="grass",spriteName="floor_grass_3",	},

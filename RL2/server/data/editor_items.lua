@@ -3,24 +3,7 @@
 -- todo: editorItem as cell, as new item type.
 
 --применение: EditorItem.applyToCell
-local _={
-	{
-		["type"]="wall",
-		["wall_type"]="stone",
-		["spriteName"]="wall_stone",
-	},
-	{
-		["type"]="wall",
-		["wall_type"]="bones",
-		["spriteName"]="wall_bones_1",
-	},
-	{
-		["type"]="wall",
-		["wall_type"]="iron",
-		["spriteName"]="wall_iron",
-	},
-	
-}
+local _={}
 
 local addItems=function()
 	for k,v in pairs(Registry.items) do
@@ -35,9 +18,11 @@ addItems()
 local groundItems=require "data/editoritems/ground"
 local editorCharacters=require "data/editoritems/editor_characters"
 local editorFeatures=require "data/editoritems/editor_features"
+local editorWalls=require "data/editoritems/editor_walls"
 table.append(_,editorCharacters)
 table.append(_,groundItems)
 table.append(_,editorFeatures)
+table.append(_,editorWalls)
 
 
 return _
