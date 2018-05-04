@@ -17,7 +17,7 @@ _.heal=function(params,player)
 	log("heal ability")
 	
 	if params.amount~=nil then
-		Player.heal(player, params.amount)
+		Charatcer.heal(player.character, params.amount)
 	end
 end
 
