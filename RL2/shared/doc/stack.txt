@@ -1,3 +1,6 @@
+arrows in debugger move active cell
++player 	r.hp=42	r.maxHp=42, xp, lvl to character
+	
 	
 	spell sets
 players individuality

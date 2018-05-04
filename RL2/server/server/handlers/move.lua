@@ -33,14 +33,14 @@ local move=function(data, clientId)
 				canMove=false
 				
 				local damage = math.random(player.attackMin, player.attackMax)
-				local isDead=Character.hit(entityAtDest,damage,desiredCell)
+				local isHit,isDead=Character.hit(entityAtDest,damage,desiredCell)
 				if isDead then
-					Player.receiveXp(player, entityAtDest.xpReward)
+					Character.receiveXp(player.character, entityAtDest.xpReward)
 				end
 				
 				
 				local damageFromMonster=math.random(entityAtDest.attackMin, entityAtDest.attackMax)
-				Player.hit(player,damageFromMonster)
+				Character.hit(player.character,damageFromMonster)
 			end
 		end
 		
