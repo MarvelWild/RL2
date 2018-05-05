@@ -1,9 +1,4 @@
-arrows in debugger move active cell
-+player 	r.hp=42	r.maxHp=42, xp, lvl to character
-	
-	
-	spell sets
-players individuality
+
 
 
 
@@ -46,9 +41,20 @@ F10 options+
 display level name
 sleep ability - enter the dream level sometimes
 exit closes the door (sometimes :)+
++unfly
 	ingame level creation
 	levelname_num
 infinite dungeon
+
+
+slow net emu
+effects draw+
++test fly
+player in debugger+
+	fly over water+
+	declare+
+fly ability+
+статусы - есть effects+
 
 editor: placing door cuts wall+
 server autosave on logoff+
@@ -65,7 +71,12 @@ editor switch page on move down+
 	+accept character as preset
 	+human preset
 +human in ordinary room
-
++arrows in debugger move active cell
++player 	r.hp=42	r.maxHp=42, xp, lvl to character
+	
+	
+	spell sets+
+players individuality+
 	флоу ввода реверснуть? пока что не надо+
 пробел сразу летит в picktarg+
 

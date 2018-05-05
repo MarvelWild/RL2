@@ -838,7 +838,7 @@ local _={
 	{type="ground",spriteName="floor-27-18",	},
 	{type="ground",spriteName="floor-27-19",	},
 	{type="ground",spriteName="floor-27-20",	},
-	{type="ground",spriteName="floor-27-21",	},
+	{type="ground",spriteName="floor-27-21", ["ground_type"]="water",	},
 	{type="ground",spriteName="floor-27-22",	},
 	{type="ground",spriteName="floor-27-23",	},
 	{type="ground",spriteName="floor-27-24",	},

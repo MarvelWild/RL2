@@ -1,3 +1,4 @@
+-- ability should be defined in abilities_implementation
 local ability_use=function(data, clientId)
 	log("ability_use")
 	

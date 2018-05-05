@@ -45,6 +45,23 @@ _.applyEffect=function(character,effect)
 	end
 end
 
+_.removeEffect=function(character,effectType)
+	log("Character.removeEffect:"..effectType)
+	
+	local effects=character.effects
+	local toRemove={}
+	for k,v in pairs(effects) do
+		if v.type==effectType then
+			table.insert(toRemove,k)
+		end
+	end
+	
+	for k,v in pairs(toRemove) do
+		table.remove(effects, v)
+	end
+end
+
+
 -- incomplete, just enough to create player from preset
 _.clone=function(character)
 	local result=Character.new()

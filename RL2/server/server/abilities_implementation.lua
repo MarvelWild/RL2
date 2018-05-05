@@ -54,4 +54,26 @@ end
 
 
 
+
+_.fly=function(params,player)
+	log("fly ability")
+	
+	
+	local character=player.character
+	local isFlying=Effect.hasEffectOfType(character.effects,"fly")
+	
+	if isFlying then
+		Character.removeEffect(character,"fly")
+	else
+		local flyEffect=Effect.new()
+		flyEffect.type="fly"
+		flyEffect.name="Fly"
+		
+		Character.applyEffect(character,flyEffect)
+	end
+	
+
+end
+
+
 return _

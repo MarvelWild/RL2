@@ -47,7 +47,9 @@ local move=function(data, clientId)
 		if desiredCell.wall~=nil then
 			canMove=false
 		elseif desiredCell.ground_type=="water" or desiredCell.ground_type=="lava" then
+			local isFlying=Effect.hasEffectOfType(player.character.effects, "fly")
 			canMove=false
+			if isFlying then canMove=true end
 		end
 	end
 	
