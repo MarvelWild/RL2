@@ -42,10 +42,10 @@ _.polymorph=function(params,player)
 			local allSprites=Registry.getEntitySpriteNames()
 
 			for k,preset in pairs(Registry.playerPresets) do
-				table.insert(allSprites, preset.spriteName)
+				table.insert(allSprites, preset.character.spriteName)
 			end
 			
-			cellPlayer.spriteName=Lume.randomchoice(allSprites)
+			cellPlayer.character.spriteName=Lume.randomchoice(allSprites)
 		end
 	end
 	

@@ -93,6 +93,7 @@ local recv=function(data) -- search alias: receive
 		-- wip: unfinished data
 		local response=TSerial.unpack(dataCommand)
 		
+		-- todo: mem leak
 		local singleHandler=_.singleResponseHandlers[response.requestId]
 		if singleHandler~=nil then
 			singleHandler(response)

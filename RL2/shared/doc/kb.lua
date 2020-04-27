@@ -6,7 +6,8 @@
 	[hyperlink - love forums](https://love2d.org/forums/) []()
 	|highlight|
 	
-	
+	[file link - this window](c:\Gamedev\Love\LoFiFreestyleGame\client1.cmd )
+		
 	seleat all instances of var: _Ctrl+DblClick_
 	Definition of local var: _CtrlAltClick_
 	Project _Ctrl-Shift-P_

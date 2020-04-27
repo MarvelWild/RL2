@@ -1,0 +1,58 @@
+show other players+
+	sendTurn clientId nil+
+	server show clients+
+	login parameter+
+multi client+
+display cells+
+receive cells in fov+
+multilevel+
+	server apply item+
+	send real item+
+	send to server+
+	react to key+
+space - place item in editor+
+
+e+arrows move focus in editor+
+chain keyPressed, so we can prevent parent from reacting to child input? +
+	problem: e+dir moves character too
+	alternative? control parent from child
+		read input+
+	send command to server ('e' in editor mode)
+editor:place item	
+	draw items+
+		register editor items on server+
+	request available items from server-skip, use synced+
+editor mode+
+	process on server+
+		accept input+
+	send command+
+walk+
+ui редактора+
+клиент отправляет дисконнект+
+сервер показывает кол-во игроков+
+клиент рисует Ui+
+клиент рисует себя+
+	клиенту одни координаты, а в сейве другие+
+сервер загружает состояние+
+сервер сохраняет состояние+
+сервер создаёт нового игрока+
+		и переходит в режим игры+
+	клиент принимает ответ+
+	сервер отвечает+
+	посылает логин+
+клиент авторизуется
+клиент подключается+
+сервер слушает+
+
++игрок отображается на всех уровнях глубины
++level load dynamic upgrade
++describe ladder 			
+	feature={featureType="ladder",id=15,code="ladder_down",spriteName="ladder_down"}}
+	-- todo: dynamic
+	Levels.start=Level.new("start")
++ladder creates level
++ladder generate corresponding ladder
++	activate ladder creates new level
++every level in infinite (ladder)
++fill mode
+
